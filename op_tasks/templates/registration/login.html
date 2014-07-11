@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+
+{% block head %}
+ <!-- <link rel="stylesheet" type="text/css" href="/static/css/styles.css"> -->
+{% endblock %}
+
+{% block container %}
+  <section>    
+    <form class="form-signin" id="login_form" method="post" action="/op_tasks/login/">
+      {% csrf_token %}
+      <h2 class="form-signin-heading">Please sign in</h2>
+      <input class="form-control" type="email" name="email" value="" placeholder="Email address" required autofocus/>
+      <input class="form-control" type="password" name="password" value="" placeholder="Password" required/>
+      <input class="btn btn-lg btn-primary btn-block" type="submit" value="submit" />
+    </form>
+  </section>
+{% endblock %}

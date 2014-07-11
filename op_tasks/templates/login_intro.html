@@ -1,0 +1,33 @@
+{% extends "page.html" %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+<h3>Thank You for your interest in Draper’s Big Data Analytics Research Study!</h3>
+
+<p>The purpose of this study is to determine whether certain kinds of interfaces and analytic tools affect your analytic workflow while performing analytic tasks using large, and/or complex datasets. This study is funded by the Defense Advanced Research Projects Agency. </p>
+
+<p>Participation in this research is open to any persons between the ages of 18 and 60 years, that are not incarcerated (i.e., prisoners) or a member of another legally protected population (i.e., intellectually handicapped, children, etc.), with the exception of pregnant women (the procedures and materials used in this study do not limit the participation of pregnant women). </p>
+
+<p>You may be excluded from participation if you do not have sufficient formal training or experience in interpretation of data, hypothesis testing, or construction of reasoned argument to effectively answer questions about analytic process or participate in laboratory tasks. Ideally, potential participants have at least 3 years applied or working experience within an analytic vocation (e.g., intelligence, military, legal, business, marketing, credit, banking, finance, and capital markets, etc.), OR post-graduate training within a relevant area of study and associated analytic skills (e.g., economics, behavioral sciences, statistics, political science, etc.), OR have had relevant internships, post-doctoral, or research experience. However, should you feel that you meet the requirements given your applied experience, we will consider eligibility on a case-by-case basis. </p>
+
+<p>Participation involves both completion of the online questionnaires and online tasks, which involve using next generation analytic tools to solve difficult analytic problems using complex data sources. However, participation in the online questionnaires neither obligates you to participate in online analytic tasks nor guarantees that you will be invited for follow up tasks.</p>
+
+<p>Your participation in this study will involve up to 3 hours of your time: approximately 30-60 minutes to fill out online questionnaires, and 90-120 minutes as you engage in online analytic tasks. These procedures need not all be completed within one sitting; your progress through the procedures will be tracked and saved. However, if at all possible, it is highly recommended to complete each individual procedure before leaving the system. </p>
+
+<p>Participation is strictly voluntary and confidential—there is no monetary compensation for participation in this study. However, participants being recruited from university research sites may be eligible for course/research credit commensurate with their participation as per their institution’s guidelines. </p>
+
+<p>If you believe that you have sufficient expertise to participate in this research, please click continue below to move forward.</p>
+
+<p>In order for you to navigate through research procedures, you will need to register a user ID (email) and password for use in our online system, below. This system will track your progress through the online experiment system. Every attempt will be made to ensure the confidentiality of your study data at all times. Only authorized research personnel (Draper Personnel, affiliated researchers/external collaborators) will have access to your personally identifying data (e.g., email address). Your actual responses to questionnaires and analytic tasks will be tracked by an arbitrarily assigned code number; again, only authorized research personnel will have access to any links between your email and code number.<p>
+
+<h3>Thank You and Enjoy!</h3>
+
+<form id="intro-complete" method="get" action="/op_tasks/login/">
+	{% csrf_token %}
+	<button class="btn btn-success btn-lg btn-block" type="submit">
+		Continue
+	</button>
+</form>
+{% endblock %}

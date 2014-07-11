@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block container %}
+<h1>Registration</h1>
+<h2>Create an account</h2>
+
+  <form action="" method="post">
+	  {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit" value="Create the account"> Submit </button>
+  </form>
+{% endblock %}

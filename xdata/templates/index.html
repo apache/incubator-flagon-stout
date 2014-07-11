@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% block head %}  
+<!-- <link rel="stylesheet" type="text/css" href="/static/css/styles.css"> -->
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	{% block container %}
+	<div class="head">
+    <h1>XDATA Online Experiment</h1>
+    <p class="lead">Welcome to XDATA.  Thank you for participating in our online experiment and helping us model user workflow through analysis of your activities</p>
+
+    <div class="register">
+    	<h3>New to the Experiment?</h3>
+    	<a class="btn btn-lg btn-success" href="/op_tasks/intro/" role="button">Register</a>
+    </div>
+  </div>
+  <div class="signin">
+  	<h4 class="form-signin-heading">Already Registered? <a href="/op_tasks/login_intro/">Sign in</a></h4>  	  
+  </div>
+  {% endblock %}
+</div> <!-- /container -->
+{% endblock %}
