@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.contrib.auth.hashers import make_password
 from op_tasks.models import *
 
 # this pre-populates the database prior to any user interaction.  
@@ -16,6 +17,20 @@ kiva_ots =  [
 
 class Command(BaseCommand):    
     help = 'our help string comes here'
+
+    def _create_participants(self):
+    	participant = Participant(email="test@test.com", password=make_password("test"))
+
+    	product = Product.objects.filter(is_active=True).order_by('?')[0]
+        dataset = product.dataset
+
+        # get random sequence of operational tasks
+        # operational_tasks = dataset.optask_set.filter(is_active=True).order_by('?')
+
+        # assign it to the user
+        setattr(participant, 'product', product)
+
+    	participant.save()
 
     def _create_data(self):
 		kiva = Dataset(name='Kiva', version='v0.1')
@@ -38,3 +53,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self._create_data()
+        self._create_participants()
