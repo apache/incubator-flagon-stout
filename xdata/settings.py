@@ -111,6 +111,7 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = "/home/dreed/Projects/xdata/oe/static/"
 
 STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
     # "/home/dft1618/xdata/oe/static/",
     # "/Users/dantraviglia/Desktop/Draper/xdata/oe061614/oe/static/"
 )
