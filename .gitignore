@@ -7,3 +7,4 @@
 *.ogg
 *.mp4
 *.sqlite3
+*.vagrant

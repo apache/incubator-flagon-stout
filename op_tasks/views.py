@@ -49,11 +49,13 @@ def product(request, seq_pk):
     # captures POST from product.html to submit information
     if request.method == 'POST':
         user = request.user
+
+        seq_length = len(user.sequence_set.all())
         op_task_primary_key = request.session['current_optask'] 
         current_sequence = user.sequence_set.get(op_task_id=op_task_primary_key)
         
         # if it's not the last task, make the next task active
-        if current_sequence.index < 1:
+        if current_sequence.index < seq_length:
             next_sequence = user.sequence_set.get(index=current_sequence.index+1)
         
         # if you got here because you just completed a task,

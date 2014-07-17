@@ -34,9 +34,9 @@ class Product(models.Model): # product = tool + dataset
 class OpTask(models.Model):
     dataset = models.ForeignKey(Dataset, null=True, blank=True)
     name = models.CharField(max_length=200)
-    survey_url = models.CharField(max_length=1000, unique=True)
+    survey_url = models.CharField(max_length=1000, unique=False)
     is_active = models.BooleanField(default=True)
-    exit_url = models.CharField(max_length=1000, unique=True)
+    exit_url = models.CharField(max_length=1000, unique=False)
     instructions = models.CharField(max_length=1000)
     
     def __unicode__(self):  # Python 3: def __str__(self):
