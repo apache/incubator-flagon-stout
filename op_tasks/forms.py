@@ -86,7 +86,7 @@ class ParticipantCreationForm(forms.ModelForm):
 
 class ParticipantChangeForm(forms.ModelForm):
     email = forms.EmailField(label=_("Email"),
-        help_text=_("Required. dreed@test.com"),
+        help_text=_("Required. test@test.com"),
         error_messages={
             'invalid': _("Please enter a valid email address.")})
     password = ReadOnlyPasswordHashField(label=_("Password"),
