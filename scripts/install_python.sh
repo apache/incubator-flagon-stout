@@ -1,4 +1,4 @@
-# cd /vagrant
+#!/usr/bin/env bash
 
 mkdir staging
 cd staging

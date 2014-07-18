@@ -8,8 +8,8 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os, sys
-sys.path.append('/vagrant/xdata')
-sys.path.append('/vagrant')
+sys.path.append('/var/www/op_task/xdata')
+sys.path.append('/var/www/op_task')
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xdata.settings")
 

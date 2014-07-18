@@ -12,6 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "forwarded_port", guest: 8000, host: 9000
 
-  # config.vm.provision :shell, path: "scripts/install.sh"
+  config.vm.provision :shell, path: "scripts/install.sh"
   config.vm.provision :shell, path: "scripts/install_python.sh"
+  config.vm.provision :shell, path: "scripts/start_oe.sh"
 end
