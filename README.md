@@ -26,19 +26,30 @@ $ python manage.py reset_optask
 ```
 
 
-# Getting this working on Vagrant
+# Getting this working on Vagrant (VirtualBox)
 
 Get a base centos box (this may take awhile)
 ```bash
 vagrant box add centos_6.5 https://github.com/2creatives/vagrant-centos/releases/download/v6.5.3/centos65-x86_64-20140116.box
 ```
 
-Initialize Vagrantfile
-```bash
-vagrant init centos_6.5
-```
-
 Start it
 ```bash
-vagrant up
+vagrant up virtualbox
+```
+
+# Getting this working on Vagrant (OpenStack)
+
+Get a base centos box (this may take awhile)
+
+You need 2 files:
+
+	The first is the `.pem` (`.cer`) file which is the KeyPair file you can download from the OpenStack dashboard.
+
+	The second is a shell script which contains all the environment variables referenced in the Vagrantfile.  This is located under API Access under the Security Settings.  Once you download this file run `source $file.sh`, and this will ask you for you OpenStack password and load all the required varaibles under your current environment.  
+
+Adjust the Vagrantfile to use the appropriate `.pem` file and the appropriate KeyPair name associated with that pem file.  Once that is complete you can run:
+
+```bash
+vagrant up openstack --provider=openstack
 ```
