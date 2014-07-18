@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import make_password
 from op_tasks.models import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 # this pre-populates the database prior to any user interaction.  
 # any changes here won't be seen unless the database is rebuilt
@@ -55,7 +57,8 @@ class Command(BaseCommand):
 		
 		Product(
 			dataset=test, 
-			url='/static/testing/index.html', 
+			url='/static/testing/index.html',
+            instructions=settings.STATIC_URL + 'testing/instructions.html',
 			team='test-team', 
 			name='test-product',
 			version='v0.1'

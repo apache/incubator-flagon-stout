@@ -50,12 +50,20 @@ def product(request, seq_pk):
     if request.method == 'POST':
         user = request.user
 
+        print 'SEQPK', seq_pk
+        try:
+            # get current sequence from user, this ensures that current user
+            # can only get sequences assigned to him/her
+            current_sequence = user.sequence_set.get(pk=seq_pk)
+        except:
+            return HttpResponseRedirect("/op_tasks/task_list")
+
         seq_length = len(user.sequence_set.all())
-        op_task_primary_key = request.session['current_optask'] 
-        current_sequence = user.sequence_set.get(op_task_id=op_task_primary_key)
+        # op_task_primary_key = request.session['current_optask'] 
+        # current_sequence = user.sequence_set.get(op_task_id=op_task_primary_key)
         
         # if it's not the last task, make the next task active
-        if current_sequence.index < seq_length:
+        if current_sequence.index < (seq_length - 1):
             next_sequence = user.sequence_set.get(index=current_sequence.index+1)
         
         # if you got here because you just completed a task,
@@ -70,12 +78,13 @@ def product(request, seq_pk):
         else:
             current_sequence.exit_active = False
             current_sequence.exit_complete = True
-            print 'survey complete'
+            print 'survey complete', current_sequence.index
             if current_sequence.index < 1:
                 next_sequence.ot_active = True
                 next_sequence.save()
             else:
-                return render(request, "completion.html")
+                current_sequence.save()
+                # return render(request, "completion.html")
         current_sequence.save()
         return HttpResponseRedirect("/op_tasks/task_list")
 
@@ -87,8 +96,11 @@ def product(request, seq_pk):
     # cur_task =  user.sequence_set.filter(complete=False)[0].op_task
     request.session['current_optask'] = cur_task.pk
 
+
+
     response = render(request, 'product.html', {
     	'product': user.product,
+        'seq_pk': seq_pk,
         'product_url': user.product.url + ('?USID=%s::%s' % (user.user_hash, seq.pk)),
     	'op_task': cur_task
     	})
@@ -151,8 +163,8 @@ def login_participant(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                # return HttpResponseRedirect('/op_tasks/task_list')
-                return render(request, 'task_list.html', {'user': request.user})
+                return HttpResponseRedirect('/op_tasks/task_list')
+                # return render(request, 'task_list.html', {'user': request.user})
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your XDATA account is disabled.")
@@ -172,7 +184,12 @@ def login_participant(request):
 
 @login_required(login_url='/op_tasks/login')
 def task_list(request):
-	return render(request, 'task_list.html', {'user': request.user})
+    # print [x.both_complete for x in user.sequence_set.all()]
+    user = request.user
+    all_complete = all([x.both_complete for x in user.sequence_set.all()])
+    return render(request, 'task_list.html', 
+        {'user': user, 'all_complete': all_complete}
+        )
 
 def intro(request):
     return render(request, 'intro.html', {'user': request.user})

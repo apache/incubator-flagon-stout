@@ -9,7 +9,7 @@
 <h1>Status</h1>
 
 <div class="product-instructions" >
-  <a href="">
+  <a href="{{user.product.instructions}}">
     <span class="glyphicon glyphicon-book"></span>
     Click here to review instructional materials for {{user.product.name}}
   </a>
@@ -38,7 +38,7 @@
             <div class="ot-current">
               <h3 class="heading disabled">{{seq.op_task.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
-              <a href="" data-toggle="modal" data-target="#exit"><span class="glyphicon glyphicon-hand-right"></span>
+              <a href="" data-toggle="modal" data-target="#exit-{{seq.pk}}"><span class="glyphicon glyphicon-hand-right"></span>
                 Complete Post-Task Survey to Continue   </a>
             </div>
           </td>
@@ -70,9 +70,10 @@
       {% endif %}
 
       <!-- exit survey popup -->
-      <div class="modal fade" id="exit" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
+      <div class="modal fade" id="exit-{{seq.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
+           {{seq.pk}}
             <div class="modal-body">
               <div id="surveyMonkeyInfo">
                 <div>
@@ -85,7 +86,7 @@
                 <button type="button" style="float: left;" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
               <div>
-                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' 1 %}">{% csrf_token %}
+                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' seq_pk=seq.pk %}">{% csrf_token %}
                   <button type="submit" style="float: right;" class="btn btn-success">Submit survey</button>
                 </form>
               </div>
@@ -97,6 +98,15 @@
   </tbody>
 </table>
 
+
+{% if all_complete %}
+  <hr>
+  <h4>Thank you for participating, you have complete all Operational Tasks!</h4>
+  <p>If you are interested in future study components or engagement with analytic tools, 
+    we will contact you if you indicated such interest in the intake questionnaire.</p>
+  <p>If you are interested in working on developing these analytic tools, which are free 
+    and open source, please see the DARPA <a href="http://www.darpa.mil/opencatalog/XDATA.html">open catalogue.</a> </p>
+{% endif %}
 <!-- <h1>Operational Tasks</h1>
 <div class="list-group-text">
   {% for seq in user.sequence_set.all %}
@@ -147,7 +157,7 @@
 <!-- Example code at http://codepen.io/SitePoint/pen/KkHyw?editors=100 -->
 
 <!-- intake survey popup -->
-<div class="modal fade" id="intake" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
+<!-- <div class="modal fade" id="intake" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -163,7 +173,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 {% endblock %}

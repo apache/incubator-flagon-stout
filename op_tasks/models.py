@@ -126,8 +126,15 @@ class Sequence(models.Model):
     exit_active = models.BooleanField(default=False)
     exit_complete = models.BooleanField(default=False)
 
+    def _both_complete(self):
+        "returns whether both task and survey are complete"
+        return self.exit_complete and self.ot_complete
+
+    both_complete = property(_both_complete)
+
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s, %s, %s' % (self.user, self.op_task, self.index)
+
     class Meta:
         ordering = ('user', 'index')
     # index = models.IntegerField()
