@@ -44,7 +44,7 @@ Get a base centos box (this may take awhile)
 
 You need 2 files:
 
-1. The first is the `.pem` (`.cer`) file which is the KeyPair file you can download from the OpenStack dashboard.
+1. The first is the `.pem` (or `.cer`) file which is the KeyPair file you can download from the OpenStack dashboard.
 
 2. The second is a shell script which contains all the environment variables referenced in the Vagrantfile.  This is located under API Access under the Security Settings.  Once you download this file run `source $file.sh`, and this will ask you for you OpenStack password and load all the required varaibles under your current environment.  
 
