@@ -66,7 +66,7 @@ class ParticipantCreationForm(forms.ModelForm):
         # assign it to the user
         setattr(user, 'product', product) 
         
-        if commit:
+        # if commit:
             user.save()
 
         # cycle through the operational tasks and assign to an index
