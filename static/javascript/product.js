@@ -4,11 +4,11 @@ function toggle(id) {
   var box = el.getAttribute("class");
   if(box == "closed container") {
     el.setAttribute("class", "show container");
-    delay(img, "//10.1.93.234:8081/static/images/arrowdown.png", 400);
+    delay(img, "//10.1.93.164:8081/static/images/arrowdown.png", 400);
   }
   else{
     el.setAttribute("class", "closed container");
-    delay(img, "//10.1.93.234:8081/static/images/arrowup.png", 400)
+    delay(img, "//10.1.93.164:8081/static/images/arrowup.png", 400)
   }
 }
 
