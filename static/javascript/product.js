@@ -1,19 +1,18 @@
-function toggle(id) {
-  var el = document.getElementById(id);
-  var img = document.getElementById("arrow");
-  var box = el.getAttribute("class");
-  if(box == "closed container") {
-    el.setAttribute("class", "show container");
-    delay(img, "//10.1.93.164:8081/static/images/arrowdown.png", 400);
-  }
-  else{
-    el.setAttribute("class", "closed container");
-    delay(img, "//10.1.93.164:8081/static/images/arrowup.png", 400)
-  }
-}
+function toggle() {
 
-function delay(elem, src, delayTime) {
-  window.setTimeout(function() {elem.setAttribute("src", src);}, delayTime);
+  if ($("#ot_menu").hasClass('ot-show')) {
+    $("#ot_menu").removeClass('ot-show');
+    $("#ot_menu").addClass('ot-hide');
+
+    $("#ot_menu .glyphicon").removeClass('glyphicon-chevron-down');
+    $("#ot_menu .glyphicon").addClass('glyphicon-chevron-up');
+  } else {
+    $("#ot_menu").removeClass('ot-hide');
+    $("#ot_menu").addClass('ot-show');
+
+    $("#ot_menu .glyphicon").removeClass('glyphicon-chevron-up');
+    $("#ot_menu .glyphicon").addClass('glyphicon-chevron-down');
+  }
 }
 
 var myVar = setInterval(function(){myTimer()},1000);

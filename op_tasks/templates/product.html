@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
+<link rel="stylesheet" href="{% static "css/product.css" %}">
 {% endblock %}
 {% block body %}
 <!-- Hosted product from XDATA team -->
@@ -9,20 +10,28 @@
 </div>
 
 <!-- OT menu for access to task questions -->
-<div id="ot_menu" class="show container">
-  <img id="arrow" class="opaque" onclick="toggle('ot_menu');" src="//10.1.93.164:8081/static/images/arrowdown.png">
-  <h4>Task Menu</h4>
-  <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    Open Task Form
-  </button>
-  <p class="timer"><span id="minutes"></span>:<span id="seconds"></span> until task end</p>
-  <!-- calls product in views.py -->
-  <form id="task-complete" method="post" action="{% url 'op_tasks:product' 1 %}">
-    {% csrf_token %}
-    <button class="btn btn-success btn-lg" type="submit">
-      Exit Task
+<div id="ot_menu" class="ot-show">
+  <div class="open-close" onclick="toggle();">
+    <span class="glyphicon glyphicon-chevron-down"></span>
+    Task Menu
+  </div>
+  
+  <div class="ot-container">
+    <button class="btn btn-primary ot-open-btn" data-toggle="modal" data-target="#myModal">
+      Open Task
     </button>
-  </form>
+    <div class="timer">
+      <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
+      <p>until task end</p>
+    </div>
+    <!-- calls product in views.py -->
+    <form id="task-complete" method="post" action="{% url 'op_tasks:product' seq_pk %}">
+      {% csrf_token %}
+      <button class="btn btn-danger ot-open-btn" type="submit">
+        Quit Task
+      </button>
+    </form>
+  </div>
 </div>
 
 <!-- Modal dialog for OT form -->
@@ -48,7 +57,7 @@
 </div>
 
 <!-- javascript functions for the timer redirect OT menu -->
-<script src="//10.1.93.164:8081/static/javascript/product.js"></script>
+<script src="{% static "javascript/product.js" %}"></script>
 <div id="timerdiv">
   <form id="timerblock">
     {% csrf_token %}
@@ -60,7 +69,7 @@
       form.submit();
       };
 
-      setTimeout('redirect("{% url 'op_tasks:product' 1 %}", "post")', 1000*60*30);
+      setTimeout('redirect("{% url 'op_tasks:product' seq_pk %}", "post")', 1000*60*30);
     </script>
   </form>
 {% endblock %}

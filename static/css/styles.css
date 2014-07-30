@@ -17,19 +17,7 @@ html {
   top: 0px;
 }
 
-#ot_menu {
-  /*width:90%;    */
-  /*font-size: 12px;*/
-  line-height: 10px;
-  height: 200px;
-  bottom: 0px;
-  left: 3%;
-  position: fixed;
-  background-color: ghostwhite; 
-  z-index: 1000;
-  width: 200px;
-  border-radius: 10px;
-}
+
 
 #tab {
   /*float:left;*/
@@ -46,25 +34,8 @@ html {
   position: relative;
 }
 
-.show, .closed {
-  transition: margin-bottom .4s ease-in;
-  -webkit-transition: margin-bottom .4s ease-in;
-}
 
-.closed {
-  margin-bottom: -170px;
-  opacity: 0.4;
-  filter: alpha(opacity=40);
-  border-style: none;
-}
 
-.show {
-  margin-bottom: 10px;
-  opacity: 1;
-  filter: alpha(opacity=100);
-  border-style: solid;
-  box-shadow: 10px 10px 10px black
-}
 
 #arrow {
   cursor: pointer;
@@ -79,16 +50,10 @@ html {
   margin: 2px;
 }
 
-.timer {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  background-color: white;
-  font-size: 14px;
-  text-align: center;
-}
+
 
 .modal-dialog {
-  width: 950px;
+  width: 940px;
 }
 
 .form-signin {
@@ -136,4 +101,95 @@ html {
 .register {
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+div.list-group-item.list-group-item-disabled {
+  color: #949494;
+  background-color: #D8D8D8;
+}
+
+.ot-list-item {
+  position: relative;
+  display: block;
+  
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.ot-list-item > div {
+  padding: 10px 15px;
+}
+
+.ot-task-exit {
+  float: right;
+  border-left: 1px solid #ddd;
+}
+
+.ot-task-name {
+  float: left;
+}
+
+.ot-task-name .heading {
+  color: #333;
+  font-size: 18px;
+}
+
+table.ot-list {
+  background-color: white;
+}
+
+a:hover, a:focus {
+  color: #2a6496;
+  text-decoration: none; 
+}
+
+tr.ot-disabled {
+background-color: #F3F3F3;
+color: #aaa;
+}
+
+div.status {
+  margin: 10px 10px 0 0;
+  font-size: 40px;
+}
+
+
+td.status {
+  /*padding-top: 30px !important;*/
+  vertical-align: middle !important;
+  font-size: 20px;
+  width: 30px;
+}
+
+.ot-current {
+  color: #54A81C;
+}
+
+.ot-current a{
+  color: #54A81C;
+}
+
+.ot-current a:hover {
+  color: #2A530F;
+}
+
+.disabled {
+color: #aaa;
+}
+
+div.product-instructions {
+  margin: 10px 15px;
+}
+
+div.product-instructions a{
+  color: #666;
+}
+
+div.product-instructions a:hover{
+  color: #000;
+}
+
+div.product-instructions .glyphicon{
+  margin-right: 5px;
 }

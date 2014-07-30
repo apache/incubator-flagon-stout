@@ -34,9 +34,9 @@ class Product(models.Model): # product = tool + dataset
 class OpTask(models.Model):
     dataset = models.ForeignKey(Dataset, null=True, blank=True)
     name = models.CharField(max_length=200)
-    survey_url = models.CharField(max_length=1000, unique=True)
+    survey_url = models.CharField(max_length=1000, unique=False)
     is_active = models.BooleanField(default=True)
-    exit_url = models.CharField(max_length=1000, unique=True)
+    exit_url = models.CharField(max_length=1000, unique=False)
     instructions = models.CharField(max_length=1000)
     
     def __unicode__(self):  # Python 3: def __str__(self):
@@ -102,9 +102,6 @@ class Participant(AbstractBaseUser):
     def get_short_name(self):
         "Returns the short name for the user."
         return self.first_name
-    
-    def get_user_hash(self):
-        return self.user_hash
 
     # sends an email to this user
     def email_user(self, subject, message, from_email=None, **kwargs):
@@ -129,8 +126,15 @@ class Sequence(models.Model):
     exit_active = models.BooleanField(default=False)
     exit_complete = models.BooleanField(default=False)
 
+    def _both_complete(self):
+        "returns whether both task and survey are complete"
+        return self.exit_complete and self.ot_complete
+
+    both_complete = property(_both_complete)
+
     def __unicode__(self):  # Python 3: def __str__(self):
-        return '%s, %s, %s, %s, %s, %s' % (self.pk, self.user, self.op_task, self.index, self.ot_complete, self.user.user_hash)
+        return '%s, %s, %s' % (self.user, self.op_task, self.index)
+
     class Meta:
         ordering = ('user', 'index')
     # index = models.IntegerField()

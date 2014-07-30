@@ -36,7 +36,8 @@ class OpTaskAdmin(admin.ModelAdmin):
 
 # Defines how the sequences are viewed
 class SequenceAdmin(admin.ModelAdmin):
-    list_display = ['user', 'op_task', 'index', 'ot_complete', 'exit_complete']
+	search_fields = ['user__email']	
+	list_display = ['user', 'op_task', 'index', 'ot_complete', 'exit_complete']
 
 
 # admin.site.unregister(User)

@@ -66,8 +66,11 @@ class ParticipantCreationForm(forms.ModelForm):
         # assign it to the user
         setattr(user, 'product', product) 
         
-        # if commit:
         user.save()
+        # if commit:
+        #     user.save()
+
+        print 'USER: ', commit, user, user.pk, user.id 
 
         # cycle through the operational tasks and assign to an index
         for ot_index, ot in enumerate(operational_tasks[0:3]):
@@ -83,7 +86,7 @@ class ParticipantCreationForm(forms.ModelForm):
 
 class ParticipantChangeForm(forms.ModelForm):
     email = forms.EmailField(label=_("Email"),
-        help_text=_("Required. dreed@test.com"),
+        help_text=_("Required. test@test.com"),
         error_messages={
             'invalid': _("Please enter a valid email address.")})
     password = ReadOnlyPasswordHashField(label=_("Password"),

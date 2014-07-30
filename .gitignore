@@ -7,3 +7,6 @@
 *.ogg
 *.mp4
 *.sqlite3
+*.vagrant
+*.cer
+files/draper-openrc.sh
