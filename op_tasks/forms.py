@@ -67,7 +67,7 @@ class ParticipantCreationForm(forms.ModelForm):
         setattr(user, 'product', product) 
         
         # if commit:
-            user.save()
+        user.save()
 
         # cycle through the operational tasks and assign to an index
         for ot_index, ot in enumerate(operational_tasks[0:3]):

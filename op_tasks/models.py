@@ -102,6 +102,9 @@ class Participant(AbstractBaseUser):
     def get_short_name(self):
         "Returns the short name for the user."
         return self.first_name
+    
+    def get_user_hash(self):
+        return self.user_hash
 
     # sends an email to this user
     def email_user(self, subject, message, from_email=None, **kwargs):
@@ -127,7 +130,7 @@ class Sequence(models.Model):
     exit_complete = models.BooleanField(default=False)
 
     def __unicode__(self):  # Python 3: def __str__(self):
-        return '%s, %s, %s' % (self.user, self.op_task, self.index)
+        return '%s, %s, %s, %s, %s, %s' % (self.pk, self.user, self.op_task, self.index, self.ot_complete, self.user.user_hash)
     class Meta:
         ordering = ('user', 'index')
     # index = models.IntegerField()

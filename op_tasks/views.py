@@ -46,9 +46,11 @@ def set_cookie(response, key, value, days_expire = 7):
 #
 #########################################    
 def product(request, seq_pk):
+    
+    user = request.user
+    
     # captures POST from product.html to submit information
     if request.method == 'POST':
-        user = request.user
         op_task_primary_key = request.session['current_optask'] 
         current_sequence = user.sequence_set.get(op_task_id=op_task_primary_key)
         
@@ -79,10 +81,9 @@ def product(request, seq_pk):
 
     # if method is GET just show the product page
     # this is very cryptic and needs to be updated
-    user = request.user
+    
     seq = Sequence.objects.get(pk=seq_pk)
     cur_task = seq.op_task
-    # cur_task =  user.sequence_set.filter(complete=False)[0].op_task
     request.session['current_optask'] = cur_task.pk
 
     response = render(request, 'product.html', {
