@@ -1,7 +1,14 @@
 # Documentation for STOUT
 
 ## Background
-The Subject Tracking for Online User Tasks (STOUT) system is designed to provide experiment adminsitrators with a flexible tool for managing and tracking user progress through a series of tasks.  These tasks are typically surveys that require the use of an online tool to find answers.  The STOUT system was designed to help collect information about the utility of online applications.    
+The Subject Tracker for Online User Testing (STOUT) is a content management system for formal human performance experimentation.  STOUT presents tools and operational tasks to each participant. In doing so, it collects:
+- an intake questionnaire to assess the user’s background and experience as an analyst
+- operational task performance and confidence in responses i.e. did they get the right answer? How sure are they?
+- subjective feedback (did they like how the tool worked?)
+- screen captures
+- physiological response, which  help infer operator workload (how hard did they work?).
+
+The STOUT system provides human-subjects testing experiment adminsitrators with a flexible tool for managing and tracking user progress through a series of online tasks.  The STOUT system was designed to help collect information about the utility of online applications.    
 
 ## Who is this package for?
 This package is for developers.  A framework has been built but many features and additions can still be added.  
