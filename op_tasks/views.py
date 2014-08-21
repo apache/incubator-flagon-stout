@@ -14,7 +14,6 @@ import datetime
 from op_tasks.models import *
 from op_tasks.forms import *
 
-# do we need this anymore?  index is not a url and question.html does not exist...
 @login_required
 def index(request):
 	# return HttpResponse("hello, you're at the index")
@@ -46,7 +45,6 @@ def set_cookie(response, key, value, days_expire = 7):
 #
 #########################################    
 def product(request, seq_pk):
-    # captures POST from product.html to submit information
     if request.method == 'POST':
         user = request.user
 
@@ -59,8 +57,6 @@ def product(request, seq_pk):
             return HttpResponseRedirect("/op_tasks/task_list")
 
         seq_length = len(user.sequence_set.all())
-        # op_task_primary_key = request.session['current_optask'] 
-        # current_sequence = user.sequence_set.get(op_task_id=op_task_primary_key)
         
         # if it's not the last task, make the next task active
         if current_sequence.index < (seq_length - 1):
@@ -84,16 +80,13 @@ def product(request, seq_pk):
                 next_sequence.save()
             else:
                 current_sequence.save()
-                # return render(request, "completion.html")
         current_sequence.save()
         return HttpResponseRedirect("/op_tasks/task_list")
 
     # if method is GET just show the product page
-    # this is very cryptic and needs to be updated
     user = request.user
     seq = Sequence.objects.get(pk=seq_pk)
     cur_task = seq.op_task
-    # cur_task =  user.sequence_set.filter(complete=False)[0].op_task
     request.session['current_optask'] = cur_task.pk
 
 

@@ -17,7 +17,7 @@
   </div>
   
   <div class="ot-container">
-    <button class="btn btn-primary ot-open-btn" data-toggle="modal" data-target="#myModal">
+    <button id="open-task-button" class="btn btn-primary ot-open-btn" data-toggle="modal" data-target="#myModal">
       Open Task
     </button>
     <div class="timer">
@@ -27,7 +27,7 @@
     <!-- calls product in views.py -->
     <form id="task-complete" method="post" action="{% url 'op_tasks:product' seq_pk %}">
       {% csrf_token %}
-      <button class="btn btn-danger ot-open-btn" type="submit">
+      <button id="task-complete-button" class="btn btn-danger ot-open-btn" type="submit">
         Quit Task
       </button>
     </form>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal">
+        <button id="hide-button" class="btn btn-primary" data-dismiss="modal">
           Hide Task Form
         </button>
       </div>
@@ -56,7 +56,17 @@
   </div>
 </div>
 
-<!-- javascript functions for the timer redirect OT menu -->
+
+<script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
+<script>
+  // web worker url
+  var worker = "{% static "javascript/draper.activity_worker-2.1.1.js" %}"
+  var ac = new activityLogger(worker)
+  .testing(false) // simulate POST, won't send log
+  .echo(true) // log to console
+  .mute(['SYS']); // don't log SYSTEM actions
+</script>
+<script src="{% static "javascript/task_logging.js" %}"></script>
 <script src="{% static "javascript/product.js" %}"></script>
 <div id="timerdiv">
   <form id="timerblock">
@@ -72,6 +82,7 @@
       setTimeout('redirect("{% url 'op_tasks:product' seq_pk %}", "post")', 1000*60*30);
     </script>
   </form>
+</div>
 {% endblock %}
 
 

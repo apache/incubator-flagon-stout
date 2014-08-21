@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, "op_tasks"))
 SECRET_KEY = '^&q%n$=5vimv%q+9vzi#s62w8*1&w#(vb#dv0n0o6qnpa!l%m%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -72,20 +72,13 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'xdata',
-    #     'USER': 'django',
-    #     'PASSWORD': 'password',
-    #     'HOST': 'localhost'
-    # }
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),
-        # 'NAME': '/vagrant/db.sqlite3'
-        # 'USER': 'django',
-        # 'PASSWORD': 'password',
-        # 'HOST': 'localhost'
+    }
+    'protected': {
+        'ENGINE': 'django.db.backends.sqlite',
+        'NAME' : os.path.join(BASE_DIR, 'db', 'pii.sqlite3')
     }
 }
 

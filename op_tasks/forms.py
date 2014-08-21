@@ -67,8 +67,6 @@ class ParticipantCreationForm(forms.ModelForm):
         setattr(user, 'product', product) 
         
         user.save()
-        # if commit:
-        #     user.save()
 
         print 'USER: ', commit, user, user.pk, user.id 
 
