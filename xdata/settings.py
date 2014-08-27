@@ -24,7 +24,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -75,10 +75,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),
-    }
-    'protected': {
-        'ENGINE': 'django.db.backends.sqlite',
-        'NAME' : os.path.join(BASE_DIR, 'db', 'pii.sqlite3')
     }
 }
 
