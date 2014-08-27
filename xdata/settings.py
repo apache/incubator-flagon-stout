@@ -41,8 +41,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'op_tasks',
-    # 'crispy_forms',
-    # 'south'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,12 +96,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = "/home/dreed/Projects/xdata/oe/static/"
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    # "/home/dft1618/xdata/oe/static/",
-    # "/Users/dantraviglia/Desktop/Draper/xdata/oe061614/oe/static/"
 )
 
 LOGIN_URL = '/login/'
