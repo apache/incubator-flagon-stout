@@ -1,19 +1,19 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.contrib.staticfiles import views as vs
-from op_tasks.views import *
+# from op_tasks.views import *
 
 urlpatterns = patterns('',
     # ex: /op_tasks/
     # url(r'^$', index, name='index'),
-    url(r'^task_list/$', task_list, name='task_list'),
-    url(r'^product/(?P<seq_pk>[0-9]+)$', product, name='product'),
-    url(r'^register/$', register),
-    url(r'^login/$', login_participant),
-    url(r'^logout/$', logout_participant),
-    url(r'^intro/$', intro),
-    url(r'^login_intro/$', login_intro),
-    url(r'^instruct/$', instruct, name='instruct'),
+    url(r'^task_list/$', views.task_list, name='task_list'),
+    url(r'^product/(?P<seq_pk>[0-9]+)$', views.product, name='product'),
+    url(r'^register/$', views.register),
+    url(r'^login/$', views.login_participant),
+    url(r'^logout/$', views.logout_participant),
+    url(r'^intro/$', views.intro),
+    url(r'^login_intro/$', views.login_intro),
+    url(r'^instruct/$', views.instruct, name='instruct'),
 )
 
 print settings.DEBUG, settings.STATIC_ROOT

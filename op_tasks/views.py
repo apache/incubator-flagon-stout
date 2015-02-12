@@ -193,10 +193,8 @@ def login_intro(request):
 def instruct(request):
     return render(request, 'instruction_home.html', {'user': request.user})
 
+def exp_instruct(request):
+    return render(request, 'exp_instructions.html', {'user': request.user})
 
-
-
-
-
-
-
+def task_instruct(request):
+    return render(request, 'task_instructions.html', {'user': request.user})
