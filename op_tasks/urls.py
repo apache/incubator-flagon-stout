@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.contrib.staticfiles import views as vs
-from op_tasks.views import *
+from op_tasks import views
 
 urlpatterns = patterns('',
     # ex: /op_tasks/
