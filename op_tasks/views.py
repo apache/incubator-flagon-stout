@@ -190,7 +190,7 @@ def intro(request):
 def login_intro(request):
     return render(request, 'login_intro.html', {'user': request.user})
 
-def instructions(request):
+def instruct(request):
     return render(request, 'instruction_home.html', {'user': request.user})
 
 
