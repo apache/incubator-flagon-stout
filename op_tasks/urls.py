@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.contrib.staticfiles import views as vs
-from op_tasks.views import task_list, product, register, login_participant, logout_participant, intro, login_intro
+from op_tasks.views import task_list, product, register, login_participant, logout_participant, intro, login_intro, instructions
 
 urlpatterns = patterns('',
     # ex: /op_tasks/
