@@ -13,6 +13,10 @@ urlpatterns = patterns('',
     url(r'^logout/$', logout_participant),
     url(r'^intro/$', intro),
     url(r'^login_intro/$', login_intro),
+    url(r'^instructions/$', instructions), 
+    url(r'^exp_instructions/$', exp_instructions),
+    url(r'^task_instructions/$', task_instructions),
+    url(r'^prod_instructions/$', prod_instructions),
 )
 
 print settings.DEBUG, settings.STATIC_ROOT
