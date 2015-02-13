@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, "op_tasks"))
 SECRET_KEY = '^&q%n$=5vimv%q+9vzi#s62w8*1&w#(vb#dv0n0o6qnpa!l%m%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
