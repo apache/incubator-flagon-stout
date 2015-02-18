@@ -1,17 +1,14 @@
 {% extends "page.html" %}
-
 {% block head %}
-
 {% endblock %}
-
 {% block content %}
 
 <h1>Status</h1>
 
 <div class="product-instructions" >
-  <a href="{{user.product.instructions}}">
+  <a href="/op_tasks/instruct/">
     <span class="glyphicon glyphicon-book"></span>
-    Click here to review instructional materials for {{user.product.name}}
+    Click here to review instructional materials
   </a>
 </div>
 <table class="ot-list table table-bordered">
