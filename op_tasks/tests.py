@@ -26,5 +26,12 @@ class ProductModelTest(TestCase):
 		product.instructions = 'http://www.si.com'
 		product.save()
 
-		saved_product = Product.objects.all()
-		self.assertEqual(saved_product.count(), 1)
+		saved_products = Product.objects.all()
+		self.assertEqual(saved_products.count(), 1)
+
+		first_product = saved_products[0]
+		self.assertEqual(first_product.url, 'http://espn.go.com')
+		self.assertEqual(first_product.team, 'ESPN')
+		self.assertEqual(first_product.name, 'ESPNews')
+		self.assertEqual(first_product.version, '1')
+		self.assertEqual(first_product.instructions, 'http://www.si.com')
