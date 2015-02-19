@@ -198,3 +198,21 @@ def exp_instruct(request):
 
 def task_instruct(request):
     return render(request, 'task_instructions.html', {'user': request.user})
+
+def submit_product(request):
+    return render(request, 'submit_product.html')
+
+def newProduct(request):
+    dataset = Dataset.objects.create(name=request.POST['product_dataset'])
+    Product.objects.create(dataset=dataset, 
+        url=request.POST['product_url'], 
+        team=request.POST['product_team'], 
+        name=request.POST['product_name'], 
+        version=request.POST['product_version'], 
+        instructions=request.POST['product_instructions'])
+    return redirect('/op_tasks/product_comp/')
+
+def product_comp(request):
+    return render(request, 'product_comp.html')
+
+

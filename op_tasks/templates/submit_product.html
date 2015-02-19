@@ -1,24 +1,25 @@
-<html>
-	<head>
-		<title>Product Submission Portal</title>
-	</head>
-	<body>
-		<h1>Please enter your product information:</h1>
-		<form method="POST" action="/op_tasks/newProduct">
-			Dataset:<br>
-			<select name="product_dataset" id='id_product_dataset' placeholder='Select Dataset'>
-				<option value="" style="display:none;"></option>
-				<option value="volvo">Volvo</option>
-				<option value="saab">Saab</option>
-				<option value="husqvarna">Husqvarna</option>
-			</select><br>
-			Product URL:<br><input name="product_url" id='id_product_url' placeholder='Enter the product url' size="60"/><br>
-			Team:<br><input name="product_team" id='id_product_team' placeholder='Enter the team name' size="60"/><br>
-			Product Name:<br><input name="product_name" id='id_product_name' placeholder='Enter the product name' size="60"/><br>
-			Product Version:<br><input name="product_version" id='id_product_version' placeholder="Product version number" size="25"/><br>
-			Instructions URL:<br><input name="product_instructions" id='id_product_instructions' placeholder='Enter the url for the product instructions' size="60"/><br>
-			<input type="submit" value="Submit"
-			{% csrf_token %}
-		</form>
-	</body>
-</html>
+{% extends "page.html" %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+<h1>Please enter your product information:</h1>
+<form method="POST" action="/op_tasks/newProduct/">
+	Dataset:<br>
+	<select name="product_dataset" id='id_product_dataset' placeholder='Select Dataset'>
+		<option value="" style="display:none;"></option>
+		<option value="volvo">Volvo</option>
+		<option value="saab">Saab</option>
+		<option value="husqvarna">Husqvarna</option>
+	</select><br>
+	Product URL:<br><input name="product_url" id='id_product_url' placeholder='Enter the product url' size="60"/><br>
+	Team:<br><input name="product_team" id='id_product_team' placeholder='Enter the team name' size="60"/><br>
+	Product Name:<br><input name="product_name" id='id_product_name' placeholder='Enter the product name' size="60"/><br>
+	Product Version:<br><input name="product_version" id='id_product_version' placeholder="Product version number" size="25"/><br>
+	Instructions URL:<br><input name="product_instructions" id='id_product_instructions' placeholder='Enter the url for the product instructions' size="60"/><br>
+	<input class="btn btn-primary" type="submit" value="Submit"/>
+	{% csrf_token %}
+</form>
+
+{% endblock %}
