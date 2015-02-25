@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'op_tasks',
+    'exp_portal',
 )
 
 MIDDLEWARE_CLASSES = (

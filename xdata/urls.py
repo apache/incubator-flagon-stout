@@ -9,8 +9,10 @@ urlpatterns = patterns('',
 	# include urls for op_tasks and administration pages
     url(r'^op_tasks/', include('op_tasks.urls', namespace="op_tasks")),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^exp_portal/exp_status$', 'exp_portal.views.view_status', name='view_status'),
     (r'^$', index),    
     (r'^contact/$', contact),
+
 )
 
 urlpatterns += staticfiles_urlpatterns()
