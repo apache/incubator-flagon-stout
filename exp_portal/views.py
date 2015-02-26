@@ -8,4 +8,8 @@ def view_status(request):
 	products = Product.objects.all()
 	datasets = Dataset.objects.all()
 	optasks = OpTask.objects.all()
-	return render(request, 'exp_status.html', {'participants': participants, 'products': products, 'datasets': datasets,'optasks': optasks})
+	return render(request, 'status.html', {'participants': participants, 'products': products, 'datasets': datasets,'optasks': optasks})
+
+def view_products(request):
+	products = Product.objects.all()
+	return render(request, 'products.html', {'products': products})	

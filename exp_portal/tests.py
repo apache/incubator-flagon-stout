@@ -22,4 +22,7 @@ class ExperimentTest(TestCase):
 
 		saved_products = Product.objects.all()
 		self.assertEqual(saved_products.count(),1)
+
+	def test_can_count_completed_tasks(self):
+		task1 = OpTask()
 		
