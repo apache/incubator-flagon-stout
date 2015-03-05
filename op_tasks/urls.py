@@ -14,9 +14,6 @@ urlpatterns = patterns('',
     url(r'^intro/$', intro),
     url(r'^login_intro/$', login_intro),
     url(r'^instruct/$', instruct, name='instruct'),
-    url(r'^submit_product/$', submit_product, name='submit_product'),
-    url(r'^newProduct/$', newProduct, name='newProduct'),
-    url(r'^product_comp/$', product_comp, name='product_comp')
 )
 
 print settings.DEBUG, settings.STATIC_ROOT

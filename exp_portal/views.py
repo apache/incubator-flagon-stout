@@ -3,6 +3,9 @@ from op_tasks.models import Participant, Product, Dataset, OpTask
 
 # Create your views here.
 
+def home_page(request):
+	return render(request, 'experimenthome.html')
+
 def view_status(request):
 	participants = Participant.objects.all()
 	products = Product.objects.all()

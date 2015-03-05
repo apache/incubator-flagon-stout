@@ -73,7 +73,7 @@ class ParticipantManager(BaseUserManager):
         return self._create_user(username, email, password, True, True,
                                  **extra_fields)
 
-# 
+# Change models so participant has a sequence and not the other way around
 class Participant(AbstractBaseUser):
     op_tasks = models.ManyToManyField(OpTask, through='Sequence', blank=True)
     product = models.ForeignKey(Product)

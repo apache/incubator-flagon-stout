@@ -1,0 +1,26 @@
+<!-- shows a list of current participants in the database -->
+
+{% extends "page.html" %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+<h1>Participant Status</h1>
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Participant #</th>
+			<th>Assigned Product</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for participant in participants %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ participant.product }}</td>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endblock %}
