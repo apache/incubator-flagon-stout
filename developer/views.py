@@ -28,7 +28,7 @@ def newProduct(request):
         name=request.POST['product_name'], 
         version=request.POST['product_version'], 
         instructions=request.POST['product_instructions'])
-    return redirect('/op_tasks/product_comp/')
+    return redirect('/developer/product_comp/')
 
 def product_comp(request):
     return render(request, 'product_comp.html')

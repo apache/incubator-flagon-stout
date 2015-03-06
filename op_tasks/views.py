@@ -89,8 +89,6 @@ def product(request, seq_pk):
     cur_task = seq.op_task
     request.session['current_optask'] = cur_task.pk
 
-
-
     response = render(request, 'product.html', {
     	'product': user.product,
         'seq_pk': seq_pk,
