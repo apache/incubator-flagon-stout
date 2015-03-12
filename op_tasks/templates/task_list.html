@@ -13,7 +13,7 @@
 </div>
 <table class="ot-list table table-bordered">
   <tbody>
-    {% for seq in user.sequence_set.all %}
+    {% for seq in user.tasklistitem_set.all %}
       {% if seq.ot_complete and seq.exit_complete %}
         <tr class="ot-disabled">
           <td class="status">
@@ -106,7 +106,7 @@
 {% endif %}
 <!-- <h1>Operational Tasks</h1>
 <div class="list-group-text">
-  {% for seq in user.sequence_set.all %}
+  {% for seq in user.tasklistitem_set.all %}
     {% if seq.ot_active %}
       <a class="list-group-item" href="{% url 'op_tasks:product' seq_pk=seq.pk %}">
         <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
@@ -129,7 +129,7 @@
 
 <h1>Exit Surveys</h1>
 <div class="list-group-text">
-  {% for seq in user.sequence_set.all %}
+  {% for seq in user.tasklistitem_set.all %}
     {% if seq.exit_active %}
       <a href="#" class="list-group-item" data-toggle="modal" data-target="#exit">
         <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>

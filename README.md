@@ -108,7 +108,7 @@ You can also add new tasks for users to complete through the Op tasks link.  Fir
 ###Add products
 New products can be added through the product link.  Products are tools available online.  Copy and past the address for the tool into the URL field and then fill in the remaining information. 
 ### Assign task sequences
-Normally, a user is assigned a random order of tasks from all those that are available.  If you'd prefer to assign a sequence of tasks though that can be managed through the Sequence link.  
+Normally, a user is assigned a random order of tasks from all those that are available.  If you'd prefer to assign a sequence of tasks though that can be managed through the TaskListItem link.  
 
 **Note:** If you assign multiple tasks to a single user, only mark the first task as ***Ot active*** and leave all checkboxes for the remaining tasks empty
 

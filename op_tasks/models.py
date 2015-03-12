@@ -75,7 +75,7 @@ class ParticipantManager(BaseUserManager):
 
 # Change models so participant has a sequence and not the other way around
 class Participant(AbstractBaseUser):
-    op_tasks = models.ManyToManyField(OpTask, through='Sequence', blank=True)
+    op_tasks = models.ManyToManyField(OpTask, through='TaskListItem', blank=True)
     product = models.ForeignKey(Product)
     user_hash = models.CharField(
         max_length=30, 
@@ -110,9 +110,8 @@ class Participant(AbstractBaseUser):
         """
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-# The Sequence model is used to manage user navigation through the experiment
-# This might change in future versions because 'sequence' isn't correct
-class Sequence(models.Model):
+# The TaskListItem model is used to manage user navigation through the experiment
+class TaskListItem(models.Model):
     # knows which user it is assigned to
     user = models.ForeignKey(Participant)
     # knows which operational task  

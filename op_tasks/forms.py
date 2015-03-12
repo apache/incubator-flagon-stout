@@ -77,7 +77,7 @@ class ParticipantCreationForm(forms.ModelForm):
             else:
                 ot_active=False
             exit_active=False
-            Sequence(user=user, op_task=ot, index=ot_index, ot_active=ot_active, exit_active=exit_active).save()
+            TaskListItem(user=user, op_task=ot, index=ot_index, ot_active=ot_active, exit_active=exit_active).save()
             print ot
         return user
 

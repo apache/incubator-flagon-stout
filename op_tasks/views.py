@@ -52,15 +52,15 @@ def product(request, seq_pk):
         try:
             # get current sequence from user, this ensures that current user
             # can only get sequences assigned to him/her
-            current_sequence = user.sequence_set.get(pk=seq_pk)
+            current_sequence = user.tasklistitem_set.get(pk=seq_pk)
         except:
             return HttpResponseRedirect("/op_tasks/task_list")
 
-        seq_length = len(user.sequence_set.all())
+        seq_length = len(user.tasklistitem_set.all())
         
         # if it's not the last task, make the next task active
         if current_sequence.index < (seq_length - 1):
-            next_sequence = user.sequence_set.get(index=current_sequence.index+1)
+            next_sequence = user.tasklistitem_set.get(index=current_sequence.index+1)
         
         # if you got here because you just completed a task,
         # then set it complete and make the exit task active
@@ -85,7 +85,7 @@ def product(request, seq_pk):
 
     # if method is GET just show the product page
     user = request.user
-    seq = Sequence.objects.get(pk=seq_pk)
+    seq = TaskListItem.objects.get(pk=seq_pk)
     cur_task = seq.op_task
     request.session['current_optask'] = cur_task.pk
 
@@ -175,9 +175,9 @@ def login_participant(request):
 
 @login_required(login_url='/op_tasks/login')
 def task_list(request):
-    # print [x.both_complete for x in user.sequence_set.all()]
+    # print [x.both_complete for x in user.tasklistitem_set.all()]
     user = request.user
-    all_complete = all([x.both_complete for x in user.sequence_set.all()])
+    all_complete = all([x.both_complete for x in user.tasklistitem_set.all()])
     return render(request, 'task_list.html', 
         {'user': user, 'all_complete': all_complete}
         )

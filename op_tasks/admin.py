@@ -34,47 +34,11 @@ class ProductAdmin(admin.ModelAdmin):
 class OpTaskAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_active', 'dataset', 'survey_url', 'exit_url']
 
-# Defines how the sequences are viewed
-class SequenceAdmin(admin.ModelAdmin):
+# Defines how the task list items are viewed
+class TaskListItemAdmin(admin.ModelAdmin):
 	search_fields = ['user__email']	
 	list_display = ['user', 'op_task', 'index', 'ot_complete', 'exit_complete']
 
-
-# admin.site.unregister(User)
-
-# class UserProfileInline(admin.StackedInline):
-#     model = UserProfile
-#     filter_horizontal = ('op_tasks',)
-# class MyUserAdminForm(ModelForm):
-#     password = CharField(widget=PasswordInput())
-#     # class Meta:
-#     #     model = TwitterUser
-
-# class MyUserAdmin(admin.ModelAdmin):
-# 	form = MyUserAdminForm
-# 	# inlines = [ UserProfileInline, ]
-# 	fields = (
-# 		('username', 'password'),
-# 		'user_hash',
-# 		'op_tasks')
-# 	readonly_fields=('user_hash',)
-# 	filter_horizontal = ('op_tasks',)
-
-# admin.site.register(User, UserProfileAdmin)
-
-# class ParticipantInline(admin.StackedInline):
-# 	model = Participant
-# 	can_delete = False
-# 	verbose_name_plural = 'participant'
-# 	readonly_fields=('user_hash',)
-
-# # Define a new User admin
-# class UserAdmin(UserAdmin):
-#     inlines = (ParticipantInline, )
-
-# Re-register UserAdmin
-# admin.site.unregister(User)
-# admin.site.register(User, UserAdmin)
 
 class ParticipantAdmin(admin.ModelAdmin):
 	add_form_template = 'admin/auth/user/add_form.html'
@@ -189,6 +153,6 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 adminsite.register(OpTask, OpTaskAdmin)
 adminsite.register(Product, ProductAdmin)
-adminsite.register(Sequence, SequenceAdmin)
+adminsite.register(TaskListItem, TaskListItemAdmin)
 adminsite.register(Dataset)
 adminsite.register(Participant, ParticipantAdmin)

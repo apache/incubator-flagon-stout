@@ -43,7 +43,7 @@ class Command(BaseCommand):
             else:
                 ot_active=False
             exit_active=False
-            Sequence(
+            TaskListItem(
             	user=participant, 
             	op_task=ot, 
             	index=ot_index, 
