@@ -13,53 +13,53 @@
 </div>
 <table class="ot-list table table-bordered">
   <tbody>
-    {% for seq in user.tasklistitem_set.all %}
-      {% if seq.ot_complete and seq.exit_complete %}
+    {% for task in user.tasklistitem_set.all %}
+      {% if task.ot_complete and task.exit_complete %}
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-check"></span>
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{seq.op_task.name}}</span>
+              <span class="heading">{{task.op_task.name}}</span>
               <span class="pull-right text">Task Complete. Thank You!</span>
             </div>     
           </td>
         </tr>
-      {% elif seq.ot_complete and not exit_complete %}
+      {% elif task.ot_complete and not task.exit_complete %}
         <tr class="ot-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
             <div class="ot-current">
-              <h3 class="heading disabled">{{seq.op_task.name}}</h3>
+              <h3 class="heading disabled">{{task.op_task.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
-              <a href="" data-toggle="modal" data-target="#exit-{{seq.pk}}"><span class="glyphicon glyphicon-hand-right"></span>
+              <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}"><span class="glyphicon glyphicon-hand-right"></span>
                 Complete Post-Task Survey to Continue   </a>
             </div>
           </td>
         </tr>
-      {% elif seq.ot_active %}
+      {% elif task.ot_active %}
         <tr class="ot-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
-            <a class="ot-current" href="{% url 'op_tasks:product' seq_pk=seq.pk %}">
-              <h3 class="heading">{{seq.op_task.name}}</h3>
+            <a class="ot-current" href="{% url 'op_tasks:product' task_pk=task.pk %}">
+              <h3 class="heading">{{task.op_task.name}}</h3>
               <p class="text">Task not yet completed. Click to start this Operational Task</p>
             </a>
           </td>
         </tr>
-      {% elif not seq.ot_complete and not seq.ot_active %}
+      {% elif not task.ot_complete and not task.ot_active %}
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{seq.op_task.name}}</span>
+              <span class="heading">{{task.op_task.name}}</span>
               <span class="pull-right text">Complete previous tasks first.</span>
             </div>      
           </td>
@@ -67,14 +67,14 @@
       {% endif %}
 
       <!-- exit survey popup -->
-      <div class="modal fade" id="exit-{{seq.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
+      <div class="modal fade" id="exit-{{task.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-           {{seq.pk}}
+           {{task.pk}}
             <div class="modal-body">
               <div id="surveyMonkeyInfo">
                 <div>
-                  <iframe src="{{seq.op_task.exit_url}}?{{user.user_hash}}" width="900" height="700"></iframe>
+                  <iframe src="{{task.op_task.exit_url}}?{{user.user_hash}}" width="900" height="700"></iframe>
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@
                 <button type="button" style="float: left;" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
               <div>
-                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' seq_pk=seq.pk %}">{% csrf_token %}
+                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' task_pk=task.pk %}">{% csrf_token %}
                   <button type="submit" style="float: right;" class="btn btn-success">Submit survey</button>
                 </form>
               </div>
@@ -104,74 +104,4 @@
   <p>If you are interested in working on developing these analytic tools, which are free 
     and open source, please see the DARPA <a href="http://www.darpa.mil/opencatalog/XDATA.html">open catalogue.</a> </p>
 {% endif %}
-<!-- <h1>Operational Tasks</h1>
-<div class="list-group-text">
-  {% for seq in user.tasklistitem_set.all %}
-    {% if seq.ot_active %}
-      <a class="list-group-item" href="{% url 'op_tasks:product' seq_pk=seq.pk %}">
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p class="list-group-item-text">Click to start this Operational Task</p>
-      </a>
-    {% elif seq.ot_complete %}
-      <div class="list-group-item list-group-item-success">
-        <span class="pull-right glyphicon glyphicon-ok"></span>
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p class="list-group-item-text">This Operational Task is complete</p>
-      </div>
-    {% else %}
-      <div class="list-group-item list-group-item-disabled">
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p class="list-group-item-text">Complete previous tasks first</p>
-      </div>
-    {% endif %}
-  {% endfor %}
-</div>
-
-<h1>Exit Surveys</h1>
-<div class="list-group-text">
-  {% for seq in user.tasklistitem_set.all %}
-    {% if seq.exit_active %}
-      <a href="#" class="list-group-item" data-toggle="modal" data-target="#exit">
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p>Please complete this exit survey before proceeding to the next task</p> 
-      </a>    
-    {% elif seq.exit_complete %}
-      <div class="list-group-item list-group-item-success">
-        <span class="pull-right glyphicon glyphicon-ok"></span>
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p class="list-group-item-text">This survey is complete</p>
-      </div>
-    {% else %}
-      <div class="list-group-item list-group-item-info">
-        <h4 class="list-group-item-heading">{{forloop.counter}}: {{seq.op_task.name}} - {{seq.op_task.dataset.name}}</h4>
-        <p class="list-group-item-text">This survey link will become active after you complete the OT</p>
-      </div>
-    {% endif %}
-  {% endfor %}
-</div> -->
-
-<!-- Modal -->
-<!-- Example code at http://codepen.io/SitePoint/pen/KkHyw?editors=100 -->
-
-<!-- intake survey popup -->
-<!-- <div class="modal fade" id="intake" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div id="surveyMonkeyInfo">
-          <div>
-            <iframe src="https://www.surveymonkey.com/s/J89LMDK?sid={{user.user_hash}}" width="900" height="700"></iframe>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Submit survey</button>  
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
 {% endblock %}
-

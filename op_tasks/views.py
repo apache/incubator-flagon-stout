@@ -44,15 +44,15 @@ def set_cookie(response, key, value, days_expire = 7):
 # completion of OT's
 #
 #########################################    
-def product(request, seq_pk):
+def product(request, task_pk):
     if request.method == 'POST':
         user = request.user
 
-        print 'SEQPK', seq_pk
+        print 'Task primary key:', task_pk
         try:
             # get current sequence from user, this ensures that current user
             # can only get sequences assigned to him/her
-            current_sequence = user.tasklistitem_set.get(pk=seq_pk)
+            current_sequence = user.tasklistitem_set.get(pk=task_pk)
         except:
             return HttpResponseRedirect("/op_tasks/task_list")
 
@@ -85,17 +85,17 @@ def product(request, seq_pk):
 
     # if method is GET just show the product page
     user = request.user
-    seq = TaskListItem.objects.get(pk=seq_pk)
-    cur_task = seq.op_task
+    task = TaskListItem.objects.get(pk=task_pk)
+    cur_task = task.op_task
     request.session['current_optask'] = cur_task.pk
 
     response = render(request, 'product.html', {
     	'product': user.product,
-        'seq_pk': seq_pk,
-        'product_url': user.product.url + ('?USID=%s::%s' % (user.user_hash, seq.pk)),
+        'task_pk': task_pk,
+        'product_url': user.product.url + ('?USID=%s::%s' % (user.user_hash, task.pk)),
     	'op_task': cur_task
     	})
-    set_cookie(response, 'USID', '%s::%s' % (user.user_hash, seq.pk))
+    set_cookie(response, 'USID', '%s::%s' % (user.user_hash, task.pk))
     return response
 
 
