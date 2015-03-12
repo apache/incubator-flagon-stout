@@ -98,30 +98,63 @@ def product(request, task_pk):
     set_cookie(response, 'USID', '%s::%s' % (user.user_hash, task.pk))
     return response
 
-
-####################################################
-#
-#
-#
-####################################################
 def register(request):
-    # if POST method then submit information
-    if request.method == 'POST':
-        form = ParticipantCreationForm(request.POST)
-        if form.is_valid():
-        	# write the new user to the db
-            new_user = form.save()	
-            new_user.backend = 'op_tasks.models.MyBackend'
-            login(request, new_user)
+    # Like before, get the request's context.
+    context = RequestContext(request)
 
-            # and redirect to the task list
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
+    registered = False
+
+    # If it's a HTTP POST, we're interested in processing form data.
+    if request.method == 'POST':
+        print "POST"
+        # Attempt to grab information from the raw form information.
+        # Note that we make use of both UserForm and UserProfileForm.
+        user_form = UserForm(data=request.POST)
+        # profile_form = UserProfileForm(data=request.POST)
+
+        # If the two forms are valid...
+        if user_form.is_valid(): # and profile_form.is_valid():
+            # Save the user's form data to the database.
+            user = user_form.save()
+
+            # Now we hash the password with the set_password method.
+            # Once hashed, we can update the user object.
+            user.set_password(user.password)
+            user.save()
+
+            # Now sort out the UserProfile instance.
+            # Since we need to set the user attribute ourselves, we set commit=False.
+            # This delays saving the model until we're ready to avoid integrity problems.
+            profile = UserProfile.save(commit=False)
+            profile.user = user
+
+            # Now we save the UserProfile model instance.
+            profile.save()
+
+            # Update our variable to tell the template registration was successful.
+            registered = True
+            print "successful registration"
             return HttpResponseRedirect("/op_tasks/task_list")
-    # if GET method then just load the page
-    else: 
-        form = ParticipantCreationForm()
-    return render(request, "registration/register.html", {
-        'form': form,
-    })    
+
+        # Invalid form or forms - mistakes or something else?
+        # Print problems to the terminal.
+        # They'll also be shown to the user.
+        else:
+            print user_form.errors#, profile_form.errors
+
+    # Not a HTTP POST, so we render our form using two ModelForm instances.
+    # These forms will be blank, ready for user input.
+    else:
+        user_form = UserForm()
+        #profile_form = UserProfileForm()
+
+    # Render the template depending on the context.
+    return render_to_response(
+            'registration/register.html',
+            {'user_form': user_form, 'registered': registered},
+            context)
 
 def logout_participant(request):
     """

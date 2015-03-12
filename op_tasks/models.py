@@ -49,71 +49,84 @@ def _createHash():
     hash.update(str(time.time()))
     return  hash.hexdigest()[:-10]
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+
+    # additional user parameters
+    exp_inst_complete = models.BooleanField(default=False)
+    portal_inst_complete = models.BooleanField(default=False)
+    task_inst_complete = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.user.username
+## old User models BEGIN
 # Creates and saves a User with the given username, email and password.
-class ParticipantManager(BaseUserManager):
-    def _create_user(self, username, email, password,
-                     is_staff, is_superuser, **extra_fields):
-        now = timezone.now()
-        if not username:
-            raise ValueError('The given username must be set')
-        email = self.normalize_email(email)
-        user = self.model(username=username, email=email,
-                          is_staff=is_staff, is_active=True,
-                          is_superuser=is_superuser, last_login=now,
-                          date_joined=now, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+# class ParticipantManager(BaseUserManager):
+#     def _create_user(self, username, email, password,
+#                      is_staff, is_superuser, **extra_fields):
+#         now = timezone.now()
+#         if not username:
+#             raise ValueError('The given username must be set')
+#         email = self.normalize_email(email)
+#         user = self.model(username=username, email=email,
+#                           is_staff=is_staff, is_active=True,
+#                           is_superuser=is_superuser, last_login=now,
+#                           date_joined=now, **extra_fields)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
 
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        return self._create_user(username, email, password, False, False,
-                                 **extra_fields)
+#     def create_user(self, username, email=None, password=None, **extra_fields):
+#         return self._create_user(username, email, password, False, False,
+#                                  **extra_fields)
 
-    def create_superuser(self, username, email, password, **extra_fields):
-        return self._create_user(username, email, password, True, True,
-                                 **extra_fields)
+#     def create_superuser(self, username, email, password, **extra_fields):
+#         return self._create_user(username, email, password, True, True,
+#                                  **extra_fields)
 
-# Change models so participant has a sequence and not the other way around
-class Participant(AbstractBaseUser):
-    op_tasks = models.ManyToManyField(OpTask, through='TaskListItem', blank=True)
-    product = models.ForeignKey(Product)
-    user_hash = models.CharField(
-        max_length=30, 
-        default=_createHash,
-        unique=True,
-        editable=False)
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
-    is_staff = False
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+# # Change models so participant has a sequence and not the other way around
+# class Participant(AbstractBaseUser):
+#     op_tasks = models.ManyToManyField(OpTask, through='TaskListItem', blank=True)
+#     product = models.ForeignKey(Product)
+#     user_hash = models.CharField(
+#         max_length=30, 
+#         default=_createHash,
+#         unique=True,
+#         editable=False)
+#     email = models.EmailField(
+#         verbose_name='email address',
+#         max_length=255,
+#         unique=True,
+#     )
+#     is_staff = False
+#     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = ParticipantManager()
+#     objects = ParticipantManager()
 
-    USERNAME_FIELD = 'email'    
+#     USERNAME_FIELD = 'email'    
 
-    # Returns the first_name plus the last_name, with a space in between.
-    def get_full_name(self):
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
+#     # Returns the first_name plus the last_name, with a space in between.
+#     def get_full_name(self):
+#         full_name = '%s %s' % (self.first_name, self.last_name)
+#         return full_name.strip()
 
-    def get_short_name(self):
-        "Returns the short name for the user."
-        return self.first_name
+#     def get_short_name(self):
+#         "Returns the short name for the user."
+#         return self.first_name
 
-    # sends an email to this user
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        """
-        Sends an email to this User.
-        """
-        send_mail(subject, message, from_email, [self.email], **kwargs)
+#     # sends an email to this user
+#     def email_user(self, subject, message, from_email=None, **kwargs):
+#         """
+#         Sends an email to this User.
+#         """
+#         send_mail(subject, message, from_email, [self.email], **kwargs)
+## Old User models END
+
 
 # The TaskListItem model is used to manage user navigation through the experiment
 class TaskListItem(models.Model):
     # knows which user it is assigned to
-    user = models.ForeignKey(Participant)
+    user = models.ForeignKey(UserProfile)
     # knows which operational task  
     op_task = models.ForeignKey(OpTask)
     # is assigned an index in a list
