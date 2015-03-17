@@ -1,14 +1,16 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import make_password
-from op_tasks.models import *
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.conf.urls.static import static
+
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
 
 # this pre-populates the database prior to any user interaction.  
 # any changes here won't be seen unless the database is rebuilt
 
 # name of operational task, link to task, and link to exit survey
-test_ot =  [
+test_tasks =  [
 {
 	'name': 'Test-OT1',
 	'ot_survey_url': 'https://www.surveymonkey.com/s/LR37HZG',
@@ -24,54 +26,47 @@ test_ot =  [
 class Command(BaseCommand):    
     help = 'our help string comes here'
 
-    def _create_participants(self):
-    	participant = Participant(email="test@test.com", password=make_password("test"))
+    def _create_user(self):
+        user = User(username='test@test.com', password=make_password('test'))
+        user.save()
+        userprofile = UserProfile(user=user)
+        userprofile.save()
 
-    	product = Product.objects.filter(is_active=True).order_by('?')[0]
+    	# get random product and sequence of operational tasks
+        product = Product.objects.filter(is_active=True).order_by('?')[0]
         dataset = product.dataset
+        matched_tasks = dataset.optask_set.filter(is_active=True).order_by('?')
 
-        # get random sequence of operational tasks
-        operational_tasks = dataset.optask_set.filter(is_active=True).order_by('?')
-
-        # assign it to the user
-        setattr(participant, 'product', product)
-    	participant.save()
-
-    	for ot_index, ot in enumerate(operational_tasks[0:3]):
-            if ot_index==0:
-                ot_active=True
+    	for index, task in enumerate(matched_tasks[0:matched_tasks.count()]):
+            if index==0:
+                active=True
             else:
-                ot_active=False
+                active=False
             exit_active=False
-            TaskListItem(
-            	user=participant, 
-            	op_task=ot, 
-            	index=ot_index, 
-            	ot_active=ot_active, 
-            	exit_active=exit_active
-            	).save()
+            TaskListItem(userprofile=userprofile, 
+                product=product,
+                op_task=task, 
+                index=index, 
+                task_active=active, 
+                exit_active=exit_active).save()
 
     def _create_data(self):
-		test = Dataset(name='Test-DS', version='v0.1')
-		test.save()
+		dataset = Dataset(name='Test-DS', version='v0.1')
+		dataset.save()
 		
-		Product(
-			dataset=test, 
-			url='/static/testing/index.html',
-            instructions=settings.STATIC_URL + 'testing/instructions.html',
-			team='test-team', 
+		Product(dataset=dataset, 
+            url='/static/testing/index.html', 
+            instructions=settings.STATIC_URL + 'testing/instructions.html', 
+            team='test-team', 
 			name='test-product',
-			version='v0.1'
-			).save()
+			version='v0.1').save()
 
-		for ot in test_ot:
-			ot1 = OpTask(
-				dataset=test,
-				name=ot['name'],
-				survey_url=ot['ot_survey_url'],
-				exit_url=ot['ot_exit_url']
-				).save() 
+		for task in test_tasks:
+			newtask = OpTask(dataset=dataset,
+				name=task['name'],
+				survey_url=task['ot_survey_url'],
+				exit_url=task['ot_exit_url']).save() 
 
     def handle(self, *args, **options):
         self._create_data()
-        self._create_participants()
+        self._create_user()

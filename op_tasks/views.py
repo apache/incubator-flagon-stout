@@ -1,30 +1,18 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
-from django.contrib.auth.views import login as login_view
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.conf import settings
 
 import datetime
-from op_tasks.models import *
-from op_tasks.forms import *
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
+from op_tasks.forms import UserForm
 
-@login_required
-def index(request):
-	# return HttpResponse("hello, you're at the index")
-
-	op_task = OpTask.objects.get(pk=1)	
-
-	return render(request, 'question.html', {
-	    'op_task': op_task
-	})
-
-import datetime
+# @login_required
+# def index(request):
+# 	op_task = OpTask.objects.get(pk=1)	
+# 	return render(request, 'question.html', {'op_task': op_task})
 
 def set_cookie(response, key, value, days_expire = 7):
   if days_expire is None:
@@ -37,65 +25,61 @@ def set_cookie(response, key, value, days_expire = 7):
   	expires=expires, 
   	domain=settings.SESSION_COOKIE_DOMAIN, 
   	secure=None)
-
-##########################################
-#
-# product method to capture redirects from 
-# completion of OT's
-#
-#########################################    
+   
 def product(request, task_pk):
     if request.method == 'POST':
         user = request.user
+        userprofile = user.userprofile
 
         print 'Task primary key:', task_pk
         try:
             # get current sequence from user, this ensures that current user
             # can only get sequences assigned to him/her
-            current_sequence = user.tasklistitem_set.get(pk=task_pk)
+            current_tasklistitem = userprofile.tasklistitem_set.get(pk=task_pk)
         except:
             return HttpResponseRedirect("/op_tasks/task_list")
 
-        seq_length = len(user.tasklistitem_set.all())
+        tasklist_length = len(userprofile.tasklistitem_set.all())
         
         # if it's not the last task, make the next task active
-        if current_sequence.index < (seq_length - 1):
-            next_sequence = user.tasklistitem_set.get(index=current_sequence.index+1)
+        if current_tasklistitem.index < (tasklist_length - 1):
+            next_tasklistitem = userprofile.tasklistitem_set.get(index=current_tasklistitem.index+1)
         
         # if you got here because you just completed a task,
         # then set it complete and make the exit task active
-        if current_sequence.ot_complete == False:
-            current_sequence.ot_complete = True
-            current_sequence.ot_active = False
-            current_sequence.exit_active = True
+        if current_tasklistitem.task_complete == False:
+            current_tasklistitem.task_complete = True
+            current_tasklistitem.task_active = False
+            current_tasklistitem.exit_active = True
         
         # you likely got here because you just completed an exit task
         # so mark it complete and move 
         else:
-            current_sequence.exit_active = False
-            current_sequence.exit_complete = True
-            print 'survey complete', current_sequence.index
-            if current_sequence.index < 1:
-                next_sequence.ot_active = True
-                next_sequence.save()
+            current_tasklistitem.exit_active = False
+            current_tasklistitem.exit_complete = True
+            print 'survey complete', current_tasklistitem.index
+            if current_tasklistitem.index < 1:
+                next_tasklistitem.task_active = True
+                next_tasklistitem.save()
             else:
-                current_sequence.save()
-        current_sequence.save()
+                current_tasklistitem.save()
+        current_tasklistitem.save()
         return HttpResponseRedirect("/op_tasks/task_list")
 
     # if method is GET just show the product page
     user = request.user
-    task = TaskListItem.objects.get(pk=task_pk)
-    cur_task = task.op_task
-    request.session['current_optask'] = cur_task.pk
+    userprofile = user.userprofile
+    tasklistitem = TaskListItem.objects.get(pk=task_pk)
+    current_task = tasklistitem.op_task
+    request.session['current_optask'] = current_task.pk
 
     response = render(request, 'product.html', {
-    	'product': user.product,
+    	'product': tasklistitem.product,
         'task_pk': task_pk,
-        'product_url': user.product.url + ('?USID=%s::%s' % (user.user_hash, task.pk)),
-    	'op_task': cur_task
+        'product_url': tasklistitem.product.url + ('?USID=%s::%s' % (userprofile.user_hash, tasklistitem.pk)),
+    	'op_task': current_task
     	})
-    set_cookie(response, 'USID', '%s::%s' % (user.user_hash, task.pk))
+    set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
     return response
 
 def register(request):
@@ -127,11 +111,13 @@ def register(request):
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
-            profile = UserProfile.save(commit=False)
+            profile = UserProfile()
             profile.user = user
 
             # Now we save the UserProfile model instance.
             profile.save()
+
+            products = Product.objects.filter(is_active=true).order_by('?')[0]
 
             # Update our variable to tell the template registration was successful.
             registered = True
@@ -171,12 +157,12 @@ def login_participant(request):
     if request.method == 'POST':
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
 
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
-        user = authenticate(email=email, password=password)
+        user = authenticate(username=username, password=password)
 
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
@@ -194,7 +180,7 @@ def login_participant(request):
                 return HttpResponse("Your XDATA account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(email, password)
+            print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
 
     # The request is not a HTTP POST, so display the login form.
@@ -208,11 +194,12 @@ def login_participant(request):
 
 @login_required(login_url='/op_tasks/login')
 def task_list(request):
-    # print [x.both_complete for x in user.tasklistitem_set.all()]
+    # print [x.both_complete for x in userprofile.tasklistitem_set.all()]
     user = request.user
-    all_complete = all([x.both_complete for x in user.tasklistitem_set.all()])
+    userprofile = user.userprofile
+    all_complete = all([x.both_complete for x in userprofile.tasklistitem_set.all()])
     return render(request, 'task_list.html', 
-        {'user': user, 'all_complete': all_complete}
+        {'userprofile': userprofile, 'all_complete': all_complete}
         )
 
 def intro(request):

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from op_tasks.models import Participant, Product, Dataset, OpTask
+from op_tasks.models import UserProfile, Product, Dataset, OpTask
 
 # Create your views here.
 
@@ -7,11 +7,11 @@ def home_page(request):
 	return render(request, 'experimenthome.html')
 
 def view_status(request):
-	participants = Participant.objects.all()
+	userprofiles = UserProfile.objects.all()
 	products = Product.objects.all()
 	datasets = Dataset.objects.all()
 	optasks = OpTask.objects.all()
-	return render(request, 'status.html', {'participants': participants, 'products': products, 'datasets': datasets,'optasks': optasks})
+	return render(request, 'status.html', {'userprofiles': userprofiles, 'products': products, 'datasets': datasets,'optasks': optasks})
 
 def view_products(request):
 	products = Product.objects.all()

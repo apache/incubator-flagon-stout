@@ -15,7 +15,7 @@ class OpTaskAdmin(admin.ModelAdmin):
 # Defines how the task list items are viewed
 class TaskListItemAdmin(admin.ModelAdmin):
 	search_fields = ['user__email']	
-	list_display = ['user', 'op_task', 'index', 'ot_complete', 'exit_complete']
+	list_display = ['userprofile', 'op_task', 'index', 'task_complete', 'exit_complete']
 
 adminsite.register(OpTask, OpTaskAdmin)
 adminsite.register(Product, ProductAdmin)

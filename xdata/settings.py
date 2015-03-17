@@ -62,7 +62,7 @@ WSGI_APPLICATION = 'xdata.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'op_tasks.models.MyBackend'
+    # 'op_tasks.models.MyBackend'
     )
 
 # AUTH_PROFILE_MODULE = 'op_tasks.UserProfile'

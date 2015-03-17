@@ -8,7 +8,7 @@
 	<strong>thank you for registering!</strong>
 	{% else %}
 
-	<form id="user_form" method="post" action="/registration/register/" enctype="multipart/form-data">
+	<form id="user_form" method="post" action="/op_tasks/register/" enctype="multipart/form-data">
 		{% csrf_token %}
 
         <!-- Display each form. The as_p method wraps each element in a paragraph

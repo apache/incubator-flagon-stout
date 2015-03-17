@@ -13,8 +13,8 @@
 </div>
 <table class="ot-list table table-bordered">
   <tbody>
-    {% for task in user.tasklistitem_set.all %}
-      {% if task.ot_complete and task.exit_complete %}
+    {% for task in userprofile.tasklistitem_set.all %}
+      {% if task.task_complete and task.exit_complete %}
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-check"></span>
@@ -26,7 +26,7 @@
             </div>     
           </td>
         </tr>
-      {% elif task.ot_complete and not task.exit_complete %}
+      {% elif task.task_complete and not task.exit_complete %}
         <tr class="ot-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -40,7 +40,7 @@
             </div>
           </td>
         </tr>
-      {% elif task.ot_active %}
+      {% elif task.task_active %}
         <tr class="ot-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -52,7 +52,7 @@
             </a>
           </td>
         </tr>
-      {% elif not task.ot_complete and not task.ot_active %}
+      {% elif not task.task_complete and not task.task_active %}
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -74,7 +74,7 @@
             <div class="modal-body">
               <div id="surveyMonkeyInfo">
                 <div>
-                  <iframe src="{{task.op_task.exit_url}}?{{user.user_hash}}" width="900" height="700"></iframe>
+                  <iframe src="{{task.op_task.exit_url}}?{{userprofile.user_hash}}" width="900" height="700"></iframe>
                 </div>
               </div>
             </div>
