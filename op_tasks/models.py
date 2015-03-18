@@ -43,6 +43,7 @@ class OpTask(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     user_hash = models.CharField(max_length=30, default=_createHash, unique=True, editable=False)
+    progress = models.IntegerField(default=0)
 
     # additional user parameters
     exp_inst_complete = models.BooleanField(default=False)
@@ -61,10 +62,10 @@ class TaskListItem(models.Model):
     product = models.ForeignKey(Product)
     # is assigned an index in a list
     index = models.IntegerField()
-    # mark if operation task is completed
-    task_complete = models.BooleanField(default=False)
     # mark if this operational task is the current task in the sequence
     task_active = models.BooleanField(default=False)
+    # mark if operation task is completed
+    task_complete = models.BooleanField(default=False)
     exit_active = models.BooleanField(default=False)
     exit_complete = models.BooleanField(default=False)
 

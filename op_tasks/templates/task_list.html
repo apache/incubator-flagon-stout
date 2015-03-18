@@ -1,9 +1,32 @@
 {% extends "page.html" %}
 {% block head %}
 {% endblock %}
+
+{% block side_block %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b class="panel-title">Achievements</b>
+  </div>
+  <div class="panel-body">
+    <br>achievement 1
+    <br>achievement 2
+    <br>achievement 3
+  </div>
+</div>
+
+
+{% endblock %}
+
 {% block content %}
 
-<h1>Status</h1>
+<h1><b>Status</b></h1>
+
+<div class="progress">
+   <div class="progress-bar" role="progressbar" aria-valuenow="60" 
+      aria-valuemin="0" aria-valuemax="100" style="width: {{user.userprofile.progress}}%;">
+      {{user.userprofile.progress}}% Complete
+   </div>
+</div>
 
 <div class="product-instructions" >
   <a href="/op_tasks/instruct/">
@@ -70,7 +93,6 @@
       <div class="modal fade" id="exit-{{task.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-           {{task.pk}}
             <div class="modal-body">
               <div id="surveyMonkeyInfo">
                 <div>

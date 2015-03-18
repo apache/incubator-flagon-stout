@@ -7,22 +7,22 @@
 <h1>Please enter your product information:</h1>
 <form method="POST" action="/developer/newProduct">
 	Dataset:<br>
-	<select name="product_dataset" id='id_product_dataset' placeholder='Select Dataset' required>
+	<select class="form-control" name="product_dataset" id='id_product_dataset' placeholder='Select Dataset' required>
 		<option value="" style="display:none;"></option>
 		<option value="volvo">Volvo</option>
 		<option value="saab">Saab</option>
 		<option value="husqvarna">Husqvarna</option>
 	</select><br>
 	Product URL:<br>
-	<input name="product_url" id='id_product_url' type='url' placeholder='Enter the product url' size="60" required/><br>
+	<input class="form-control" name="product_url" id='id_product_url' type='url' placeholder='Enter the product url' size="60" required/><br>
 	Team:<br>
-	<input name="product_team" id='id_product_team' placeholder='Enter the team name' size="60" required/><br>
+	<input class="form-control" name="product_team" id='id_product_team' placeholder='Enter the team name' size="60" required/><br>
 	Product Name:<br>
-	<input name="product_name" id='id_product_name' placeholder='Enter the product name' size="60" required/><br>
+	<input class="form-control" name="product_name" id='id_product_name' placeholder='Enter the product name' size="60" required/><br>
 	Product Version:<br>
-	<input name="product_version" id='id_product_version' placeholder="Product version number" size="25" required/><br>
+	<input class="form-control" name="product_version" id='id_product_version' placeholder="Product version number" size="25" required/><br>
 	Instructions URL:<br>
-	<input name="product_instructions" id='id_product_instructions' type='url' placeholder='Enter the url for the product instructions' size="60" required/><br>
+	<input class="form-control" name="product_instructions" id='id_product_instructions' type='url' placeholder='Enter the url for the product instructions' size="60" required/><br>
 	<br>
 	<input class="btn btn-primary" type="submit" value="Submit"/>
 	{% csrf_token %}

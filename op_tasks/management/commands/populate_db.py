@@ -28,6 +28,7 @@ class Command(BaseCommand):
 
     def _create_user(self):
         user = User(username='test@test.com', password=make_password('test'))
+        user.email = user.username
         user.save()
         userprofile = UserProfile(user=user)
         userprofile.save()

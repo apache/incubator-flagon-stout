@@ -31,7 +31,7 @@ def product(request, task_pk):
         user = request.user
         userprofile = user.userprofile
 
-        print 'Task primary key:', task_pk
+        print 'Task primary key: ', task_pk, ' completed'
         try:
             # get current sequence from user, this ensures that current user
             # can only get sequences assigned to him/her
@@ -106,23 +106,38 @@ def register(request):
             # Now we hash the password with the set_password method.
             # Once hashed, we can update the user object.
             user.set_password(user.password)
+            user.username = user.email
             user.save()
 
             # Now sort out the UserProfile instance.
             # Since we need to set the user attribute ourselves, we set commit=False.
             # This delays saving the model until we're ready to avoid integrity problems.
-            profile = UserProfile()
-            profile.user = user
+            userprofile = UserProfile()
+            userprofile.user = user
 
             # Now we save the UserProfile model instance.
-            profile.save()
+            userprofile.save()
 
-            products = Product.objects.filter(is_active=true).order_by('?')[0]
+            # Finally we assign tasks to the new user
+            # Get a random product, get a random order of tasks
+            # And save them to the task list
+            product = Product.objects.filter(is_active=True).order_by('?')[0]
+            dataset = product.dataset
+            tasks = dataset.optask_set.filter(is_active=True).order_by('?')
+
+            for index, task in enumerate(tasks):
+                if index==0:
+                    active=True
+                else:
+                    active=False
+                TaskListItem(userprofile=userprofile, op_task=task, product=product, 
+                    index=index, task_active=active).save()
+
 
             # Update our variable to tell the template registration was successful.
             registered = True
             print "successful registration"
-            return HttpResponseRedirect("/op_tasks/task_list")
+            return HttpResponseRedirect("/op_tasks/task_list/")
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
