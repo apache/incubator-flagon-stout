@@ -28,14 +28,16 @@
 			<td>{{ products.count }}</td>
 		</tr>
 		<tr>
-			<td>
-				<a href="experiment/tasks">Assigned tasks</a>
-			</td>
+			<td><a href="experiment/tasks">Assigned tasks</a></td>
+			<td>{{ tasklistitems.count }}
 		</tr>
 		<tr>
-			<td>
-				<a href="experiment/completed">Completed tasks</a>
-			</td>
+			<td><a href="experiment/completed">Completed tasks</a></td>
+			<td>{{ tasklistitems.filter(task_complete==True).count }}</td>
+		</tr>
+		<tr>
+			<td><a href="experiment/active">Active tasks</a></td>
+			<td>{{ tasklistitems.task_active.count }}</td>
 		</tr>
 	</tbody>
 </table>

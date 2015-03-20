@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/product.css" %}">
+{% endblock %}
+
+{% block body %}
+<h1>Product Instructions</h1>
+
+<div id="content">
+  <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{{product.instructions}}"></iframe>
+</div>
+
+<!-- OT menu for access to task questions -->
+<div id="ot_menu" class="ot-show">
+  <div class="open-close" onclick="toggle();">
+    <span class="glyphicon glyphicon-chevron-down"></span>
+    Task Menu
+  </div>
+  
+  <div class="ot-container">
+    <form id="product_inst_complete" method="get" action="{% url 'op_tasks:instruct' read='product' %}">
+      {% csrf_token %}
+      <button id="product_instructions_complete_button" class="btn btn-danger ot-open-btn" type="submit">
+        I have read and I understand this information
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
+<script>
+  // web worker url
+  var worker = "{% static "javascript/draper.activity_worker-2.1.1.js" %}"
+  var ac = new activityLogger(worker)
+  .testing(false) // simulate POST, won't send log
+  .echo(true) // log to console
+  .mute(['SYS']); // don't log SYSTEM actions
+</script>
+<script src="{% static "javascript/task_logging.js" %}"></script>
+<script src="{% static "javascript/product.js" %}"></script>
+{% endblock %}

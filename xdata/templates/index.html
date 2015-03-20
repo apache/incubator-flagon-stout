@@ -12,11 +12,11 @@
 
     <div class="register">
     	<h3>New to the Experiment?</h3>
-    	<a class="btn btn-lg btn-success" href="/op_tasks/intro/" role="button">Register</a>
+    	<a class="btn btn-lg btn-success" href="{% url 'op_tasks:intro' process='register' %}" role="button">Register</a>
     </div>
   </div>
   <div class="signin">
-  	<h4 class="form-signin-heading">Already Registered? <a href="/op_tasks/login_intro/">Sign in</a></h4>  	  
+  	<h4 class="form-signin-heading">Already Registered? <a href="{% url 'op_tasks:intro' process='login' %}">Sign in</a></h4>  	  
   </div>
   {% endblock %}
 </div> <!-- /container -->

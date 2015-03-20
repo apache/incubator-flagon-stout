@@ -1,5 +1,5 @@
 from django.test import TestCase
-from op_tasks.models import Participant, Product, Dataset, OpTask
+from op_tasks.models import Product, Dataset, OpTask
 
 # Create your tests here.
 

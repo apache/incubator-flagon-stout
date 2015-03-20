@@ -1,0 +1,13 @@
+{% extends "page.html" %}
+
+{% block content %}
+<h1>Portal Instructions</h1>
+<br>
+<form id="portal_inst_complete" method="get" action="{% url 'op_tasks:instruct' read='portal' %}">
+	{% csrf_token %}
+	<button class="btn btn-success btn-lg btn-block" type="submit">
+		I have read and I understand this information
+	</button>
+</form>
+
+{% endblock %}

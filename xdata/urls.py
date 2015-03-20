@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^exp_portal/status$', 'exp_portal.views.view_status', name='view_status'),
     (r'^$', index),    
-    (r'^contact/$', contact),
+    # (r'^contact/$', contact),
 
 )
 

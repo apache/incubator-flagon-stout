@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from op_tasks.models import UserProfile, Product, Dataset, OpTask
+from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem
 
 # Create your views here.
 
@@ -11,7 +11,8 @@ def view_status(request):
 	products = Product.objects.all()
 	datasets = Dataset.objects.all()
 	optasks = OpTask.objects.all()
-	return render(request, 'status.html', {'userprofiles': userprofiles, 'products': products, 'datasets': datasets,'optasks': optasks})
+	tasklistitems = TaskListItem.objects.all()
+	return render(request, 'status.html', {'userprofiles': userprofiles, 'products': products, 'datasets': datasets,'optasks': optasks, 'tasklistitems': tasklistitems})
 
 def view_products(request):
 	products = Product.objects.all()

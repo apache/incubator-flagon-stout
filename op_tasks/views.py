@@ -217,19 +217,38 @@ def task_list(request):
         {'userprofile': userprofile, 'all_complete': all_complete}
         )
 
-def intro(request):
-    return render(request, 'intro.html', {'user': request.user})
+def intro(request, process=None):
+    if process == 'register':
+        follow = '/op_tasks/register'
+    elif process == 'login':
+        follow = '/op_tasks/login'
+    return render(request, 'intro.html', {'user': request.user, 'follow': follow})
 
 def login_intro(request):
     return render(request, 'login_intro.html', {'user': request.user})
 
-def instruct(request):
-    return render(request, 'instruction_home.html', {'user': request.user})
+def instruct(request, read=None):
+    user = request.user
+    userprofile = user.userprofile
+
+    if read == 'experiment':
+        userprofile.exp_inst_complete = True
+
+    elif read == 'portal':
+        userprofile.portal_inst_complete = True
+
+    elif read == 'product':
+        user.userprofile.task_inst_complete = True
+
+    userprofile.save()
+    product = request.user.userprofile.tasklistitem_set.all()[0].product
+    return render(request, 'instruction_home.html', {'user': request.user, 'product': product})
 
 def exp_instruct(request):
-    return render(request, 'exp_instructions.html', {'user': request.user})
+    return render(request, 'instructions/exp_instructions.html', {'user': request.user})
 
-def task_instruct(request):
-    return render(request, 'task_instructions.html', {'user': request.user})
+def portal_instruct(request):
+    return render(request, 'instructions/portal_instructions.html', {'user': request.user})
 
-
+def product_instruct(request):
+    return render(request, 'instructions/product_instructions.html', {'user': request.user})

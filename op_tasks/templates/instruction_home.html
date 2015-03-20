@@ -1,5 +1,4 @@
 {% extends "page.html" %}
-{% load static %}
 {% block head %}
 {% endblock %}
 {% block content %}
@@ -7,23 +6,29 @@
 <h1>Instructions Home</h1>
 
 <div class="instructions" >
-  <a href="/op_tasks/exp_instructions">
-    <span class="glyphicon glyphicon-book"></span>
-    Click here to review instructional materials for the experiment
+  <a href="/op_tasks/experiment_instructions">
+    <h3>
+      <span class="glyphicon glyphicon-book"></span>
+      Click here to review instructional materials for the experiment
+    </h3>
   </a>
 </div>
 
 <div class="instructions" >
-  <a href="/op_tasks/task_instructions">
-    <span class="glyphicon glyphicon-book"></span>
-    Click here to review instructional materials for your tasks
+  <a href="/op_tasks/portal_instructions">
+    <h3>
+      <span class="glyphicon glyphicon-book"></span>
+      Click here to review instructional materials for this portal
+    </h3>
   </a>
 </div>
 
 <div class="instructions" >
-  <a href="{{user.product.instructions}}">
-    <span class="glyphicon glyphicon-book"></span>
-    Click here to review instructional materials for {{user.product.name}}
+  <a href="/op_tasks/product_instructions">
+    <h3>
+      <span class="glyphicon glyphicon-book"></span>
+      Click here to review instructional materials for {{product.name}}
+    </h3>
   </a>
 </div>
 
