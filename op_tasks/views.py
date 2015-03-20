@@ -137,7 +137,8 @@ def register(request):
             # Update our variable to tell the template registration was successful.
             registered = True
             print "successful registration"
-            return HttpResponseRedirect("/op_tasks/task_list/")
+            login_participant(request)
+            return render(request, 'instructions/exp_instructions.html', {'user': request.user})
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.

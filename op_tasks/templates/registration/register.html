@@ -8,7 +8,7 @@
 	{% else %}
     <h2>Create an account</h2>
 
-	<form role="form" id="user_form" method="post" action="/op_tasks/register/" enctype="multipart/form-data">
+	<form role="form" id="user_form" method="post" action="/op_tasks/register" enctype="multipart/form-data">
 		{% csrf_token %}
 
         <!-- Display each form. The as_p method wraps each element in a paragraph

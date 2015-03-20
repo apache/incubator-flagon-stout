@@ -58,11 +58,8 @@ ROOT_URLCONF = 'xdata.urls'
 
 WSGI_APPLICATION = 'xdata.wsgi.application'
 
-
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    # 'op_tasks.models.MyBackend'
     )
 
 # AUTH_PROFILE_MODULE = 'op_tasks.UserProfile'
@@ -78,8 +75,6 @@ DATABASES = {
     }
 }
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -92,7 +87,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
