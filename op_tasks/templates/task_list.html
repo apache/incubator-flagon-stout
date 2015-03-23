@@ -37,8 +37,20 @@
 
 <div class="product-instructions" >
   <a href="/op_tasks/instruct/">
-    <span class="glyphicon glyphicon-book"></span>
-    Click here to review instructional materials
+    {% if not user.userprofile.read_instructions %}
+      <div class="task-current">
+        <h3>
+          <span class="glyphicon glyphicon-unchecked"></span>
+          Click here to review instructional materials
+        </h3>
+      </div>
+    {% else %}
+      <h3>
+        <span class="glyphicon glyphicon-check"></span>
+        Click here to review instructional materials
+      </h3>
+      <p class="text">This material is available throughout the experiment</p>
+    {% endif %}
   </a>
 </div>
 <table class="ot-list table table-bordered">
@@ -57,12 +69,12 @@
           </td>
         </tr>
       {% elif task.task_complete and not task.exit_complete %}
-        <tr class="ot-current">
+        <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
-            <div class="ot-current">
+            <div class="task-current">
               <h3 class="heading disabled">{{task.op_task.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
               <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}"><span class="glyphicon glyphicon-hand-right"></span>
@@ -71,12 +83,12 @@
           </td>
         </tr>
       {% elif task.task_active %}
-        <tr class="ot-current">
+        <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
-            <a class="ot-current" href="{% url 'op_tasks:product' task_pk=task.pk %}">
+            <a class="task-current" href="{% url 'op_tasks:product' task_pk=task.pk %}">
               <h3 class="heading">{{task.op_task.name}}</h3>
               <p class="text">Task not yet completed. Click to start this Operational Task</p>
             </a>

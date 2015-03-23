@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.conf import settings
-
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 import datetime
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
 from op_tasks.forms import UserForm
@@ -92,71 +93,54 @@ def register(request):
 
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
-        print "POST"
-        # Attempt to grab information from the raw form information.
-        # Note that we make use of both UserForm and UserProfileForm.
-        user_form = UserForm(data=request.POST)
-        # profile_form = UserProfileForm(data=request.POST)
 
-        # If the two forms are valid...
-        if user_form.is_valid(): # and profile_form.is_valid():
-            # Save the user's form data to the database.
-            user = user_form.save()
+        # Now we hash the password with the set_password method.
+        # Once hashed, we can update the user object.
+        user = User(username=request.POST['username'])
+        user.set_password(request.POST['password'])
+        user.email = user.username
+        user.save()
 
-            # Now we hash the password with the set_password method.
-            # Once hashed, we can update the user object.
-            user.set_password(user.password)
-            user.username = user.email
-            user.save()
+        # Now sort out the UserProfile instance.
+        # Since we need to set the user attribute ourselves, we set commit=False.
+        # This delays saving the model until we're ready to avoid integrity problems.
+        userprofile = UserProfile()
+        userprofile.user = user
 
-            # Now sort out the UserProfile instance.
-            # Since we need to set the user attribute ourselves, we set commit=False.
-            # This delays saving the model until we're ready to avoid integrity problems.
-            userprofile = UserProfile()
-            userprofile.user = user
+        # Now we save the UserProfile model instance.
+        userprofile.save()
 
-            # Now we save the UserProfile model instance.
-            userprofile.save()
+        # Finally we assign tasks to the new user
+        # Get a random product, get a random order of tasks
+        # And save them to the task list
+        product = Product.objects.filter(is_active=True).order_by('?')[0]
+        dataset = product.dataset
+        tasks = dataset.optask_set.filter(is_active=True).order_by('?')
 
-            # Finally we assign tasks to the new user
-            # Get a random product, get a random order of tasks
-            # And save them to the task list
-            product = Product.objects.filter(is_active=True).order_by('?')[0]
-            dataset = product.dataset
-            tasks = dataset.optask_set.filter(is_active=True).order_by('?')
-
-            for index, task in enumerate(tasks):
-                if index==0:
-                    active=True
-                else:
-                    active=False
-                TaskListItem(userprofile=userprofile, op_task=task, product=product, 
-                    index=index, task_active=active).save()
+        for index, task in enumerate(tasks):
+            TaskListItem(userprofile=userprofile, op_task=task, product=product, 
+                index=index, task_active=False).save()
 
 
-            # Update our variable to tell the template registration was successful.
-            registered = True
-            print "successful registration"
-            login_participant(request)
-            return render(request, 'instructions/exp_instructions.html', {'user': request.user})
+        # Update our variable to tell the template registration was successful.
+        registered = True
 
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
-        else:
-            print user_form.errors#, profile_form.errors
+        # add some logic to log events, log in users directly
+        print "successful registration of " + request.POST['username'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # login_participant(request)
+        # return render(request, 'instructions/exp_instructions.html', {'user': request.user})
 
     # Not a HTTP POST, so we render our form using two ModelForm instances.
     # These forms will be blank, ready for user input.
-    else:
-        user_form = UserForm()
-        #profile_form = UserProfileForm()
+    # else:
+        # print "register without POST"
+        # not sure what code belongs here yet but the two lines below are legacy...
+        # user_form = UserForm()
+        # profile_form = UserProfileForm()
 
     # Render the template depending on the context.
-    return render_to_response(
-            'registration/register.html',
-            {'user_form': user_form, 'registered': registered},
-            context)
+    # possibly change this to render task list - see notes above
+    return render_to_response('registration/register.html', {'registered': registered}, context)
 
 def logout_participant(request):
     """
@@ -175,6 +159,7 @@ def login_participant(request):
         # This information is obtained from the login form.
         username = request.POST['username']
         password = request.POST['password']
+        # print "Login attempt by " + username + " at " + datetime
 
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
@@ -215,8 +200,7 @@ def task_list(request):
     userprofile = user.userprofile
     all_complete = all([x.both_complete for x in userprofile.tasklistitem_set.all()])
     return render(request, 'task_list.html', 
-        {'userprofile': userprofile, 'all_complete': all_complete}
-        )
+        {'userprofile': userprofile, 'all_complete': all_complete})
 
 def intro(request, process=None):
     if process == 'register':
@@ -225,24 +209,34 @@ def intro(request, process=None):
         follow = '/op_tasks/login'
     return render(request, 'intro.html', {'user': request.user, 'follow': follow})
 
-def login_intro(request):
-    return render(request, 'login_intro.html', {'user': request.user})
+# def login_intro(request):
+    # return render(request, 'login_intro.html', {'user': request.user})
 
 def instruct(request, read=None):
     user = request.user
     userprofile = user.userprofile
 
     if read == 'experiment':
-        userprofile.exp_inst_complete = True
+        if userprofile.exp_inst_complete == False:
+            userprofile.exp_inst_complete = True
+            userprofile.progress += 10
 
     elif read == 'portal':
-        userprofile.portal_inst_complete = True
+        if userprofile.portal_inst_complete == False:
+            userprofile.portal_inst_complete = True
+            userprofile.progress += 10
 
     elif read == 'product':
-        user.userprofile.task_inst_complete = True
+        if userprofile.task_inst_complete == False:
+            user.userprofile.task_inst_complete = True
+            userprofile.progress += 10
 
     userprofile.save()
-    product = request.user.userprofile.tasklistitem_set.all()[0].product
+    product = userprofile.tasklistitem_set.all()[0].product
+    if userprofile.read_instructions() == True:
+        first_task = userprofile.tasklistitem_set.all()[0]
+        first_task.task_active = True
+        first_task.save()
     return render(request, 'instruction_home.html', {'user': request.user, 'product': product})
 
 def exp_instruct(request):

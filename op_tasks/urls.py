@@ -20,6 +20,6 @@ urlpatterns = patterns('',
     url(r'^product_instructions$', views.product_instruct, name='product_instruct')
 )
 
-print settings.DEBUG, settings.STATIC_ROOT
+# print settings.DEBUG, settings.STATIC_ROOT
 if settings.DEBUG:
     urlpatterns += url(r'^static/(?P<path>.*)$', vs.serve),

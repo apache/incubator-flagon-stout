@@ -6,23 +6,35 @@
 	{% if registered %}
 	<h2>Thank you for registering!</h2>
 	{% else %}
-    <h2>Create an account</h2>
+    <h2 class="form-signin-heading">Create an account</h2>
 
 	<form role="form" id="user_form" method="post" action="/op_tasks/register" enctype="multipart/form-data">
 		{% csrf_token %}
 
-        <!-- Display each form. The as_p method wraps each element in a paragraph
-        (<p>) element. This ensures each element appears on a new line, making everything look neater. -->
-        {{ user_form.as_p }}
-        <!-- {{ profile_form.as_p }} -->
-
-        <!-- Provide a button to click to submit the form. -->
-        <input type="submit" name="submit" value="Register" />
+        <div class="form-group">
+            <p class="required">
+                <label for="id_email">Username: (please use a valid email address)</label>
+                <input class="form-control" id="id_email" name="username" type="email" placeholder="Enter email"/>
+            </p>
+        </div>
+        <div class="form-group">
+            <p class="required">
+                <label for="id_password1">Password:</label>
+                <input class="form-control" id="id_password" name="password" type="password" placeholder="Enter password"/>
+            </p>
+        </div>
+        <div class="form-group">
+            <p class="required">
+                <label for="id_password2">Password (again):</label>
+                <input class="form-control" id="id_password2" name="password2" type="password" placeholder="Enter password again" />
+            </p>
+        </div>
+        <button id="id_register_button" type="submit" class="btn btn-default">Submit</button>
     </form>
     {% endif %}
 
     {% if registered %}
-    <h4 class="form-signin-heading">Click here to sign in: <a href="/op_tasks/login/">Sign in</a>
+    <h4 class="form-signin-heading">Click here to sign in: <a href="/op_tasks/login">Sign in</a>
     {% endif %}
 
 {% endblock %}

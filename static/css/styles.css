@@ -34,9 +34,6 @@ html {
   position: relative;
 }
 
-
-
-
 #arrow {
   cursor: pointer;
 }
@@ -162,15 +159,15 @@ td.status {
   width: 30px;
 }
 
-.ot-current {
+.task-current {
   color: #54A81C;
 }
 
-.ot-current a{
+.task-current a{
   color: #54A81C;
 }
 
-.ot-current a:hover {
+.task-current a:hover {
   color: #2A530F;
 }
 

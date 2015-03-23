@@ -53,6 +53,11 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def read_instructions(self):
+        return self.exp_inst_complete and self.portal_inst_complete and self.task_inst_complete
+
+    # read_instructions = property(_read_instructions)
+
 # The TaskListItem model is used to manage user navigation through the experiment
 class TaskListItem(models.Model):
     # knows which user it is assigned to

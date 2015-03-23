@@ -39,17 +39,12 @@ class Command(BaseCommand):
         matched_tasks = dataset.optask_set.filter(is_active=True).order_by('?')
 
     	for index, task in enumerate(matched_tasks[0:matched_tasks.count()]):
-            if index==0:
-                active=True
-            else:
-                active=False
-            exit_active=False
             TaskListItem(userprofile=userprofile, 
                 product=product,
                 op_task=task, 
                 index=index, 
-                task_active=active, 
-                exit_active=exit_active).save()
+                task_active=False, 
+                exit_active=False).save()
 
     def _create_data(self):
 		dataset = Dataset(name='Test-DS', version='v0.1')

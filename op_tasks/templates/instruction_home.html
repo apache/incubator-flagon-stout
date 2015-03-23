@@ -8,8 +8,15 @@
 <div class="instructions" >
   <a href="/op_tasks/experiment_instructions">
     <h3>
-      <span class="glyphicon glyphicon-book"></span>
-      Click here to review instructional materials for the experiment
+      {% if not user.userprofile.exp_inst_complete %}
+        <div class="task-current">
+          <span class="glyphicon glyphicon-unchecked"></span>
+          Experiment Information and Instructions
+        </div>
+      {% elif user.userprofile.exp_inst_complete %}
+        <span class="glyphicon glyphicon-check"></span>
+        Experiment Information and Instructions
+      {% endif %}
     </h3>
   </a>
 </div>
@@ -17,8 +24,15 @@
 <div class="instructions" >
   <a href="/op_tasks/portal_instructions">
     <h3>
-      <span class="glyphicon glyphicon-book"></span>
-      Click here to review instructional materials for this portal
+      {% if not user.userprofile.portal_inst_complete %}
+        <div class="task-current">
+          <span class="glyphicon glyphicon-unchecked"></span>
+          Portal Guide
+        </div>
+      {% elif user.userprofile.portal_inst_complete %}
+        <span class="glyphicon glyphicon-check"></span>
+        Portal Guide
+      {% endif %}
     </h3>
   </a>
 </div>
@@ -26,8 +40,15 @@
 <div class="instructions" >
   <a href="/op_tasks/product_instructions">
     <h3>
-      <span class="glyphicon glyphicon-book"></span>
-      Click here to review instructional materials for {{product.name}}
+      {% if not user.userprofile.task_inst_complete %}
+        <div class="task-current">
+          <span class="glyphicon glyphicon-unchecked"></span>
+          {{product.name}} Information and Instructions
+        </div>
+      {% elif user.userprofile.task_inst_complete %}
+        <span class="glyphicon glyphicon-check"></span>
+        {{product.name}} Information and Instructions
+      {% endif %}
     </h3>
   </a>
 </div>
