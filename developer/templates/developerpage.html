@@ -1,0 +1,16 @@
+{% extends "page.html" %}
+
+{% block side_block %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b class="panel-title">Navigation</b>
+  </div>
+  <div class="panel-body">
+  	<a href="{% url 'developer:home' %}">Developer Portal Home</a><br>
+    <a href="{% url 'developer:view_dev_products' %}">Available products</a><br>
+    <a href="{% url 'developer:submit_product' %}">Submit a new product</a><br>
+  </div>
+</div>
+
+{% endblock %}

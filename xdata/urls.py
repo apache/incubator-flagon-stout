@@ -7,11 +7,10 @@ admin.autodiscover()
 		
 urlpatterns = patterns('',
 	# include urls for op_tasks and administration pages
-    url(r'^op_tasks/', include('op_tasks.urls', namespace="op_tasks")),
+    url(r'^tasking/', include('op_tasks.urls', namespace="op_tasks")),
     url(r'^experiment/', include('exp_portal.urls', namespace="exp_portal")),
     url(r'^developer/', include('developer.urls', namespace="developer")),
     url(r'^admin/', include(admin.site.urls)),
-    # url(r'^exp_portal/status$', 'exp_portal.views.view_status', name='view_status'),
     (r'^$', index),    
     # (r'^contact/$', contact),
 

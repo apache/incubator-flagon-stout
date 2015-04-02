@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import hashlib
-import time
+import time, datetime
 
 def _createHash():
     hash = hashlib.sha1()
@@ -71,6 +71,7 @@ class TaskListItem(models.Model):
     task_active = models.BooleanField(default=False)
     # mark if operation task is completed
     task_complete = models.BooleanField(default=False)
+    date_complete = models.DateTimeField(default=None, blank=True, null=True)
     exit_active = models.BooleanField(default=False)
     exit_complete = models.BooleanField(default=False)
 
@@ -87,5 +88,6 @@ class TaskListItem(models.Model):
         ordering = ('userprofile', 'index')
     # index = models.IntegerField()
 
-# class Achievments(models.Model):
-    
+class UserSessionID(models.Model):
+    userprofile = models.ForeignKey(UserProfile)
+    datecreated = models.DateTimeField(default=None, blank=True, null=True)

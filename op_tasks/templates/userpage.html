@@ -1,0 +1,33 @@
+{% extends "page.html" %}
+
+{% block side_block %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b class="panel-title">Navigation</b>
+  </div>
+  <div class="panel-body">
+  	<a href="{% url 'op_tasks:view_profile' %}">Manage user profile</a><br>
+    <a href="{% url 'op_tasks:task_list' %}">Task List</a><br>
+    <a href="{% url 'op_tasks:instruct' %}">Instructions</a><br>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b class="panel-title">Achievements</b>
+  </div>
+  <div class="panel-body">
+    <div class="media">
+      <div class="media-body">
+        <h4 class="media-heading">Achievement 1</h4>
+      </div>
+      <div class="media-right">
+        <a href="#">
+          <img class="media-object" src="/static/images/Colonel_Grade_3.png" alt="...">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

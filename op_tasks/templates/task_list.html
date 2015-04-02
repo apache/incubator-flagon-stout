@@ -1,28 +1,4 @@
-{% extends "page.html" %}
-{% block head %}
-{% endblock %}
-
-{% block side_block %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <b class="panel-title">Achievements</b>
-  </div>
-  <div class="panel-body">
-    <div class="media">
-      <div class="media-body">
-        <h4 class="media-heading">Achievement 1</h4>
-      </div>
-      <div class="media-right">
-        <a href="#">
-          <img class="media-object" src="/static/images/Colonel_Grade_3.png" alt="...">
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-{% endblock %}
+{% extends "userpage.html" %}
 
 {% block content %}
 
@@ -36,7 +12,7 @@
 </div>
 
 <div class="product-instructions" >
-  <a href="/op_tasks/instruct/">
+  <a href="{% url 'op_tasks:instruct' %}">
     {% if not user.userprofile.read_instructions %}
       <div class="task-current">
         <h3>

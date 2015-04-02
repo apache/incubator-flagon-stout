@@ -6,14 +6,10 @@ from django.template import RequestContext
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.utils import timezone
 import datetime
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
-from op_tasks.forms import UserForm
 
-# @login_required
-# def index(request):
-# 	op_task = OpTask.objects.get(pk=1)	
-# 	return render(request, 'question.html', {'op_task': op_task})
 
 def set_cookie(response, key, value, days_expire = 7):
   if days_expire is None:
@@ -38,7 +34,7 @@ def product(request, task_pk):
             # can only get sequences assigned to him/her
             current_tasklistitem = userprofile.tasklistitem_set.get(pk=task_pk)
         except:
-            return HttpResponseRedirect("/op_tasks/task_list")
+            return HttpResponseRedirect("/tasking/task_list")
 
         tasklist_length = len(userprofile.tasklistitem_set.all())
         
@@ -52,6 +48,9 @@ def product(request, task_pk):
             current_tasklistitem.task_complete = True
             current_tasklistitem.task_active = False
             current_tasklistitem.exit_active = True
+            current_tasklistitem.date_complete = timezone.now()
+            userprofile.progress += 20
+            print 'task complete', timezone.now()
         
         # you likely got here because you just completed an exit task
         # so mark it complete and move 
@@ -59,13 +58,16 @@ def product(request, task_pk):
             current_tasklistitem.exit_active = False
             current_tasklistitem.exit_complete = True
             print 'survey complete', current_tasklistitem.index
+            userprofile.progress += 15
             if current_tasklistitem.index < 1:
                 next_tasklistitem.task_active = True
                 next_tasklistitem.save()
             else:
                 current_tasklistitem.save()
+        
+        userprofile.save()
         current_tasklistitem.save()
-        return HttpResponseRedirect("/op_tasks/task_list")
+        return HttpResponseRedirect("/tasking/task_list")
 
     # if method is GET just show the product page
     user = request.user
@@ -174,8 +176,8 @@ def login_participant(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return HttpResponseRedirect('/op_tasks/task_list')
-                # return render(request, 'task_list.html', {'user': request.user})
+                return HttpResponseRedirect('/tasking/task_list')
+                # return render(request, 'task_list.html', {'user': user})
             else:
                 # An inactive account was used - no logging in!
                 return HttpResponse("Your XDATA account is disabled.")
@@ -193,7 +195,7 @@ def login_participant(request):
 
 	# return login_view(request, authentication_form=MyAuthForm)
 
-@login_required(login_url='/op_tasks/login')
+@login_required(login_url='/tasking/login')
 def task_list(request):
     # print [x.both_complete for x in userprofile.tasklistitem_set.all()]
     user = request.user
@@ -204,9 +206,9 @@ def task_list(request):
 
 def intro(request, process=None):
     if process == 'register':
-        follow = '/op_tasks/register'
+        follow = '/tasking/register'
     elif process == 'login':
-        follow = '/op_tasks/login'
+        follow = '/tasking/login'
     return render(request, 'intro.html', {'user': request.user, 'follow': follow})
 
 # def login_intro(request):
@@ -247,3 +249,6 @@ def portal_instruct(request):
 
 def product_instruct(request):
     return render(request, 'instructions/product_instructions.html', {'user': request.user})
+
+def view_profile(request):
+    return render(request, 'user_profile.html', {'user': request.user})

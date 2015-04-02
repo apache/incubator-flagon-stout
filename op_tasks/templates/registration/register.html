@@ -8,7 +8,7 @@
 	{% else %}
     <h2 class="form-signin-heading">Create an account</h2>
 
-	<form role="form" id="user_form" method="post" action="/op_tasks/register" enctype="multipart/form-data">
+	<form role="form" id="user_form" method="post" action="{% url 'op_tasks:register' %}" enctype="multipart/form-data">
 		{% csrf_token %}
 
         <div class="form-group">
@@ -34,7 +34,7 @@
     {% endif %}
 
     {% if registered %}
-    <h4 class="form-signin-heading">Click here to sign in: <a href="/op_tasks/login">Sign in</a>
+    <h4 class="form-signin-heading">Click here to sign in: <a href="{% url 'op_tasks:login' %}">Sign in</a>
     {% endif %}
 
 {% endblock %}

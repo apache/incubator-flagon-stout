@@ -1,0 +1,28 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>All tasks</h1>
+
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>Task name</th>
+			<th>Dataset</th>
+			<th>URL</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for task in tasks %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ task.name }}</td>
+				<td>{{ task.dataset }}</td>
+				<td><a href="{{ task.survey_url }}">{{task.survey_url}}</a></td>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endblock %}

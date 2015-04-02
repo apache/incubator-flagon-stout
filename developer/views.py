@@ -6,16 +6,16 @@ from op_tasks.models import UserProfile, Product, Dataset, OpTask
 def home_page(request):
 	return render(request, 'developerhome.html')
 
-def view_status(request):
+def view_dev_status(request):
 	userprofiles = UserProfile.objects.all()
 	products = Product.objects.all()
 	datasets = Dataset.objects.all()
 	optasks = OpTask.objects.all()
 	return render(request, 'status.html', {'userprofiles': userprofiles, 'products': products, 'datasets': datasets,'optasks': optasks})
 
-def view_products(request):
+def view_dev_products(request):
 	products = Product.objects.all()
-	return render(request, 'products.html', {'products': products})	
+	return render(request, 'dev_products.html', {'products': products})	
 
 def submit_product(request):
     return render(request, 'submit_product.html')

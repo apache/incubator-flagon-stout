@@ -1,12 +1,11 @@
-{% extends "page.html" %}
-{% block head %}
-{% endblock %}
+{% extends "userpage.html" %}
+
 {% block content %}
 
 <h1>Instructions Home</h1>
 
 <div class="instructions" >
-  <a href="/op_tasks/experiment_instructions">
+  <a href="{% url 'op_tasks:exp_instruct' %}">
     <h3>
       {% if not user.userprofile.exp_inst_complete %}
         <div class="task-current">
@@ -22,7 +21,7 @@
 </div>
 
 <div class="instructions" >
-  <a href="/op_tasks/portal_instructions">
+  <a href="{% url 'op_tasks:portal_instruct' %}">
     <h3>
       {% if not user.userprofile.portal_inst_complete %}
         <div class="task-current">
@@ -38,7 +37,7 @@
 </div>
 
 <div class="instructions" >
-  <a href="/op_tasks/product_instructions">
+  <a href="{% url 'op_tasks:product_instruct' %}">
     <h3>
       {% if not user.userprofile.task_inst_complete %}
         <div class="task-current">
@@ -53,4 +52,9 @@
   </a>
 </div>
 
+{% if user.userprofile.read_instructions %}
+<hr>
+<h4>Thank you for completing the instructions.</h4>
+<p>These links will remain active if you need to review the instructions again in the future.  Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete all tasks</p>
+{% endif %}
 {% endblock %}

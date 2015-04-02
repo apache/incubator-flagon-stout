@@ -1,8 +1,7 @@
 <!-- shows the status of "interesting" data about the current experiment -->
 
-{% extends "page.html" %}
-{% block head %}
-{% endblock %}
+{% extends "experimentpage.html" %}
+
 {% block content %}
 
 <h1>Experiment Status</h1>
@@ -17,27 +16,27 @@
 	<tbody>
 		<tr>
 			<td>
-				<a href="/experiment/users">Registered Users</a>
+				<a href="{% url 'exp_portal:view_users' %}">Registered Users</a>
 			</td>
 			<td>{{ userprofiles.count }}</td>
 		</tr>
 		<tr>
 			<td>
-				<a href="/experiment/products">Products</a>
+				<a href="{% url 'exp_portal:view_products' %}">Products</a>
 			</td>
 			<td>{{ products.count }}</td>
 		</tr>
 		<tr>
-			<td><a href="experiment/tasks">Assigned tasks</a></td>
-			<td>{{ tasklistitems.count }}
+			<td><a href="{% url 'exp_portal:view_tasks' %}">Operational Tasks</a></td>
+			<td>{{ tasks.count }}
 		</tr>
 		<tr>
-			<td><a href="experiment/completed">Completed tasks</a></td>
-			<td>{{ tasklistitems.filter(task_complete==True).count }}</td>
+			<td><a href="{% url 'exp_portal:view_completed' %}">User Completed Tasks</a></td>
+			<td>{{ completed_tasks.count }}</td>
 		</tr>
 		<tr>
-			<td><a href="experiment/active">Active tasks</a></td>
-			<td>{{ tasklistitems.task_active.count }}</td>
+			<td><a href="{% url 'exp_portal:view_incomplete' %}">Incomplete Tasks</a></td>
+			<td>{{ incomplete_tasks.count }}</td>
 		</tr>
 	</tbody>
 </table>

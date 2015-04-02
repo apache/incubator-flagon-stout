@@ -1,0 +1,29 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Incomplete Tasks</h1>
+
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>User</th>
+			<th>Task Name</th>
+			<th>Date assigned</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for task in incomplete_tasks %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ task.userprofile.user.username }}</td>
+				<td>{{ task.op_task.name }}</td>
+				<td>{{ task.userprofile.user.date_joined }}</td>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Completed Tasks</h1>
+
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>User</th>
+			<th>Task Name</th>
+			<th>Date Completed</th>
+			<th>Activity Rate</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for task in completed_tasks %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ task.userprofile.user.username }}</td>
+				<td>{{ task.op_task.name }}</td>
+				<td>{{ task.date_complete }}</td>
+				<td></td>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+{% endblock %}
