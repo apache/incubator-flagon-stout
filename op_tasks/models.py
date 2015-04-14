@@ -88,6 +88,6 @@ class TaskListItem(models.Model):
         ordering = ('userprofile', 'index')
     # index = models.IntegerField()
 
-class UserSessionID(models.Model):
-    userprofile = models.ForeignKey(UserProfile)
-    datecreated = models.DateTimeField(default=None, blank=True, null=True)
+# class UserSessionID(models.Model):
+#     userprofile = models.ForeignKey(UserProfile)
+#     datecreated = models.DateTimeField(default=None, blank=True, null=True)

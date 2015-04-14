@@ -4,6 +4,7 @@ from django.test import LiveServerTestCase
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.conf.urls.static import static
+import sys
 
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
 
@@ -11,6 +12,20 @@ import os
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:9000'
 
 class NewVisitorTest(LiveServerTestCase):
+
+	@classmethod
+	def setUpClass(cls):
+		for arg in sys.argv:
+			if 'liveserver' in arg:
+				cls.server_url = 'http://' + arg.split('=')[1]
+				return
+			super(NewVisitorTest, cls).setUpClass()
+			cls.server_url = cls.live_server_url
+
+	@classmethod
+	def tearDownClass(cls):
+		if cls.server_url == cls.live_server_url:
+			super(NewVisitorTest, cls).tearDownClass()
 
 	def setUp(self):
 		# TODO find a way to call populate_db
@@ -46,7 +61,10 @@ class NewVisitorTest(LiveServerTestCase):
 
 	def test_can_register_a_user_with_tasks(self):
 		# browse to online portal
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
+
+		# check the title of the webpage 
+		self.assertIn('XDATA', self.browser.title)
 
 		# click the sign in page
 		self.browser.find_element_by_link_text("Register").click()
@@ -80,3 +98,11 @@ class NewVisitorTest(LiveServerTestCase):
 
 		# self.browser.implicitly_wait(25)
 
+	# def test_can_show_STOUT_and_ALE_integration(self):
+		# experiment admin page load showing experiment setup
+		# what does experiment setup process look like?
+
+		# user registers and browses to task list
+		# completes first part of experiment
+
+		# browse back to experiment admin page to show results

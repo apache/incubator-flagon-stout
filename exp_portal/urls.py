@@ -14,4 +14,5 @@ urlpatterns= patterns('',
 	url(r'^tasks$', views.view_tasks, name='view_tasks'),
 	url(r'^tasks/completed$', views.view_completed, name='view_completed'), 
 	url(r'^tasks/incomplete$', views.view_incomplete, name='view_incomplete'),
+	url(r'^manage$', views.manage_tasks, name='manage_tasks'),
 	)

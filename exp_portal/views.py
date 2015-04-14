@@ -53,3 +53,6 @@ def new_task(request):
 
 def task_added(request):
 	return render(request, 'task_added.html')
+
+def manage_tasks(request):
+	return view_tasks(request)

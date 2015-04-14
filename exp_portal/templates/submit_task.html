@@ -5,23 +5,22 @@
 <h1>Please enter your task information:</h1>
 <form method="POST" action="/experiment/newTask">
 	Task Name:<br>
-	<input name="task_name" id='id_task_name' placeholder='Enter the task name' size="60" required/><br>
+	<input class="form-control" name="task_name" id='id_task_name' placeholder='Enter the task name' size="60" required/><br>
 	Task Version:<br>
-	<input name="task_version" id='id_task_version' placeholder="Task version number" size="25" required/><br>
+	<input class="form-control" name="task_version" id='id_task_version' placeholder="Task version number" size="25" required/><br>
 	Instructions URL:<br>
-	<input name="task_instructions" id='id_task_instructions' type='url' placeholder='Enter the url for the task instructions' size="60" required/><br>
+	<input class="form-control" name="task_instructions" id='id_task_instructions' type='url' placeholder='Enter the url for the task instructions' size="60" required/><br>
 	Dataset:<br>
-	<select name="task_dataset" id='id_task_dataset' placeholder='Select Dataset' required>
+	<select class="form-control" name="task_dataset" id='id_task_dataset' placeholder='Select Dataset' required>
 		<option value="" style="display:none;"></option>
 		<option value="volvo">Volvo</option>
 		<option value="saab">Saab</option>
 		<option value="husqvarna">Husqvarna</option>
 	</select><br>
 	Task URL:<br>
-	<input name="task_url" id='id_task_url' type='url' placeholder='Enter the task url' size="60" required/><br>
+	<input class="form-control" name="task_url" id='id_task_url' type='url' placeholder='Enter the task url' size="60" required/><br>
 	Exit survey URL:<br>
-	<input name="exit_url" id='id_exit_url' type='url' placeholder='Enter the exit survey url' size ="60"><br>
-	<input name="active_check" id='id_active_check' type="checkbox" value="True">Is this task active?<br>
+	<input class="form-control" name="exit_url" id='id_exit_url' type='url' placeholder='Enter the exit survey url' size ="60"><br>
 	<input class="btn btn-primary" type="submit" value="Submit"/>
 	{% csrf_token %}
 </form>
