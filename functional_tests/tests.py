@@ -9,7 +9,7 @@ import sys
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
 
 import os
-os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:9000'
+os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:9000-9200'
 
 class NewVisitorTest(LiveServerTestCase):
 
