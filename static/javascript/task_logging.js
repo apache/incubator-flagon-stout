@@ -1,5 +1,5 @@
   ac.registerActivityLogger( 
-    "http://xd-draper.xdata.data-tactics-corp.com:1337", 
+    "http://10.1.93.208", 
     "STOUT", 
     "v0.1"
     );
