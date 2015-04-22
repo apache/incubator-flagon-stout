@@ -4,13 +4,6 @@ ac.registerActivityLogger(
 	"v0.1"
 	);
 
-// $('#test-button').click(function() { 
-// 	ac.logUserActivity('Test button', // description
-// 	'test-button', // activity code
-// 	ac.OTHER
-// 	);
-// })
-
 $('#test-button').click(function() {
   ac.logUserActivity('Test button', // description
   'test_button', // activity code
