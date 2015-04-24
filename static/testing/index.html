@@ -10,10 +10,10 @@
 	<h1>TESTING</h1>
 	<button id="test-button" class="btn btn-success btn-lg btn-block">Test Button</button>
 
-	<script src="draper.activity_logger-2.1.1.js"></script>
+	<script src="../javascript/draper.activity_logger-2.1.1.js"></script>
 	<script>
 	// web worker url
-	var worker = "draper.activity_worker-2.1.1.js"
+	var worker = "../javascript/draper.activity_worker-2.1.1.js"
 	var ac = new activityLogger(worker)
 	.testing(false) // simulate POST, won't send log
 	.echo(true) // log to console
