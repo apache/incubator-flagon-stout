@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required(login_url='/tasking/login')
 def home_page(request):
 	return render(request, 'experimenthome.html')
 

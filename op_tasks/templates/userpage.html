@@ -2,6 +2,18 @@
 
 {% block side_block %}
 
+{% if user.is_staff %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b class="panel-title">Admininstration</b>
+  </div>
+  <div class="panel-body">
+    <a href="{% url 'exp_portal:home' %}">Experiment Portal</a><br>
+    <a href="{% url 'developer:home' %}">Developer Portal</a><br>
+  </div>
+</div>
+{% endif %}
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <b class="panel-title">Navigation</b>
@@ -12,6 +24,7 @@
     <a href="{% url 'op_tasks:instruct' %}">Instructions</a><br>
   </div>
 </div>
+
 <div class="panel panel-default">
   <div class="panel-heading">
     <b class="panel-title">Achievements</b>
