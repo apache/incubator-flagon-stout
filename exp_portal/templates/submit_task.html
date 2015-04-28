@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Please enter your task information:</h1>
-<form method="POST" action="/experiment/newTask">
+<form method="POST" action="{% url 'exp_portal:new_task' %}">
 	Task Name:<br>
 	<input class="form-control" name="task_name" id='id_task_name' placeholder='Enter the task name' size="60" required/><br>
 	Task Version:<br>

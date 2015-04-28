@@ -29,6 +29,10 @@ def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
 	return render(request, 'users.html', {'userprofiles': userprofiles})
 
+def manage_users(request):
+	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
+	return render(request, 'users.html', {'userprofiles': userprofiles})
+
 def view_tasks(request):
 	tasks = OpTask.objects.all()
 	return render(request, 'tasks.html', {'tasks': tasks})
