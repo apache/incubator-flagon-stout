@@ -91,3 +91,7 @@ class TaskListItem(models.Model):
 # class UserSessionID(models.Model):
 #     userprofile = models.ForeignKey(UserProfile)
 #     datecreated = models.DateTimeField(default=None, blank=True, null=True)
+
+# class Experiment(models.Model):
+#     name = models.CharField()
+#     task_count = models.IntegerField(default=0)

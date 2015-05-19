@@ -23,6 +23,7 @@ def set_cookie(response, key, value, days_expire = 7):
   	domain=settings.SESSION_COOKIE_DOMAIN, 
   	secure=None)
    
+# manages which prodct is delivered to the current user
 def product(request, task_pk):
     if request.method == 'POST':
         user = request.user
@@ -85,6 +86,7 @@ def product(request, task_pk):
     set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
     return response
 
+# cretaes a new user and assigns tasks 
 def register(request):
     # Like before, get the request's context.
     context = RequestContext(request)
@@ -204,6 +206,7 @@ def task_list(request):
     return render(request, 'task_list.html', 
         {'userprofile': userprofile, 'all_complete': all_complete})
 
+
 def intro(request, process=None):
     if process == 'register':
         follow = '/tasking/register'
@@ -211,8 +214,6 @@ def intro(request, process=None):
         follow = '/tasking/login'
     return render(request, 'intro.html', {'user': request.user, 'follow': follow})
 
-# def login_intro(request):
-    # return render(request, 'login_intro.html', {'user': request.user})
 
 def instruct(request, read=None):
     user = request.user

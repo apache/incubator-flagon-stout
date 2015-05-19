@@ -72,11 +72,24 @@
   <form id="timerblock">
     {% csrf_token %}
     <script>
+      var myVar = setInterval(function(){myTimer()},1000);
+      var time = 30*60;
+
+      function myTimer() {
+        time = time - 1;
+        minutes = parseInt(time / 60);
+        seconds = time % 60;
+        document.getElementById("minutes").innerHTML = pad(minutes);
+        document.getElementById("seconds").innerHTML = pad(seconds);
+      }
+
+      function pad(n) {return (n<10) ? ("0"+n) : n;}
+      
       var redirect = function(url, method) {
-      var form = document.getElementById('timerblock');
-      form.method = method;
-      form.action = url;
-      form.submit();
+        var form = document.getElementById('timerblock');
+        form.method = method;
+        form.action = url;
+        form.submit();
       };
 
       setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*30);
