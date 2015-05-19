@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.conf.urls.static import static
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
 # this pre-populates the database prior to any user interaction.  
 # any changes here won't be seen unless the database is rebuilt
@@ -27,10 +27,15 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _create_user(self):
+        # fix this later; need a logical method for experiment assignment
+        saved_experiments = Experiment.objects.all()
+
         user = User(username='test@test.com', password=make_password('test'))
         user.email = user.username
         user.save()
+
         userprofile = UserProfile(user=user)
+        userprofile.experiment = saved_experiments[0]
         userprofile.save()
 
     	# get random product and sequence of operational tasks
@@ -47,7 +52,15 @@ class Command(BaseCommand):
                 exit_active=False).save()
 
     def _create_data(self):
-		dataset = Dataset(name='Test-DS', version='v0.1')
+		experiment = Experiment(name='Test-exp', 
+            task_count=2,
+            task_length=30,
+            has_achievements=True,
+            has_intake=True,
+            has_followup=True,
+            auto_tasking=True)
+
+        dataset = Dataset(name='Test-DS', version='v0.1')
 		dataset.save()
 		
 		Product(dataset=dataset, 

@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User 
 from django.contrib.auth.hashers import make_password
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
 # Create your tests here.
 
@@ -13,6 +13,37 @@ from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
 # 		self.assertEqual(1+1,3)
 
 class ModelTest(TestCase):
+
+	def test_user_can_be_assigned_an_experiment(self):
+		experiment = Experiment(name='Cow',
+			task_count=2,
+			task_length=10,
+			has_achievements=True,
+			has_intake=True,
+			has_followup=True,
+			auto_tasking=True)
+		experiment.save()
+		saved_experiments = Experiment.objects.all()
+		self.assertEqual(saved_experiments.count(), 1)
+
+		user = User(username='Bob', password=make_password('Bob') )
+		user.email = user.username
+		user.save()
+
+		saved_users = User.objects.all()
+		self.assertEqual(saved_users.count(), 1)
+
+		userprofile = UserProfile()
+		userprofile.user = user
+		userprofile.experiment = experiment
+		userprofile.save()
+
+		saved_profiles = UserProfile.objects.all()
+		self.assertEqual(saved_profiles.count(), 1)
+
+		named_experiment = saved_profiles[0].experiment
+		self.assertEqual(named_experiment.name, 'Cow')
+
 
 	def test_saving_and_retrieving_product(self):
 		dataset = Dataset()

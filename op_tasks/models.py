@@ -40,6 +40,18 @@ class OpTask(models.Model):
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s-%s' % (self.name, self.dataset)
 
+class Experiment(models.Model):
+    name = models.CharField(max_length=250)  # name of the experiment
+    task_count = models.IntegerField(default=0)  
+    task_length = models.IntegerField(default=30)  # minutes
+    has_achievements = models.BooleanField(default=False)
+    has_intake = models.BooleanField(default=False)
+    has_followup = models.BooleanField(default=False)
+    
+    # auto tasking with user registration.  If FALSE then tasks must be 
+    # assigned manually by admin
+    auto_tasking = models.BooleanField(default=False)
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     user_hash = models.CharField(max_length=30, default=_createHash, unique=True, editable=False)
@@ -49,6 +61,7 @@ class UserProfile(models.Model):
     exp_inst_complete = models.BooleanField(default=False)
     portal_inst_complete = models.BooleanField(default=False)
     task_inst_complete = models.BooleanField(default=False)
+    experiment = models.ForeignKey(Experiment, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -56,7 +69,6 @@ class UserProfile(models.Model):
     def read_instructions(self):
         return self.exp_inst_complete and self.portal_inst_complete and self.task_inst_complete
 
-    # read_instructions = property(_read_instructions)
 
 # The TaskListItem model is used to manage user navigation through the experiment
 class TaskListItem(models.Model):
@@ -87,11 +99,3 @@ class TaskListItem(models.Model):
     class Meta:
         ordering = ('userprofile', 'index')
     # index = models.IntegerField()
-
-# class UserSessionID(models.Model):
-#     userprofile = models.ForeignKey(UserProfile)
-#     datecreated = models.DateTimeField(default=None, blank=True, null=True)
-
-# class Experiment(models.Model):
-#     name = models.CharField()
-#     task_count = models.IntegerField(default=0)
