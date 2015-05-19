@@ -52,25 +52,20 @@ class Command(BaseCommand):
                 exit_active=False).save()
 
     def _create_data(self):
-		experiment = Experiment(name='Test-exp', 
-            task_count=2,
-            task_length=30,
-            has_achievements=True,
-            has_intake=True,
-            has_followup=True,
-            auto_tasking=True)
-
+        experiment = Experiment(name='Test-exp', task_count=2, task_length=30, has_achievements=True, has_intake=True, has_followup=True, auto_tasking=True)
+        experiment.save()
+        
         dataset = Dataset(name='Test-DS', version='v0.1')
-		dataset.save()
-		
-		Product(dataset=dataset, 
+        dataset.save()
+
+        Product(dataset=dataset, 
             url='/static/testing/index.html', 
             instructions=settings.STATIC_URL + 'testing/instructions.html', 
             team='test-team', 
-			name='test-product',
-			version='v0.1').save()
+            name='test-product', 
+            version='v0.1').save()
 
-		for task in test_tasks:
+        for task in test_tasks:
 			newtask = OpTask(dataset=dataset,
 				name=task['name'],
 				survey_url=task['ot_survey_url'],

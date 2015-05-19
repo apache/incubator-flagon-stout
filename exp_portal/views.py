@@ -2,23 +2,8 @@ from django.shortcuts import render
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
-
-def count_activities(session_id):
-	ELK_SERVER="http://10.1.93.208"
-	XDATA_INDEX="xdata_v2"
-
-	es = Elasticsearch(ELK_SERVER)
-
-	queryData = {}
-	jsonQueryData = json.dumps(queryData)
-	fieldFilter = ["timestamp", "sessionID", "parms.desc"]
-
-	queryData["query"] = { "match": { "sessionID" : session_id } }
-	jsonQueryData = json.dumps(queryData)
-	results = es.search(index=XDATA_INDEX, body=jsonQueryData, fields=fieldFilter, size=1000)['hits']
-	timestamps = [d['fields']['timestamp'] for d in results['hits']]
-	return len(timestamps)
 
 @login_required(login_url='/tasking/login')
 def home_page(request):

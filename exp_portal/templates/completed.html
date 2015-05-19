@@ -12,7 +12,7 @@
 			<th>User</th>
 			<th>Task Name</th>
 			<th>Date Completed</th>
-			<th>Activity Rate</th>
+			<th>Activity Count</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,7 +22,7 @@
 				<td>{{ task.userprofile.user.username }}</td>
 				<td>{{ task.op_task.name }}</td>
 				<td>{{ task.date_complete }}</td>
-				<td></td>
+				<td>{{ task.activity_count }}</td>
 		{% endfor %}
 	</tbody>
 </table>

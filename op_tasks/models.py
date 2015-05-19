@@ -86,6 +86,7 @@ class TaskListItem(models.Model):
     date_complete = models.DateTimeField(default=None, blank=True, null=True)
     exit_active = models.BooleanField(default=False)
     exit_complete = models.BooleanField(default=False)
+    activity_count = models.IntegerField(default=0)
 
     def _both_complete(self):
         "returns whether both task and survey are complete"

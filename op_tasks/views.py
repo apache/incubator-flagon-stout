@@ -7,8 +7,12 @@ from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.utils import timezone
+from elasticsearch import Elasticsearch
+
+import json
 import datetime
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
+
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
 
 def set_cookie(response, key, value, days_expire = 7):
@@ -22,6 +26,20 @@ def set_cookie(response, key, value, days_expire = 7):
   	expires=expires, 
   	domain=settings.SESSION_COOKIE_DOMAIN, 
   	secure=None)
+
+def count_activities(session_id):
+    ELK_SERVER="http://10.1.93.208"
+    XDATA_INDEX="xdata_v2"
+
+    es = Elasticsearch(ELK_SERVER)
+
+    queryData = {}
+    fieldFilter = ["timestamp", "sessionID", "parms.desc"]
+
+    queryData["query"] = { "match": { "sessionID" : session_id } }
+    results = es.search(index=XDATA_INDEX, body=queryData, fields=fieldFilter, size=1000)['hits']
+    timestamps = [d['fields']['timestamp'] for d in results['hits']]
+    return len(timestamps)
    
 # manages which prodct is delivered to the current user
 def product(request, task_pk):
@@ -50,6 +68,8 @@ def product(request, task_pk):
             current_tasklistitem.task_active = False
             current_tasklistitem.exit_active = True
             current_tasklistitem.date_complete = timezone.now()
+            sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
+            current_tasklistitem.activity_count = count_activities(sessionID)
             userprofile.progress += 20
             print 'task complete', timezone.now()
         
@@ -110,6 +130,10 @@ def register(request):
         # This delays saving the model until we're ready to avoid integrity problems.
         userprofile = UserProfile()
         userprofile.user = user
+
+        # TODO: change this from default experiment 
+        saved_experiments = Experiment.objects.all()
+        userprofile.experiment = saved_experiments[0]
 
         # Now we save the UserProfile model instance.
         userprofile.save()

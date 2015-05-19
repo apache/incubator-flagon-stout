@@ -73,7 +73,7 @@
     {% csrf_token %}
     <script>
       var myVar = setInterval(function(){myTimer()},1000);
-      var time = 30*60;
+      var time = {{user.userprofile.experiment.task_length}}*60;
 
       function myTimer() {
         time = time - 1;
@@ -92,7 +92,7 @@
         form.submit();
       };
 
-      setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*30);
+      setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
     </script>
   </form>
 </div>
