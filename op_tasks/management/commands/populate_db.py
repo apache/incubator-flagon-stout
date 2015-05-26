@@ -26,6 +26,14 @@ test_tasks =  [
 class Command(BaseCommand):    
     help = 'our help string comes here'
 
+    def _create_admin_profile(self):
+        staff_users = User.objects.filter(is_staff=True)
+        admin = staff_users[0]
+        print admin.username
+
+        userprofile = UserProfile(user=admin)
+        userprofile.save()
+
     def _create_user(self):
         # fix this later; need a logical method for experiment assignment
         saved_experiments = Experiment.objects.all()
@@ -72,5 +80,6 @@ class Command(BaseCommand):
 				exit_url=task['ot_exit_url']).save() 
 
     def handle(self, *args, **options):
+        self._create_admin_profile()
         self._create_data()
         self._create_user()
