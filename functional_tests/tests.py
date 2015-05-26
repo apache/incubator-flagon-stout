@@ -6,7 +6,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 import sys
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
 import os
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:9000-9200'
@@ -28,23 +28,27 @@ class NewVisitorTest(LiveServerTestCase):
 			super(NewVisitorTest, cls).tearDownClass()
 
 	def setUp(self):
+		# REALLY REALLY should do this soon...
 		# TODO find a way to call populate_db
+		experiment = Experiment(name='Test-exp', task_count=2, task_length=30, has_achievements=True, has_intake=True, has_followup=True, auto_tasking=True)
+		experiment.save()
+
 		test_tasks =  [
-		{'name': 'Test-OT1',
+		{'name': 'Functional-Test-OT1',
 		'ot_survey_url': 'https://www.surveymonkey.com/s/LR37HZG',
 		'ot_exit_url': 'https://www.surveymonkey.com/s/VD8NQZT'},
-		{'name': 'Test-OT2',
+		{'name': 'Functional-Test-OT2',
 		'ot_survey_url': 'https://www.surveymonkey.com/s/LR37HZG',
 		'ot_exit_url': 'https://www.surveymonkey.com/s/VD8NQZT'}]
 
-		dataset = Dataset(name='Test-DS', version='v0.1')
+		dataset = Dataset(name='Functional-Test-DS', version='v0.1')
 		dataset.save()
 
 		Product(dataset=dataset, 
             url='/static/testing/index.html', 
             instructions=settings.STATIC_URL + 'testing/instructions.html', 
-            team='test-team', 
-			name='test-product',
+            team='functional-test-team', 
+			name='functional-test-product',
 			version='v0.1').save()
 
 		for task in test_tasks:
@@ -82,11 +86,17 @@ class NewVisitorTest(LiveServerTestCase):
 		inputpassword2 = self.browser.find_element_by_name("password2")
 		inputpassword2.send_keys("new")
 
-		inputpassword2.submit()
+		register_button = self.browser.find_element_by_id("id_register_button")
+		register_button.click()
 
+		# check successful registration
 		saved_users = User.objects.all()
 		self.assertEqual(saved_users.count(), 1)
 		self.assertEqual(saved_users[0].username, 'new@test.com')
+
+		saved_products = Product.objects.all()
+		self.assertEqual(saved_products.count(), 1)
+		self.assertEqual(saved_products[0].team, 'functional-test-team')
 
 		saved_task_list_items = TaskListItem.objects.all()
 		self.assertEqual(saved_task_list_items.count(), 2)
@@ -95,8 +105,6 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertEqual(first_task.userprofile, second_task.userprofile)
 		self.assertEqual(first_task.userprofile.user.username, 'new@test.com')
 		self.assertEqual(second_task.userprofile.user.username, 'new@test.com')
-
-		# self.browser.implicitly_wait(25)
 
 	# def test_can_show_STOUT_and_ALE_integration(self):
 		# experiment admin page load showing experiment setup
