@@ -19,7 +19,14 @@
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>{{ participant.product }}</td>
+			</tr>
 		{% endfor %}
+		<tr>
+			<form id="add_participant_form" method="get" action="{% url 'exp_portal:add_participant' %}">
+				{% csrf_token %}
+				<button class="btn btn-success btn-lg btn-block" type="submit">Add Participant</button>
+			</form>
+		</tr>
 	</tbody>
 </table>
 </div>

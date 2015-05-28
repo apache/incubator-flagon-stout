@@ -13,9 +13,9 @@
 	Dataset:<br>
 	<select class="form-control" name="task_dataset" id='id_task_dataset' placeholder='Select Dataset' required>
 		<option value="" style="display:none;"></option>
-		<option value="volvo">Volvo</option>
-		<option value="saab">Saab</option>
-		<option value="husqvarna">Husqvarna</option>
+		{% for dataset in datasets %}
+		<option value="{{dataset.name}}">{{dataset.name}}</option>
+		{% endfor %}
 	</select><br>
 	Task URL:<br>
 	<input class="form-control" name="task_url" id='id_task_url' type='url' placeholder='Enter the task url' size="60" required/><br>

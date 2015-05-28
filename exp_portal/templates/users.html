@@ -2,7 +2,12 @@
 
 {% block content %}
 
-<h1>Registered Users</h1>
+<h1>Registered Participants</h1>
+
+<form id="add_participant_form" method="get" action="{% url 'exp_portal:add_participant' %}">
+	{% csrf_token %}
+	<button class="btn btn-default btn-lg" type="submit">Add Participant</button>
+</form>
 
 <div class="col-md-15">
 <table class="table table-hover">

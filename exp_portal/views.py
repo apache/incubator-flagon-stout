@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem
+from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
 
 
@@ -47,7 +47,8 @@ def view_incomplete(request):
 	return render(request, 'incomplete.html', {'incomplete_tasks': incomplete_tasks})
 	
 def submit_task(request):
-	return render(request, 'submit_task.html')
+	datasets = Dataset.objects.all()
+	return render(request, 'submit_task.html', {'datasets': datasets})
 
 def new_task(request):
 	dataset = Dataset.objects.create(name=request.POST['task_dataset'])
@@ -64,3 +65,13 @@ def task_added(request):
 def manage_tasks(request):
 	return view_tasks(request)
 
+def add_participant(request):
+	experiments = Experiment.objects.all()
+	return render(request, 'add_participant.html', {'experiments': experiments})
+
+def new_participant(request):
+	# add logic to create participant
+	return redirect('/experiment/participant_added/')
+
+def participant_added(request):
+	return render(request, 'participant_added.html')

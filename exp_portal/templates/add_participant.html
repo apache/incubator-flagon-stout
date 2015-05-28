@@ -1,0 +1,25 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Please enter your new Partipant information:</h1>
+<h2>Step 1 of 2</h2>
+<form method="POST" action="{% url 'exp_portal:add_participant' %}">
+	Username:<br>
+	<input class="form-control" name="username" id='id_username' placeholder='Enter the Participant username' size="60" required/><br>
+	Password:<br>
+	<input class="form-control" name="password_1" id='id_password_1' type='password' placeholder="Enter a password" size="25" required/><br>
+	Password again:<br>
+	<input class="form-control" name="password_2" id='id_password_2' type='password' placeholder='Reenter the password' size="25" required/><br>
+	Experiment:<br>
+	<select class="form-control" name="experiment_name" id='id_experiment' placeholder='Select Experiment' required>
+		<option value="" style="display:none;"></option>
+		{% for experiment in experiments %}
+		<option value="{{experiment.name}}">{{experiment.name}}</option>
+		{% endfor %}
+	</select><br>
+	<input class="btn btn-primary" type="submit" value="Submit"/>
+	{% csrf_token %}
+</form>
+
+{% endblock %}
