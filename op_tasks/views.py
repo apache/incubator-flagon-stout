@@ -81,7 +81,7 @@ def product(request, task_pk):
             current_tasklistitem.exit_complete = True
             print 'survey complete', current_tasklistitem.index
             userprofile.progress += 15
-            if current_tasklistitem.index < 1:
+            if current_tasklistitem.index < tasklist_length:
                 next_tasklistitem.task_active = True
                 next_tasklistitem.save()
             else:

@@ -47,7 +47,10 @@ class Experiment(models.Model):
     has_achievements = models.BooleanField(default=False)
     has_intake = models.BooleanField(default=False)
     has_followup = models.BooleanField(default=False)
-    
+    consent = models.BooleanField(default=True)
+    sequential_tasks = models.BooleanField(default=True)
+    show_progress = models.BooleanField(default=True)
+
     # auto tasking with user registration.  If FALSE then tasks must be 
     # assigned manually by admin
     auto_tasking = models.BooleanField(default=False)

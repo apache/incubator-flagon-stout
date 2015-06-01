@@ -60,7 +60,15 @@ class Command(BaseCommand):
                 exit_active=False).save()
 
     def _create_data(self):
-        experiment = Experiment(name='Test-exp', task_count=2, task_length=30, has_achievements=True, has_intake=True, has_followup=True, auto_tasking=True)
+        experiment = Experiment(name='Test-exp', 
+            task_count=2, 
+            task_length=30, 
+            has_achievements=True, 
+            has_intake=True, 
+            has_followup=True, 
+            auto_tasking=True, 
+            sequential_tasks=True, 
+            consent=True)
         experiment.save()
         
         dataset = Dataset(name='Test-DS', version='v0.1')
