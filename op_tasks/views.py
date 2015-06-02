@@ -70,7 +70,10 @@ def product(request, task_pk):
             current_tasklistitem.exit_active = True
             current_tasklistitem.date_complete = timezone.now()
             sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
-            current_tasklistitem.activity_count = count_activities(sessionID)
+            try:
+                current_tasklistitem.activity_count = count_activities(sessionID)
+            except:
+                current_tasklistitem.activity_count = 0
             userprofile.progress += 20
             print 'task complete', timezone.now()
         
@@ -81,7 +84,7 @@ def product(request, task_pk):
             current_tasklistitem.exit_complete = True
             print 'survey complete', current_tasklistitem.index
             userprofile.progress += 15
-            if current_tasklistitem.index < tasklist_length:
+            if current_tasklistitem.index < tasklist_length - 1:
                 next_tasklistitem.task_active = True
                 next_tasklistitem.save()
             else:
