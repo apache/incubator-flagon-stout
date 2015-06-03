@@ -58,38 +58,41 @@ def product(request, task_pk):
 
         tasklist_length = len(userprofile.tasklistitem_set.all())
         
-        # if it's not the last task, make the next task active
-        if current_tasklistitem.index < (tasklist_length - 1):
-            next_tasklistitem = userprofile.tasklistitem_set.get(index=current_tasklistitem.index+1)
-        
-        # if you got here because you just completed a task,
-        # then set it complete and make the exit task active
-        if current_tasklistitem.task_complete == False:
-            current_tasklistitem.task_complete = True
-            current_tasklistitem.task_active = False
-            current_tasklistitem.exit_active = True
-            current_tasklistitem.date_complete = timezone.now()
-            sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
-            try:
-                current_tasklistitem.activity_count = count_activities(sessionID)
-            except:
-                current_tasklistitem.activity_count = 0
-            userprofile.progress += 20
-            print 'task complete', timezone.now()
-        
-        # you likely got here because you just completed an exit task
-        # so mark it complete and move 
-        else:
-            current_tasklistitem.exit_active = False
-            current_tasklistitem.exit_complete = True
-            print 'survey complete', current_tasklistitem.index
-            userprofile.progress += 15
-            if current_tasklistitem.index < tasklist_length - 1:
-                next_tasklistitem.task_active = True
-                next_tasklistitem.save()
+        if userprofile.experiment.sequential_tasks == True:
+
+            # if it's not the last task, make the next task active
+            if current_tasklistitem.index < (tasklist_length - 1):
+                next_tasklistitem = userprofile.tasklistitem_set.get(index=current_tasklistitem.index+1)
+            
+            # if you got here because you just completed a task,
+            # then set it complete and make the exit task active
+            if current_tasklistitem.task_complete == False:
+                current_tasklistitem.task_complete = True
+                current_tasklistitem.task_active = False
+                current_tasklistitem.exit_active = True
+                current_tasklistitem.date_complete = timezone.now()
+                sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
+                try:
+                    current_tasklistitem.activity_count = count_activities(sessionID)
+                except:
+                    current_tasklistitem.activity_count = 0
+                userprofile.progress += 20
+                print 'task complete', timezone.now()
+            
+            # you likely got here because you just completed an exit task
+            # so mark it complete and move 
             else:
-                current_tasklistitem.save()
-        
+                current_tasklistitem.exit_active = False
+                current_tasklistitem.exit_complete = True
+                print 'survey complete', current_tasklistitem.index
+                userprofile.progress += 15
+                if current_tasklistitem.index < tasklist_length - 1:
+                    next_tasklistitem.task_active = True
+                    next_tasklistitem.save()
+                else:
+                    current_tasklistitem.save()
+
+
         userprofile.save()
         current_tasklistitem.save()
         return HttpResponseRedirect("/tasking/task_list")
@@ -221,7 +224,10 @@ def login_participant(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render_to_response('registration/login.html', {}, context)
+        # experiment_title = title
+        return render(request, 'registration/login.html')
+        # return render(request, 'registration/login.html', {'experiment_title': experiment_title})
+
 
 	# return login_view(request, authentication_form=MyAuthForm)
 

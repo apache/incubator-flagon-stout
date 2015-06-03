@@ -30,7 +30,13 @@ class NewVisitorTest(LiveServerTestCase):
 	def setUp(self):
 		# REALLY REALLY should do this soon...
 		# TODO find a way to call populate_db
-		experiment = Experiment(name='Test-exp', task_count=2, task_length=30, has_achievements=True, has_intake=True, has_followup=True, auto_tasking=True)
+		experiment = Experiment(name='Test-exp', 
+			task_count=2, 
+			task_length=30, 
+			has_achievements=True, 
+			has_intake=True, 
+			has_followup=True, 
+			auto_tasking=True)
 		experiment.save()
 
 		test_tasks =  [

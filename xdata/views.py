@@ -8,4 +8,7 @@ from django.contrib.auth.views import login as login_view
 from forms import *
 
 def index(request):
-    return render_to_response('index.html')
+    return render(request, 'index.html')
+
+def user_feedback_home(request):
+	return render(request, 'user_feedback_index.html')
