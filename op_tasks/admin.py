@@ -8,7 +8,7 @@ class DatasetAdmin(admin.ModelAdmin):
 
 class UserProfileAdmin(admin.ModelAdmin):
 	search_fields = ['user', 'progress']
-	list_display = ['user', 'user_hash', 'progress', 
+	list_display = ['user', 'user_hash', 'experiment', 'progress', 
 	'exp_inst_complete', 'portal_inst_complete', 'task_inst_complete']
 
 # Defines how the products are viewed

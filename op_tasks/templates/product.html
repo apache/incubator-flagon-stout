@@ -20,10 +20,16 @@
     <button id="open-task-button" class="btn btn-primary ot-open-btn" data-toggle="modal" data-target="#myModal">
       Open Task
     </button>
-    <div class="timer">
-      <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
-      <p>until task end</p>
-    </div>
+    {% if user.userprofile.experiment.timed %}
+      <div class="timer">
+        <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
+        <p>until task end</p>
+      </div>
+    {% else %}
+      <div class="timer">
+        <div class="time">--</div>
+      </div>
+    {% endif %}
     <!-- calls product in views.py -->
     <form id="task-complete" method="post" action="{% url 'op_tasks:product' task_pk %}">
       {% csrf_token %}
@@ -68,34 +74,38 @@
 </script>
 <script src="{% static "javascript/task_logging.js" %}"></script>
 <script src="{% static "javascript/product.js" %}"></script>
-<div id="timerdiv">
-  <form id="timerblock">
-    {% csrf_token %}
-    <script>
-      var myVar = setInterval(function(){myTimer()},1000);
-      var time = {{user.userprofile.experiment.task_length}}*60;
 
-      function myTimer() {
-        time = time - 1;
-        minutes = parseInt(time / 60);
-        seconds = time % 60;
-        document.getElementById("minutes").innerHTML = pad(minutes);
-        document.getElementById("seconds").innerHTML = pad(seconds);
-      }
+{% if user.userprofile.experiment.timed %}
+  <div id="timerdiv">
+    <form id="timerblock">
+      {% csrf_token %}
+      <script>
+        var myVar = setInterval(function(){myTimer()},1000);
+        var time = {{user.userprofile.experiment.task_length}}*60;
 
-      function pad(n) {return (n<10) ? ("0"+n) : n;}
-      
-      var redirect = function(url, method) {
-        var form = document.getElementById('timerblock');
-        form.method = method;
-        form.action = url;
-        form.submit();
-      };
+        function myTimer() {
+          time = time - 1;
+          minutes = parseInt(time / 60);
+          seconds = time % 60;
+          document.getElementById("minutes").innerHTML = pad(minutes);
+          document.getElementById("seconds").innerHTML = pad(seconds);
+        }
 
-      setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
-    </script>
-  </form>
-</div>
+        function pad(n) {return (n<10) ? ("0"+n) : n;}
+        
+        var redirect = function(url, method) {
+          var form = document.getElementById('timerblock');
+          form.method = method;
+          form.action = url;
+          form.submit();
+        };
+
+        setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
+      </script>
+    </form>
+  </div>
+{% endif %}
+
 {% endblock %}
 
 

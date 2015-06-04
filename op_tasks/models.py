@@ -50,10 +50,14 @@ class Experiment(models.Model):
     consent = models.BooleanField(default=True)
     sequential_tasks = models.BooleanField(default=True)
     show_progress = models.BooleanField(default=True)
+    timed = models.BooleanField(default=True)
 
     # auto tasking with user registration.  If FALSE then tasks must be 
     # assigned manually by admin
     auto_tasking = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return '%s' % (self.name)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
