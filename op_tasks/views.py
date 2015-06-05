@@ -92,6 +92,17 @@ def product(request, task_pk):
                 else:
                     current_tasklistitem.save()
 
+        elif userprofile.experiment.sequential_tasks == False:
+            print "no sequencing"
+
+            if current_tasklistitem.task_complete == False:
+                current_tasklistitem.task_complete = True
+                current_tasklistitem.exit_active = True
+                current_tasklistitem.date_complete = timezone.now()
+
+            else:
+                current_tasklistitem.exit_active = False
+                current_tasklistitem.exit_complete = True
 
         userprofile.save()
         current_tasklistitem.save()

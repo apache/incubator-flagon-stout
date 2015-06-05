@@ -39,8 +39,8 @@
 <table class="ot-list table table-bordered">
   <tbody>
     {% for task in userprofile.tasklistitem_set.all %}
-    <!-- task complete, exit complete -->
-      {% if task.task_complete and task.exit_complete %}
+    <!-- task not active, complete, and exit complete -->
+      {% if task.task_complete and not task.task_active and task.exit_complete %}
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-check"></span>
@@ -52,8 +52,8 @@
             </div>     
           </td>
         </tr>
-        <!-- task complete, exit active -->
-      {% elif task.task_complete and not task.exit_complete %}
+        <!-- task not active, complete, and exit active -->
+      {% elif task.task_complete and not task.task_active and not task.exit_complete %}
         <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -62,13 +62,47 @@
             <div class="task-current">
               <h3 class="heading disabled">{{task.op_task.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
-              <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}"><span class="glyphicon glyphicon-hand-right"></span>
-                Complete Post-Task Survey to Continue   </a>
+              <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+                <span class="glyphicon glyphicon-hand-right"></span>
+                Complete Post-Task Survey to Continue
+              </a>
             </div>
           </td>
         </tr>
-        <!-- task active -->
-      {% elif task.task_active %}
+        <!-- task active and complete with exit active -->
+      {% elif task.task_complete and task.task_active and task.exit_active and not task.exit_complete %}
+        <tr>
+          <td class="status" >
+            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
+          </td>
+          <td>
+            <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
+              <h3 class="heading">{{task.op_task.name}}</h3>
+              <p class="text">Task Complete.  Thank you!</p>
+            <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+              <span class="glyphicon glyphicon-hand-right"></span>
+              Complete Post-Task Survey Here
+            </a>
+          </td>
+        </tr>
+        <!-- task active, complete, exit complete -->
+      {% elif task.task_active and task.task_complete and task.exit_complete %}
+        <tr>
+          <td class="status">
+            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
+          </td>
+          <td>
+            <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
+              <h3 class="heading">{{task.op_task.name}}</h3>
+              <p class="text">Task Complete.  Thank you!</p>
+            <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+              <span class="glyphicon glyphicon-check"></span>
+              Post-task survey complete
+            </a>
+          </td>
+        </tr>
+        <!-- task active, not complete and exit task not active -->
+      {% elif task.task_active and not task.task_complete %}
         <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>

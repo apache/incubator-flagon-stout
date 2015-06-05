@@ -4,14 +4,17 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <b class="panel-title">Navigation</b>
+    <b class="panel-title">
+      Navigation
+      <span class="label label-warning">Beta</span>
+    </b>
   </div>
   <div class="panel-body">
   	<a href="{% url 'exp_portal:home' %}">Experiment Portal Home</a><br>
-    <a href="{% url 'exp_portal:view_status' %}">Check experiment status</a><br>
-    <a href="{% url 'exp_portal:submit_task' %}">Submit a New Task</a><br>
+    <a href="{% url 'exp_portal:view_status' %}">Experiment status</a><br>
     <a href="{% url 'exp_portal:manage_tasks' %}">Manage Tasks</a><br>
-    <a href="{% url 'exp_portal:manage_users' %}">Manage Participants</a><br>
+    <a href="{% url 'exp_portal:manage_products' %}">Manage Products</a><br>
+    <a href="{% url 'exp_portal:manage_users' %}">Manage Users</a><br>
   </div>
 </div>
 

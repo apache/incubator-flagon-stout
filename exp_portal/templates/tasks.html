@@ -4,6 +4,11 @@
 
 <h1>All tasks</h1>
 
+<form id="add_task_form" method="get" action="{% url 'exp_portal:add_task' %}">
+	{% csrf_token %}
+	<button class="btn btn-default btn-lg" type="submit">Add Task</button>
+</form>
+
 <div class="col-md-15">
 <table class="table table-hover">
 	<thead>
