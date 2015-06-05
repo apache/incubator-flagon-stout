@@ -62,7 +62,7 @@ def new_task(request):
 		instructions=request.POST['task_instructions']#, 
 		# is_active=request.POST['active_check']
 		)
-	return redirect('/experiment/tasks/submit')
+	return view_tasks(request)
 
 def task_added(request):
 	return render(request, 'task_added.html')
@@ -87,6 +87,22 @@ def new_user(request):
 	userprofile.experiment = experiment
 	userprofile.save()
 
+	index = 0
+	datasets = Dataset.objects.all()
+	for dataset in datasets:
+		products = dataset.product_set.all()
+		for product in products:
+			tasks = dataset.optask_set.all()
+			for task in tasks:
+				newtasklistitem = TaskListItem()
+				newtasklistitem.userprofile = userprofile
+				newtasklistitem.op_task = task
+				newtasklistitem.product = product
+				newtasklistitem.index = index
+				index = index + 1
+				newtasklistitem.task_active = True
+				newtasklistitem.save()
+
 	return view_users(request)
 
 def user_added(request):
@@ -98,3 +114,7 @@ def view_user_tasks(request, profile):
 
 def add_user_task(request):
 	return render(request, 'add_user_task.html')
+
+def manage_exps(request):
+	experimentlist = Experiment.objects.all()
+	return render(request, 'experiments.html', {'experimentlist': experimentlist})

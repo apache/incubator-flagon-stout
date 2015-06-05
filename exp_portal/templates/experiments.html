@@ -1,0 +1,23 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Current Experiments</h1>
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for experiment in experimentlist %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ experiment.name }}</td>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endblock %}
