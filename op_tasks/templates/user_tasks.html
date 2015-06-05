@@ -3,6 +3,7 @@
 {% block content %}
 
 <h1>Participant Tasks</h1>
+<h3>Username: {{ userprofile.user.username }}</h3>
 
 <form id="add_task_form" method="get" action="{% url 'exp_portal:add_user_task' %}">
 	{% csrf_token %}
@@ -22,14 +23,14 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for task in tasklist %}
+		{% for task in userprofile.tasklistitem_set.all %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td> task name </td>
-				<td> product name </td>
-				<td> active </td>
-				<td> complete </td>
-				<td> activity count </td>
+				<td>{{ task.op_task.name }}</td>
+				<td>{{ task.product.name }}</td>
+				<td>{{ task.task_active }} </td>
+				<td>{{ task.task_complete }} </td>
+				<td>{{ task.activity_count }} </td>
 			</tr>
 		{% endfor %}
 	</tbody>

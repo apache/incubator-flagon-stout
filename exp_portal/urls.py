@@ -20,5 +20,6 @@ urlpatterns= patterns('',
 	url(r'^users/add$', views.add_user, name='add_user'),
 	url(r'^users/new$', views.new_user, name='new_user'),
 	url(r'^users/created$', views.user_added, name='user_added'),
-	# url(r'^users/tasks/(?P<profile>\w+)$', views.view_user_tasks, name='view_user_tasks'),
+	url(r'^users/tasks/(?P<profile>.*)$', views.view_user_tasks, name='view_user_tasks'),
+	url(r'^users/tasks/add/$', views.add_user_task, name='add_user_task'),
 	)

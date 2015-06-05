@@ -26,8 +26,9 @@
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>
+					<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
 						{{ userprofile.user.username }}
-				
+					</a>
 				</td>
 				<td>{{ userprofile.experiment }}</td>
 				<td>

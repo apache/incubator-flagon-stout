@@ -93,4 +93,8 @@ def user_added(request):
 	return render(request, 'user_added.html')
 
 def view_user_tasks(request, profile):
-	return render(request, 'user_tasks.html')
+	userprofile = UserProfile.objects.all().filter(user_hash=profile)[0]
+	return render(request, 'user_tasks.html', {'userprofile': userprofile})
+
+def add_user_task(request):
+	return render(request, 'add_user_task.html')
