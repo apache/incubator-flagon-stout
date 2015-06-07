@@ -113,7 +113,9 @@ def view_user_tasks(request, profile):
 	return render(request, 'user_tasks.html', {'userprofile': userprofile})
 
 def add_user_task(request):
-	return render(request, 'add_user_task.html')
+	products = Product.objects.all()
+	tasks = OpTask.objects.all()
+	return render(request, 'add_user_task.html', {'products': products, 'tasks': tasks})
 
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()

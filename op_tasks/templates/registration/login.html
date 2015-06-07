@@ -6,7 +6,7 @@
 
 {% block container %}
   <section>
-  	<h1 align="center"><b>Login to XDATA's {{experiment_title}} Experiment</b></h1>
+  	<h1 align="center"><b>Login to XDATA Online</b></h1>
     <form class="form-signin" id="login_form" method="post" action="{% url 'op_tasks:login' %}">
       {% csrf_token %}
       <h4 class="form-signin-heading">Please sign in</h4>
