@@ -47,7 +47,7 @@
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{task.op_task.name}}</span>
+              <span class="heading">{{task.op_task.name}} with {{task.product.name}}</span>
               <span class="pull-right text">Task Complete. Thank You!</span>
             </div>     
           </td>
@@ -60,7 +60,7 @@
           </td>   
           <td>
             <div class="task-current">
-              <h3 class="heading disabled">{{task.op_task.name}}</h3>
+              <h3 class="heading disabled">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
               <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
                 <span class="glyphicon glyphicon-hand-right"></span>
@@ -77,7 +77,7 @@
           </td>
           <td>
             <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}}</h3>
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
             <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
               <span class="glyphicon glyphicon-hand-right"></span>
@@ -93,7 +93,7 @@
           </td>
           <td>
             <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}}</h3>
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
             <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
               <span class="glyphicon glyphicon-check"></span>
@@ -109,7 +109,7 @@
           </td>   
           <td>
             <a class="task-current" href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}}</h3>
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task not yet completed. Click to start this Operational Task</p>
             </a>
           </td>
@@ -122,7 +122,7 @@
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{task.op_task.name}}</span>
+              <span class="heading">{{task.op_task.name}} with {{task.product.name}}</span>
               <span class="pull-right text">Complete previous tasks first.</span>
             </div>      
           </td>
