@@ -66,3 +66,36 @@ class ExperimentTest(TestCase):
 
 		self.assertEqual(saved_tasks.filter(task_active=True).count(), 1)
 		self.assertEqual(saved_tasks.filter(task_complete=False).count(), 1)
+
+	def test_can_edit_product_details(self):
+		dataset = Dataset(version='1', name='test-dataset')
+		dataset.save()
+
+		product = Product(name='test-product', dataset=dataset, url='test-url')
+		product.save()
+
+		saved_products = Product.objects.all()
+		self.assertEqual(saved_products.count(), 1)
+
+		first_product = saved_products[0]
+		self.assertEqual(first_product.name, 'test-product')
+		first_product.name = 'new-name'
+		first_product.save()
+
+		new_saved_products = Product.objects.all()
+		self.assertEqual(new_saved_products.count(), 1)
+
+		new_first_product = new_saved_products[0]
+		self.assertEqual(new_first_product.name, 'new-name')
+
+	def test_can_find_product_by_primary_key(self):
+		dataset = Dataset(version='1', name='test-dataset')
+		dataset.save()
+
+		product = Product(name='test-product', dataset=dataset, url='test-url')
+		product.save()
+
+		saved_products = Product.objects.all()
+		first_product = saved_products[0]
+		# print first_product.id
+		

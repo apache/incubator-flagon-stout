@@ -17,6 +17,7 @@
 			<th>Item</th>
 			<th>Task Name</th>
 			<th>Product</th>
+			<th>Challenge Problem</th>
 			<th>Active</th>
 			<th>Complete</th>
 			<th>Activity Count</th>
@@ -28,6 +29,7 @@
 				<td>{{ forloop.counter }}</td>
 				<td>{{ task.op_task.name }}</td>
 				<td>{{ task.product.name }}</td>
+				<td>{{ task.product.dataset.name }}</td>
 				<td>{{ task.task_active }} </td>
 				<td>{{ task.task_complete }} </td>
 				<td>{{ task.activity_count }} </td>

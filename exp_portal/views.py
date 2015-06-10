@@ -26,9 +26,50 @@ def view_products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
 
+def view_product_details(request, productname):
+	product = Product.objects.all().filter(name=productname)[0]
+	datasets = Dataset.objects.all()
+	return render(request, 'product_details.html', {'product': product, 'datasets': datasets})
+
+def edit_product(request, productpk):
+	product = Product.objects.get(id=productpk)
+	product.name = request.POST['product_name']
+	product.team = request.POST['product_team']
+	product.url = request.POST['product_url']
+	product.instructions = request.POST['instructions_url']
+	product.version = request.POST['version']
+	product.is_active = request.POST.get('is_active', False)
+
+	# TODO error checking on this, though it should never fail 
+	dataset = Dataset.objects.all().filter(name=request.POST['dataset'])[0]
+	product.dataset = dataset
+
+	product.save()
+
+	return redirect('exp_portal:view_products')
+
 def manage_products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
+
+def add_product(request):
+	datasets = Dataset.objects.all()
+	return render(request, 'add_product.html', {'datasets': datasets})
+
+def new_product(request):
+	product = Product(name=request.POST['product_name'])
+	product.url = request.POST['product_url']
+	product.team = request.POST['product_team']
+	product.url = request.POST['product_url']
+	product.version = request.POST['product_version']
+	product.instructions = request.POST['product_instructions']
+	product.is_active = request.POST.get('product_active', False)
+
+	dataset = Dataset.objects.get(name=request.POST['product_dataset'])
+
+	product.save()
+
+	return redirect('exp_portal:view_products')
 
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
@@ -55,27 +96,46 @@ def add_task(request):
 	return render(request, 'add_task.html', {'datasets': datasets})
 
 def new_task(request):
-	dataset = Dataset.objects.all().filter(name=request.POST['task_dataset'])[0]
-	OpTask.objects.create(dataset=dataset, 
-		survey_url=request.POST['task_url'], 
-		name=request.POST['task_name'], 
-		instructions=request.POST['task_instructions']#, 
-		# is_active=request.POST['active_check']
-		)
-	return view_tasks(request)
+	dataset = Dataset.objects.get(name=request.POST['task_dataset'])
+	task = OpTask()
+	task.dataset = dataset
+	task.survey_url = request.POST['task_url']
+	task.name = request.POST['task_name']
+	task.instructions = request.POST['task_instructions']
+	task.exit_url = request.POST['exit_url']
 
-def task_added(request):
-	return render(request, 'task_added.html')
+	task.save()
+	return redirect('exp_portal:view_tasks')
 
 def manage_tasks(request):
 	return view_tasks(request)
+
+def view_task_details(request, taskname):
+	task = OpTask.objects.all().filter(name=taskname)[0]
+	datasets = Dataset.objects.all()
+	return render(request, 'task_details.html', {'task': task, 'datasets': datasets})
+
+def edit_task(request, taskpk):
+	task = OpTask.objects.get(id=taskpk)
+	task.name = request.POST['task_name']
+	task.survey_url = request.POST['task_url']
+	task.exit_url = request.POST['task_exit_url']
+	task.instructions =request.POST['task_instructions']
+
+	dataset = Dataset.objects.get(name=request.POST['task_dataset'])
+	task.dataset = dataset
+
+	task.is_active = request.POST.get('product_active', False)
+
+	task.save()
+
+	return redirect('exp_portal:view_tasks')
 
 def add_user(request):
 	experiments = Experiment.objects.all()
 	return render(request, 'add_user.html', {'experiments': experiments})
 
 def new_user(request):
-	# add logic to create participant
 	user = User(username=request.POST['username'])
 	user.set_password(request.POST['password_1'])
 	user.email = user.username
@@ -87,6 +147,9 @@ def new_user(request):
 	userprofile.experiment = experiment
 	userprofile.save()
 
+	# logic for assigning tasks
+	# set to assign all tasks
+	# TBD update to reflect experiment settings
 	index = 0
 	datasets = Dataset.objects.all()
 	for dataset in datasets:
@@ -103,7 +166,7 @@ def new_user(request):
 				newtasklistitem.task_active = True
 				newtasklistitem.save()
 
-	return view_users(request)
+	return redirect('exp_portal:view_users')
 
 def user_added(request):
 	return render(request, 'user_added.html')

@@ -2,20 +2,20 @@
 
 {% block content %}
 
-<h1>Please enter your task information:</h1>
+<h1>Task details for {{ task.name }}</h1>
 
-<form method="POST" action="{% url 'exp_portal:new_task' %}">
+<form method="POST" action="{% url 'exp_portal:edit_task' taskpk=task.id %}">
 	<div class="form-group">
 		<label for="id_task_name">Task Name</label>
-		<input class="form-control" name="task_name" id="id_task_name" placeholder='Enter the task name' size="60" required/>
+		<input class="form-control" name="task_name" id="id_task_name" value="{{task.name}}" size="60" required/>
 	</div>
 	<div class="form-group">
 		<label for="id_task_url">Task URL</label>
-		<input class="form-control" name="task_url" id="id_task_url" placeholder='Enter the task url' size="60" required/>
+		<input class="form-control" name="task_url" id="id_task_url" value="{{task.survey_url}}" size="60" required/>
 	</div>
 	<div class="form-group">
 		<label for="id_task_dataset">Challenge Problem</label>
-		<select class="form-control" name="task_dataset" id="id_task_dataset" placeholder='Select Dataset' required>
+		<select class="form-control" name="task_dataset" id="id_task_dataset" value="{{ task.dataset.name }}" required>
 			{% for dataset in datasets %}
 			<option value="{{ dataset.name }}">{{ dataset.name }}</option>
 			{% endfor %}
@@ -23,11 +23,11 @@
 	</div>
 	<div class="form-group">
 		<label for="id_task_exit_url">Task Exit Survey URL</label>
-		<input class="form-control" name="task_exit_url" id="id_task_exit_url" placeholder='Enter the exit survey url' required/>
+		<input class="form-control" name="task_exit_url" id="id_task_exit_url" value="{{ task.exit_url }}" required/>
 	</div>
 	<div class="form-group">
 		<label for="id_task_instructions">Task Instructions</label>
-		<input class="form-control" name="task_instructions" id="id_task_instructions" placeholder='Enter the url for the task instructions' required/>
+		<input class="form-control" name="task_instructions" id="id_task_instructions" value="{{ task.instructions }}" required/>
 	</div>
 	<div class="checkbox">
 		<label>
@@ -35,7 +35,7 @@
 		</label>
 	</div>
 
-	<input class="btn btn-primary" type="submit"></button>
+	<input class="btn btn-primary" type="submit">Save Changes</button>
 	{% csrf_token %}
 </form>
 

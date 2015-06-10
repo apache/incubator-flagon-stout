@@ -1,0 +1,46 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Product details for {{ product.name }}</h1>
+
+<form method="POST" action="{% url 'exp_portal:edit_product' productpk=product.id %}">
+	<div class="form-group">
+		<label for="id_product_name">Product Name</label>
+		<input class="form-control" name="product_name" id='id_product_name' value="{{ product.name }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_product_team">Team Name</label>
+		<input class="form-control" name="product_team" id="id_product_team" value="{{ product.team }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_product_url">Product URL</label>
+		<input class="form-control" name="product_url" id="id_product_url" value="{{ product.url }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_instructions_url">Instructions URL</label>
+		<input class="form-control" name="instructions_url" id="id_instructions_url" value="{{ product.instructions }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_dataset">Challenge Problem</label>
+		<select class="form-control" name="dataset" id='id_dataset' value="{{ product.dataset.name }}" required>
+			{% for dataset in datasets %}
+			<option value="{{ dataset.name }}">{{ dataset.name }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="id_version">Version</label>
+		<input class="form-control" name="version" id="id_version" value="{{ product.version }}" required/>
+	</div>
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="is_active" id="id_is_active" {% if product.is_active %}checked{% endif %}/>Active
+		</label>
+	</div>
+	<button class="btn btn-primary" type="submit">Save Changes</button>
+	{% csrf_token %}
+</form>
+
+
+{% endblock %}

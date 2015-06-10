@@ -14,19 +14,34 @@
 	<thead>
 		<tr>
 			<th>Item</th>
+			<th>Active</th>
 			<th>Task name</th>
 			<th>Challenge Problem</th>
-			<th>URL</th>
+			<th>Task URL</th>
+			<th>Exit Survey URL</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for task in tasks %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td>{{ task.name }}</td>
+				<td>
+					{% if task.is_active %}
+					<span class="glyphicon glyphicon-ok" style="color:green"></span>
+					{% else %}
+					<span class="glyphicon glyphicon-remove" style="color:red"></span>
+					{% endif %}
+				<td>
+					<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">{{ task.name }}</a>
+				</td>
 				<td>{{ task.dataset }}</td>
-				<td><a href="{{ task.survey_url }}">{{task.survey_url}}</a></td>
-				<td><button id="edit-task" class="btn btn-default btn-lg btn-block">Edit</button>
+				<td>
+					<a href="{{ task.survey_url }}">{{ task.survey_url }}</a>
+				</td>
+				<td>
+					<a href="{{ task.exit_url }}">{{ task.exit_url }}</a>
+				</td>
+			</tr>
 		{% endfor %}
 	</tbody>
 </table>
