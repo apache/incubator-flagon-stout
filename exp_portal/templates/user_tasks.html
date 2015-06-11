@@ -5,7 +5,7 @@
 <h1>Participant Tasks</h1>
 <h3>Username: {{ userprofile.user.username }}</h3>
 
-<form id="add_task_form" method="get" action="{% url 'exp_portal:add_user_task' %}">
+<form id="add_task_form" method="get" action="{% url 'exp_portal:add_user_task' userpk=userprofile.id%}">
 	{% csrf_token %}
 	<button class="btn btn-default btn-lg" type="submit">Add Task</button>
 </form>

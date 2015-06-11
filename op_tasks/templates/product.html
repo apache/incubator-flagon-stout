@@ -46,15 +46,11 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hide="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-body">
-        <div id="surveyMonkeyInfo">
-          <div>
-           <iframe name="ot-dialog" src="{{op_task.survey_url}}?sid={{user.userprofile.user_hash}}" width="900" height="500"> </iframe>
-          </div>
-        </div>
+      <div class="modal-body" id="surveymonkeyframe">
+        <iframe name="ot-dialog" src="{{op_task.survey_url}}?sid={{user.userprofile.user_hash}}"> </iframe>
       </div>
       <div class="modal-footer">
-        <button id="hide-button" class="btn btn-primary" data-dismiss="modal">
+        <button id="hide-button" class="btn btn-lg btn-block btn-primary" data-dismiss="modal">
           Hide Task Form
         </button>
       </div>

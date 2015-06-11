@@ -133,14 +133,12 @@
       <div class="modal fade" id="exit-{{task.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-body">
-              <div id="surveyMonkeyInfo">
-                <iframe src="{{task.op_task.exit_url}}?sid={{userprofile.user_hash}}" width="900" height="700"></iframe>
-              </div>
+            <div class="modal-body" id="surveymonkeyframe">
+              <iframe src="{{task.op_task.exit_url}}?sid={{userprofile.user_hash}}"></iframe>
             </div>
             <div class="modal-footer">
               <div>
-                <button type="button" style="float: left;" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" style="float: left;" class="btn btn-primary" data-dismiss="modal">Hide</button>
               </div>
               <div>
                 <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' task_pk=task.pk %}">{% csrf_token %}

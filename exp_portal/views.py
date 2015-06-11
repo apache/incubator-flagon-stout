@@ -175,10 +175,28 @@ def view_user_tasks(request, profile):
 	userprofile = UserProfile.objects.all().filter(user_hash=profile)[0]
 	return render(request, 'user_tasks.html', {'userprofile': userprofile})
 
-def add_user_task(request):
+def add_user_task(request, userpk):
+	userprofile = UserProfile.objects.get(id=userpk)
+	datasets = Dataset.objects.all()
 	products = Product.objects.all()
 	tasks = OpTask.objects.all()
-	return render(request, 'add_user_task.html', {'products': products, 'tasks': tasks})
+	return render(request, 'add_user_task.html', {'userprofile':userprofile, 
+		'datasets': datasets, 'products': products, 'tasks': tasks})
+
+def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
+	dataset = Dataset.objects.get(id=datasetpk)
+	userprofile = UserProfile.objects.get(id=userpk)
+	index = userprofile.tasklistitem_set.count()
+
+	newtasklistitem = TaskListItem()
+	newtasklistitem.userprofile = userprofile
+	newtasklistitem.op_task = OpTask.objects.get(id=taskpk)
+	newtasklistitem.product = Product.objects.get(id=productpk)
+	newtasklistitem.index = index
+	newtasklistitem.task_active = True
+	newtasklistitem.save()
+
+	return redirect('exp_portal:add_user_task', userpk)
 
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()

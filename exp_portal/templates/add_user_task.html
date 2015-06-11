@@ -2,6 +2,35 @@
 
 {% block content %}
 
-<h3>Add user tasks</h3>
+<h1>Add Tasks for Participant:</h1>
+<h3>{{ userprofile.user.username }} {{userprofile.tasklistitem_set.count}}</h3>
+
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Challenge Problem</th>
+			<th>Product</th>
+			<th>Task</th>
+			<th>Add</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for dataset in datasets %}
+			{% for product in dataset.product_set.all %}
+				{% for task in dataset.optask_set.all %}
+					<tr>
+						<td>{{ dataset.name }}</td>
+						<td>{{ product.name }}</td>
+						<td>{{ task.name }}</td>
+						<td><a class="btn btn-default btn-lg" 
+							href="{% url 'exp_portal:update_user_tasks' userpk=userprofile.id datasetpk=dataset.id productpk=product.id taskpk=task.id %}">
+							Add Task</button>
+					</tr>
+				{% endfor %}
+			{% endfor %}
+		{% endfor %}
+	</tbody>
+</table>
 
 {% endblock %}
