@@ -2,17 +2,6 @@
 
 {% block side_block %}
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <b class="panel-title">Navigation</b>
-  </div>
-  <div class="panel-body">
-    <a href="{% url 'op_tasks:task_list' %}">Task List</a><br>
-    <a href="{% url 'op_tasks:instruct' %}">Instructions</a><br>
-    <a href="{% url 'op_tasks:view_profile' %}">Manage user profile</a><br>
-  </div>
-</div>
-
 {% if user.userprofile.experiment.has_achievements %}
 <div class="panel panel-default">
   <div class="panel-heading">

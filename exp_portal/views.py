@@ -125,7 +125,7 @@ def edit_task(request, taskpk):
 	dataset = Dataset.objects.get(name=request.POST['task_dataset'])
 	task.dataset = dataset
 
-	task.is_active = request.POST.get('product_active', False)
+	task.is_active = request.POST.get('task_active', False)
 
 	task.save()
 

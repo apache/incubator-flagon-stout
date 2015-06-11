@@ -42,7 +42,18 @@
               <a href="{% url 'developer:home' %}">Developer Portal</a><br>
             </div>
           </div>
-          {% endif %} 
+          {% endif %}
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <b class="panel-title">Navigation</b>
+            </div>
+            <div class="panel-body">
+              <a href="{% url 'op_tasks:task_list' %}">Task List</a><br>
+              <a href="{% url 'op_tasks:instruct' %}">Instructions</a><br>
+              <a href="{% url 'op_tasks:view_profile' %}">Manage user profile</a><br>
+            </div>
+          </div> 
 
           {% block side_block %}
           {% endblock %}
