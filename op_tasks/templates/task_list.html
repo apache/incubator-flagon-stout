@@ -131,10 +131,10 @@
 
       <!-- exit survey popup -->
       <div class="modal fade" id="exit-{{task.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" width="940px" height="540px">
           <div class="modal-content">
             <div class="modal-body" id="surveymonkeyframe">
-              <iframe src="{{task.op_task.exit_url}}?sid={{userprofile.user_hash}}"></iframe>
+              <iframe src="{{task.op_task.exit_url}}?sid={{userprofile.user_hash}}" width="1100px" height="500px"></iframe>
             </div>
             <div class="modal-footer">
               <div>

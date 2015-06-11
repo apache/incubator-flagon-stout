@@ -47,9 +47,9 @@ html {
   margin: 2px;
 }
 
-/*.modal-dialog {
-  width: 940px;
-}*/
+.modal-dialog {
+  width: 1140px;
+}
 
 .form-signin {
   max-width: 500px;
