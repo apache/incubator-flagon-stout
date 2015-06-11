@@ -22,7 +22,6 @@
 	</thead>
 	<tbody>
 		{% for userprofile in userprofiles %}
-			{% if not userprofile.user.is_staff %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>
@@ -40,7 +39,6 @@
 				</td>
 				<td>{{ userprofile.user.last_login }} </td>
 			</tr>
-			{% endif %}
 		{% endfor %}
 	</tbody>
 </table>
