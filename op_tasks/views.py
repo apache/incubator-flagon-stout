@@ -30,7 +30,7 @@ def set_cookie(response, key, value, days_expire = 7):
 # connects with User-ALE to count activities.  
 def count_activities(session_id):
     ELK_SERVER="http://10.1.93.208"
-    XDATA_INDEX="xdata_v2"
+    XDATA_INDEX="xdata_v3"
 
     es = Elasticsearch(ELK_SERVER)
 
