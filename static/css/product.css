@@ -28,6 +28,13 @@
 	border-radius: 5px;
 }
 
+.ot-show > .open-close {
+	pointer-events: none;
+}
+
+.ot-show .glyphicon {
+	pointer-events: auto;
+}
 .ot-show {
 	position: fixed;
 	left: 20px;
