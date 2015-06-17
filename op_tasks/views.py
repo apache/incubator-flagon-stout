@@ -11,6 +11,7 @@ from elasticsearch import Elasticsearch
 
 import json
 import datetime
+import exceptions
 
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
@@ -74,7 +75,8 @@ def product(request, task_pk):
                 sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
                 try:
                     current_tasklistitem.activity_count = count_activities(sessionID)
-                except:
+                except Exception as inst:
+                    # print inst
                     current_tasklistitem.activity_count = 0
                 userprofile.progress += 20
                 print 'task complete', timezone.now()
