@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/product.css" %}">
+{% endblock %}
+{% block body %}
+<!-- Hosted product from XDATA team -->
+<div id="content" style="overflow:hidden">
+  <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{{op_task.survey_url}}?sid={{user.userprofile.user_hash}}"></iframe>
+</div>
+
+<!-- OT menu for access to task questions -->
+<div id="ot_menu" class="ot-show">
+  <div id="open-close" class="open-close" onclick="toggle();">
+    <span class="glyphicon glyphicon-chevron-down"></span>
+    Task Menu
+  </div>
+  
+  <div class="ot-container">
+    {% if user.userprofile.experiment.timed %}
+      <div class="timer">
+        <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
+        <p>until task end</p>
+      </div>
+    {% else %}
+      <div class="timer">
+        <div class="time">--</div>
+      </div>
+    {% endif %}
+    <!-- calls product in views.py -->
+    <form id="task-complete" method="post" action="{% url 'op_tasks:product' task_pk %}">
+      {% csrf_token %}
+      <button id="task-complete-button" class="btn btn-danger ot-open-btn" type="submit">
+        Quit Task
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
+<script>
+  // web worker url
+  var worker = "{% static "javascript/draper.activity_worker-2.1.1.js" %}"
+  var ac = new activityLogger(worker)
+  .testing(false) // simulate POST, won't send log
+  .echo(true) // log to console
+  .mute(['SYS']); // don't log SYSTEM actions
+</script>
+<script src="{% static "javascript/task_logging.js" %}"></script>
+<script src="{% static "javascript/product.js" %}"></script>
+
+{% if user.userprofile.experiment.timed %}
+  <div id="timerdiv">
+    <form id="timerblock">
+      {% csrf_token %}
+      <script>
+        var myVar = setInterval(function(){myTimer()},1000);
+        var time = {{user.userprofile.experiment.task_length}}*60;
+
+        function myTimer() {
+          time = time - 1;
+          minutes = parseInt(time / 60);
+          seconds = time % 60;
+          document.getElementById("minutes").innerHTML = pad(minutes);
+          document.getElementById("seconds").innerHTML = pad(seconds);
+        }
+
+        function pad(n) {return (n<10) ? ("0"+n) : n;}
+        
+        var redirect = function(url, method) {
+          var form = document.getElementById('timerblock');
+          form.method = method;
+          form.action = url;
+          form.submit();
+        };
+
+        setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
+      </script>
+    </form>
+  </div>
+{% endif %}
+
+{% endblock %}
+
+

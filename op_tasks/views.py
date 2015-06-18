@@ -126,6 +126,17 @@ def product(request, task_pk):
     set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
     return response
 
+def product_test(request, task_pk):
+    user = request.user
+    userprofile = user.userprofile
+    tasklistitem = TaskListItem.objects.get(pk=task_pk)
+    current_task = tasklistitem.op_task
+    request.session['current_optask'] = current_task.pk
+
+    response = redirect(tasklistitem.product.url + ('?USID=%s::%s' % (userprofile.user_hash, tasklistitem.pk) ) )
+    set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
+    return response
+
 # cretaes a new user and assigns tasks 
 def register(request):
     # Like before, get the request's context.

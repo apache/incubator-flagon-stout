@@ -39,8 +39,9 @@
 <table class="ot-list table table-bordered">
   <tbody>
     {% for task in userprofile.tasklistitem_set.all %}
-    <!-- task not active, complete, and exit complete -->
+    
       {% if task.task_complete and not task.task_active and task.exit_complete %}
+      <!-- task not active, complete, and exit complete -->
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-check"></span>
@@ -52,8 +53,9 @@
             </div>     
           </td>
         </tr>
-        <!-- task not active, complete, and exit active -->
+        
       {% elif task.task_complete and not task.task_active and not task.exit_complete %}
+      <!-- task not active, complete, and exit active -->
         <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -69,53 +71,9 @@
             </div>
           </td>
         </tr>
-        <!-- task active and complete with exit active -->
-      {% elif task.task_complete and task.task_active and task.exit_active and not task.exit_complete %}
-        <tr>
-          <td class="status" >
-            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
-          </td>
-          <td>
-            <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
-              <p class="text">Task Complete.  Thank you!</p>
-            <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
-              <span class="glyphicon glyphicon-hand-right"></span>
-              Complete Post-Task Survey Here
-            </a>
-          </td>
-        </tr>
-        <!-- task active, complete, exit complete -->
-      {% elif task.task_active and task.task_complete and task.exit_complete %}
-        <tr>
-          <td class="status">
-            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
-          </td>
-          <td>
-            <a href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
-              <p class="text">Task Complete.  Thank you!</p>
-            <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
-              <span class="glyphicon glyphicon-check"></span>
-              Post-task survey complete
-            </a>
-          </td>
-        </tr>
-        <!-- task active, not complete and exit task not active -->
-      {% elif task.task_active and not task.task_complete %}
-        <tr class="task-current">
-          <td class="status">
-            <span class="glyphicon glyphicon-unchecked"></span>
-          </td>   
-          <td>
-            <a class="task-current" href="{% url 'op_tasks:product' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
-              <p class="text">Task not yet completed. Click to start this Operational Task</p>
-            </a>
-          </td>
-        </tr>
-        <!-- task not active and not complete -->
+        
       {% elif not task.task_complete and not task.task_active %}
+      <!-- task not active and not complete -->
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
@@ -127,6 +85,55 @@
             </div>      
           </td>
         </tr>
+        
+      {% elif task.task_complete and task.task_active and task.exit_active and not task.exit_complete %}
+      <!-- task active and complete with exit active -->
+        <tr>
+          <td class="status" >
+            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
+          </td>
+          <td>
+            <a href="" onclick="launchProduct({{task.pk}});">
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+              <p class="text">Task Complete.  Thank you!</p>
+            <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+              <span class="glyphicon glyphicon-hand-right"></span>
+              Complete Post-Task Survey Here
+            </a>
+          </td>
+        </tr>
+        
+      {% elif task.task_active and task.task_complete and task.exit_complete %}
+      <!-- task active, complete, exit complete -->
+        <tr>
+          <td class="status">
+            <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
+          </td>
+          <td>
+            <a href="" onlcick="launchProduct( {{task.pk}} )">
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+              <p class="text">Task Complete.  Thank you!</p>
+            <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+              <span class="glyphicon glyphicon-check"></span>
+              Post-task survey complete
+            </a>
+          </td>
+        </tr>
+        
+      {% elif task.task_active and not task.task_complete %}
+      <!-- task active, not complete and exit task not active -->
+        <tr class="task-current">
+          <td class="status">
+            <span class="glyphicon glyphicon-unchecked"></span>
+          </td>   
+          <td>
+            <a class="task-current" href="" onclick="launchProduct({{task.pk}});">
+              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+              <p class="text">Task not yet completed. Click to start this Operational Task</p>
+            </a>
+          </td>
+        </tr>
+
       {% endif %}
 
       <!-- exit survey popup -->
@@ -164,4 +171,24 @@
   <p>If you are interested in working on developing these analytic tools, which are free 
     and open source, please see the DARPA <a href="http://www.darpa.mil/opencatalog/XDATA.html">open catalogue.</a> </p>
 {% endif %}
+
+<script>
+function launchProduct(taskpk) {
+  var product = window.open('{% url 'op_tasks:product_test' task_pk=taskpk %}');
+}
+</script>
+
+<script>
+product.onbeforeunload = function (e) {
+    e = e || window.event;
+
+    // For IE and Firefox prior to version 4
+    if (e) {
+        e.returnValue = 'Any string';
+    }
+
+    // For Safari
+    return 'Any string';
+};
+</script>
 {% endblock %}
