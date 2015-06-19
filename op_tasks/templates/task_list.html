@@ -93,9 +93,10 @@
             <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
           </td>
           <td>
-            <a href="" onclick="launchProduct({{task.pk}});">
+            <a href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
               <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
+            </a>
             <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
               <span class="glyphicon glyphicon-hand-right"></span>
               Complete Post-Task Survey Here
@@ -105,14 +106,16 @@
         
       {% elif task.task_active and task.task_complete and task.exit_complete %}
       <!-- task active, complete, exit complete -->
+      <!-- window.open('{% url 'op_tasks:product_test' task_pk=task.pk %}', '_blank'); -->
         <tr>
           <td class="status">
             <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
           </td>
           <td>
-            <a href="" onlcick="launchProduct( {{task.pk}} )">
+            <a href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
               <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
+            </a>
             <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
               <span class="glyphicon glyphicon-check"></span>
               Post-task survey complete
@@ -127,7 +130,7 @@
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
-            <a class="task-current" href="" onclick="launchProduct({{task.pk}});">
+            <a class="task-current" href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
               <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
               <p class="text">Task not yet completed. Click to start this Operational Task</p>
             </a>
@@ -173,21 +176,7 @@
 {% endif %}
 
 <script>
-function launchProduct(taskpk) {
-  var product = window.open('{% url 'op_tasks:product_test' task_pk=taskpk %}');
-}
-</script>
-
-<script>
 product.onbeforeunload = function (e) {
-    e = e || window.event;
-
-    // For IE and Firefox prior to version 4
-    if (e) {
-        e.returnValue = 'Any string';
-    }
-
-    // For Safari
     return 'Any string';
 };
 </script>

@@ -6,7 +6,8 @@
 {% block body %}
 <!-- Hosted product from XDATA team -->
 <div id="content" style="overflow:hidden">
-  <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{{op_task.survey_url}}?sid={{user.userprofile.user_hash}}"></iframe>
+  <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{% url 'op_tasks:task_launch' task_pk=tasklistitem.pk %}">
+  </iframe>
 </div>
 
 <!-- OT menu for access to task questions -->
@@ -17,6 +18,10 @@
   </div>
   
   <div class="ot-container">
+    <a href="" onclick="window.open('{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}', '_blank');" 
+    class="btn btn-primary ot-open-btn">
+      Open {{tasklistitem.product.name}}
+    </a>
     {% if user.userprofile.experiment.timed %}
       <div class="timer">
         <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
@@ -28,7 +33,7 @@
       </div>
     {% endif %}
     <!-- calls product in views.py -->
-    <form id="task-complete" method="post" action="{% url 'op_tasks:product' task_pk %}">
+    <form id="task-complete" method="post" action="{% url 'op_tasks:product' task_pk=tasklistitem.pk %}">
       {% csrf_token %}
       <button id="task-complete-button" class="btn btn-danger ot-open-btn" type="submit">
         Quit Task
@@ -40,14 +45,14 @@
 <script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
 <script>
   // web worker url
-  var worker = "{% static "javascript/draper.activity_worker-2.1.1.js" %}"
+  var worker = "{% static 'javascript/draper.activity_worker-2.1.1.js' %}"
   var ac = new activityLogger(worker)
   .testing(false) // simulate POST, won't send log
   .echo(true) // log to console
   .mute(['SYS']); // don't log SYSTEM actions
 </script>
-<script src="{% static "javascript/task_logging.js" %}"></script>
-<script src="{% static "javascript/product.js" %}"></script>
+<script src="{% static 'javascript/task_logging.js' %}"></script>
+<script src="{% static 'javascript/product.js' %}"></script>
 
 {% if user.userprofile.experiment.timed %}
   <div id="timerdiv">

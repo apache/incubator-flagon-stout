@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block head %}
+{% endblock %}
+{% block body %}
+
+<div class="head">
+
+<h1>{{tasklistitem.op_task.name}}</h1>
+
+<h4>Please click the green button below to begin your task</h4>
+
+<a id="open-task-button" class="btn btn-lg btn-success" 
+href="{{ tasklistitem.op_task.survey_url }}?sid={{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}">
+	Begin Task
+</a>
+
+<br><br>
+
+<h4>Click the blue button to launch {{ tasklistitem.product.name }} when ready</h4>
+
+<br>
+
+<h4>And click the red button when you have completed your task</h4>
+
+</div>
+
+{% endblock %}
