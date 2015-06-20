@@ -18,7 +18,7 @@
   </div>
   
   <div class="ot-container">
-    <a href="" onclick="window.open('{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}', '_blank');" 
+    <a onclick="window.open('{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}', '_blank');" 
     class="btn btn-primary ot-open-btn">
       Open {{tasklistitem.product.name}}
     </a>
