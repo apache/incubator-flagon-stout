@@ -35,36 +35,36 @@
   </a>
 </div>
 
-<!-- task list table -->
+<!-- tasklistitem list table -->
 <table class="ot-list table table-bordered">
   <tbody>
-    {% for task in userprofile.tasklistitem_set.all %}
+    {% for tasklistitem in userprofile.tasklistitem_set.all %}
     
-      {% if task.task_complete and not task.task_active and task.exit_complete %}
-      <!-- task not active, complete, and exit complete -->
+      {% if tasklistitem.task_complete and not tasklistitem.task_active and tasklistitem.exit_complete %}
+      <!-- tasklistitem not active, complete, and exit complete -->
         <tr class="ot-disabled">
           <td class="status">
             <span class="glyphicon glyphicon-check"></span>
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{task.op_task.name}} with {{task.product.name}}</span>
+              <span class="heading">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</span>
               <span class="pull-right text">Task Complete. Thank You!</span>
             </div>     
           </td>
         </tr>
         
-      {% elif task.task_complete and not task.task_active and not task.exit_complete %}
-      <!-- task not active, complete, and exit active -->
+      {% elif tasklistitem.task_complete and not tasklistitem.task_active and not tasklistitem.exit_complete %}
+      <!-- tasklistitem not active, complete, and exit active -->
         <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
             <div class="task-current">
-              <h3 class="heading disabled">{{task.op_task.name}} with {{task.product.name}}</h3>
+              <h3 class="heading disabled">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</h3>
               <p class="text disabled">Task Complete. Thank You!</p>
-              <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+              <a href="" data-toggle="modal" data-target="#exit-{{tasklistitem.pk}}">
                 <span class="glyphicon glyphicon-hand-right"></span>
                 Complete Post-Task Survey to Continue
               </a>
@@ -72,7 +72,7 @@
           </td>
         </tr>
         
-      {% elif not task.task_complete and not task.task_active %}
+      {% elif not tasklistitem.task_complete and not tasklistitem.task_active %}
       <!-- task not active and not complete -->
         <tr class="ot-disabled">
           <td class="status">
@@ -80,58 +80,57 @@
           </td>
           <td>
             <div style="font-size: 18px;">
-              <span class="heading">{{task.op_task.name}} with {{task.product.name}}</span>
+              <span class="heading">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</span>
               <span class="pull-right text">Complete previous tasks first.</span>
             </div>      
           </td>
         </tr>
         
-      {% elif task.task_complete and task.task_active and task.exit_active and not task.exit_complete %}
+      {% elif tasklistitem.task_complete and tasklistitem.task_active and tasklistitem.exit_active and not tasklistitem.exit_complete %}
       <!-- task active and complete with exit active -->
         <tr>
           <td class="status" >
             <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
           </td>
           <td>
-            <a href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+            <a href="{% url 'op_tasks:task_test' task_pk=tasklistitem.pk %}">
+              <h3 class="heading">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
             </a>
-            <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+            <a class="task-current" href="" data-toggle="modal" data-target="#exit-{{tasklistitem.pk}}">
               <span class="glyphicon glyphicon-hand-right"></span>
               Complete Post-Task Survey Here
             </a>
           </td>
         </tr>
         
-      {% elif task.task_active and task.task_complete and task.exit_complete %}
+      {% elif tasklistitem.task_active and tasklistitem.task_complete and tasklistitem.exit_complete %}
       <!-- task active, complete, exit complete -->
-      <!-- window.open('{% url 'op_tasks:product_test' task_pk=task.pk %}', '_blank'); -->
         <tr>
           <td class="status">
             <span class="glyphicon glyphicon-check" style="color:#428bca"></span>
           </td>
           <td>
-            <a href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+            <a href="{% url 'op_tasks:task_test' task_pk=tasklistitem.pk %}">
+              <h3 class="heading">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</h3>
               <p class="text">Task Complete.  Thank you!</p>
             </a>
-            <a href="" data-toggle="modal" data-target="#exit-{{task.pk}}">
+            <a href="" data-toggle="modal" data-target="#exit-{{tasklistitem.pk}}">
               <span class="glyphicon glyphicon-check"></span>
               Post-task survey complete
             </a>
           </td>
         </tr>
         
-      {% elif task.task_active and not task.task_complete %}
+      {% elif tasklistitem.task_active and not tasklistitem.task_complete %}
       <!-- task active, not complete and exit task not active -->
         <tr class="task-current">
           <td class="status">
             <span class="glyphicon glyphicon-unchecked"></span>
           </td>   
           <td>
-            <a class="task-current" href="{% url 'op_tasks:task_test' task_pk=task.pk %}">
-              <h3 class="heading">{{task.op_task.name}} with {{task.product.name}}</h3>
+            <a class="task-current" href="{% url 'op_tasks:task_test' task_pk=tasklistitem.pk %}">
+              <h3 class="heading">{{tasklistitem.op_task.name}} with {{tasklistitem.product.name}}</h3>
               <p class="text">Task not yet completed. Click to start this Operational Task</p>
             </a>
           </td>
@@ -140,18 +139,18 @@
       {% endif %}
 
       <!-- exit survey popup -->
-      <div class="modal fade" id="exit-{{task.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
+      <div class="modal fade" id="exit-{{tasklistitem.pk}}" tabindex="-1" role="dialog" aria-labelledby="intake" aria-hidden="true">
         <div class="modal-dialog" width="940px" height="540px">
           <div class="modal-content">
             <div class="modal-body" id="surveymonkeyframe">
-              <iframe src="{{task.op_task.exit_url}}?sid={{userprofile.user_hash}}" width="1100px" height="500px"></iframe>
+              <iframe src="{{tasklistitem.op_task.exit_url}}?sid={{userprofile.user_hash}}::{{tasklistitem.pk}}" width="1100px" height="500px"></iframe>
             </div>
             <div class="modal-footer">
               <div>
                 <button type="button" style="float: left;" class="btn btn-primary" data-dismiss="modal">Hide</button>
               </div>
               <div>
-                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' task_pk=task.pk %}">{% csrf_token %}
+                <form id="exit-survey-complete" method="post" action="{% url 'op_tasks:product' task_pk=tasklistitem.pk %}">{% csrf_token %}
                   <button type="submit" style="float: right;" class="btn btn-success">Submit survey</button>
                 </form>
               </div>

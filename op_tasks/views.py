@@ -71,7 +71,7 @@ def product(request, task_pk):
                 current_tasklistitem.task_complete = True
                 current_tasklistitem.task_active = False
                 current_tasklistitem.exit_active = True
-                current_tasklistitem.date_complete = timezone.now()
+                current_tasklistitem.date_complete = timezone.localtime(timezone.now())
                 sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
                 try:
                     current_tasklistitem.activity_count = count_activities(sessionID)
@@ -100,7 +100,8 @@ def product(request, task_pk):
             if current_tasklistitem.task_complete == False:
                 current_tasklistitem.task_complete = True
                 current_tasklistitem.exit_active = True
-                current_tasklistitem.date_complete = timezone.now()
+                current_tasklistitem.date_complete = timezone.localtime(timezone.now())
+                print timezone.localtime(timezone.now())
 
             else:
                 current_tasklistitem.exit_active = False
