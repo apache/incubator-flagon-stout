@@ -102,7 +102,7 @@ def new_task(request):
 	task.survey_url = request.POST['task_url']
 	task.name = request.POST['task_name']
 	task.instructions = request.POST['task_instructions']
-	task.exit_url = request.POST['exit_url']
+	task.exit_url = request.POST['task_exit_url']
 
 	task.save()
 	return redirect('exp_portal:view_tasks')
