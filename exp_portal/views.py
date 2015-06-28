@@ -66,6 +66,7 @@ def new_product(request):
 	product.is_active = request.POST.get('product_active', False)
 
 	dataset = Dataset.objects.get(name=request.POST['product_dataset'])
+	product.dataset = dataset
 
 	product.save()
 
