@@ -4,21 +4,57 @@
 
 <h1>Please enter your new User information:</h1>
 <form method="POST" action="{% url 'exp_portal:new_user' %}">
-	Username:<br>
-	<input class="form-control" name="username" id='id_username' placeholder='Enter the username' size="60" required/><br>
-	Password:<br>
-	<input class="form-control" name="password_1" id='id_password_1' type='password' placeholder="Enter a password" size="25" required/><br>
-	Password again:<br>
-	<input class="form-control" name="password_2" id='id_password_2' type='password' placeholder='Reenter the password' size="25" required/><br>
-	Experiment:<br>
-	<select class="form-control" name="experiment_name" id='id_experiment' placeholder='Select Experiment' required>
-		<option value="" style="display:none;"></option>
-		{% for experiment in experiments %}
-		<option value="{{experiment.name}}">{{experiment.name}}</option>
-		{% endfor %}
-	</select><br>
+	<div class="form-group">
+		<label for="id_username">Userame</label>
+		<input class="form-control" name="username" id="id_username" placeholder='Enter the userame' size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_password_1">Password</label>
+		<input class="form-control" name="password_1" id="id_password_1" type='password' placeholder='Enter a password' size="25" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_password_2">Password again</label>	
+		<input class="form-control" name="password_2" id='id_password_2' type='password' placeholder='Reenter the password' size="25" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_experiment">Experiment</label>
+		<select class="form-control" name="experiment_name" id='id_experiment' placeholder='Select Experiment' required>
+			{% for experiment in experiments %}
+			<option value="{{experiment.name}}">{{experiment.name}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="id_product">Application</label>
+		<select class="form-control" name="product_name" id='id_product' placeholder='Select Product' required>
+			<option value="all">All products</option>
+			{% for product in products %}
+			<option value="{{product.name}}">{{product.name}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="id_taskorder">Task Order</label>
+		<select class="form-control" name="taskorder" id='id_task_order' placeholder='Select Task Order' required disabled>
+			<option value='a'>A</option>
+			<option value='b'>B</option>
+		</select>
+	</div>
 	<input class="btn btn-primary" type="submit" value="Submit"/>
 	{% csrf_token %}
 </form>
+
+<script>
+	taskorder = document.getElementById("id_task_order");
+	product = document.getElementById("id_product");
+
+	product.addEventListener('change',function(evt){
+    if(product.value == "all"){
+        taskorder.disabled=true;
+    }else{
+        taskorder.disabled=false;
+    }
+	},false);
+</script>
 
 {% endblock %}

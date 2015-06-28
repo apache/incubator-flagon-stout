@@ -1,0 +1,70 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Add Experiment</h1>
+
+<form method="POST" action="{% url 'exp_portal:add_exp' %}">
+	<div class="form-group">
+		<label for="id_exp_name">Experiment Name</label>
+		<input class="form-control" name="exp_name" id='id_exp_name' value="{{ experiment.name }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_exp_taskcount">Task Count</label>
+		<input class="form-control" name="exp_taskcount" id="id_exp_taskcount" value="{{ experiment.task_count }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_exp_tasklength">Task Length (mins)</label>
+		<input class="form-control" name="exp_tasklength" id="id_exp_tasklength" value="{{ experiment.task_length }}" size="60" required/>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_achievements" id="id_exp_achievements" {% if experiment.has_achievements %}checked{% endif %}/>
+		<label>Achievements</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_intake" id="id_exp_intake" {% if experiment.has_intake %}checked{% endif %}/>
+		<label>Intake Survey Online</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_followup" id="id_exp_followup" {% if experiment.has_followup %}checked{% endif %}/>
+		<label>Post Task Survey Online</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_consent" id="id_exp_consent" {% if experiment.consent %}checked{% endif %}/>Consent Online
+		<label>Consent Online</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_sequentialtasks" id="id_exp_sequentialtasks" {% if experiment.sequential_tasks %}checked{% endif %}/>
+		<label for="exp_sequentialtasks" id="id_exp_st">
+			{% if experiment.sequential_tasks %}
+			Sequential Tasks
+			{% else %}
+			All Tasks Open
+			{% endif %}
+		</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_progress" id="id_exp_progress" {% if experiment.show_progress %}checked{% endif %}/>
+		<label>Show Progress Bar</label>
+	</div>
+	<div class="checkbox">
+		<input type="checkbox" name="exp_timed" id="id_exp_timed" {% if experiment.timed %}checked{% endif %}/>
+		<label>Timed Tasks</label>
+	</div>
+	<button class="btn btn-primary" type="submit">Save Changes</button>
+	{% csrf_token %}
+</form>
+
+<script>
+var cb = document.getElementById('id_exp_sequentialtasks');
+var label = document.getElementById('id_exp_st');
+cb.addEventListener('click',function(evt){
+    if(cb.checked){
+        label.innerHTML='Sequential Tasks'
+    }else{
+        label.innerHTML='All Tasks Open'
+    }
+},false);
+</script>
+
+{% endblock %}

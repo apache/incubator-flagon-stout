@@ -34,7 +34,7 @@
 				<td>
 					<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">{{ task.name }}</a>
 				</td>
-				<td>{{ task.dataset }}</td>
+				<td>{{task.dataset.name}}</td>
 				<td>
 					<a href="{{ task.survey_url }}">{{ task.survey_url }}</a>
 				</td>

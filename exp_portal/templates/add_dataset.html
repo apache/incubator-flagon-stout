@@ -1,0 +1,25 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>Add Dataset</h1>
+
+<form method="POST" action="{% url 'exp_portal:add_dataset' %}">
+	<div class="form-group">
+		<label for="id_dataset_name">Dataset Name</label>
+		<input class="form-control" name="dataset_name" id='id_product_name' value="{{ dataset.name }}" size="60" required/>
+	</div>
+	<div class="form-group">
+		<label for="id_version">Version</label>
+		<input class="form-control" name="dataset_version" id="id_dataset_version" value="{{ dataset.version }}" required/>
+	</div>
+	<div class="checkbox">
+		<label>
+			<input type="checkbox" name="dataset_active" id="id_dataset_active" {% if dataset.is_active %}checked{% endif %}/>Active
+		</label>
+	</div>
+	<button class="btn btn-primary" type="submit">Save Changes</button>
+	{% csrf_token %}
+</form>
+
+{% endblock %}

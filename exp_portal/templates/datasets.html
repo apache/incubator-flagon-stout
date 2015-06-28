@@ -1,0 +1,41 @@
+{% extends "experimentpage.html" %}
+
+{% block content %}
+
+<h1>All Datasets</h1>
+
+<form id="add_dataset_form" method="get" action="{% url 'exp_portal:add_dataset' %}">
+	{% csrf_token %}
+	<button class="btn btn-default btn-lg" type="submit">Add Dataset</button>
+</form>
+
+<div class="col-md-15">
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>Active</th>
+			<th>Dataset name</th>
+			<th>Version</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for dataset in datasets %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>
+					{% if dataset.is_active %}
+					<span class="glyphicon glyphicon-ok" style="color:green"></span>
+					{% else %}
+					<span class="glyphicon glyphicon-remove" style="color:red"></span>
+					{% endif %}
+				<td>
+					<a href="{% url 'exp_portal:view_dataset_details' datasetpk=dataset.pk %}">{{ dataset.name }}</a>
+				</td>
+				<td>{{dataset.version}}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endblock %}

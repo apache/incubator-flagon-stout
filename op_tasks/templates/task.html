@@ -79,7 +79,7 @@
           form.submit();
         };
 
-        setTimeout('redirect("{% url 'op_tasks:product' task_pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
+        setTimeout('redirect("{% url 'op_tasks:product' task_pk=tasklistitem.pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
       </script>
     </form>
   </div>

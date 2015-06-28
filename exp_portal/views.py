@@ -113,6 +113,9 @@ def manage_tasks(request):
 def view_task_details(request, taskname):
 	task = OpTask.objects.all().filter(name=taskname)[0]
 	datasets = Dataset.objects.all()
+	print task.dataset.name
+	for dataset in datasets:
+		print dataset.name
 	return render(request, 'task_details.html', {'task': task, 'datasets': datasets})
 
 def edit_task(request, taskpk):
@@ -133,7 +136,8 @@ def edit_task(request, taskpk):
 
 def add_user(request):
 	experiments = Experiment.objects.all()
-	return render(request, 'add_user.html', {'experiments': experiments})
+	products = Product.objects.all()
+	return render(request, 'add_user.html', {'experiments': experiments, 'products':products})
 
 def new_user(request):
 	user = User(username=request.POST['username'])
@@ -143,28 +147,51 @@ def new_user(request):
 
 	userprofile = UserProfile()
 	userprofile.user = user
-	experiment = Experiment.objects.all().filter(name=request.POST['experiment_name'])[0]
+	experiment = Experiment.objects.get(name=request.POST['experiment_name'])
 	userprofile.experiment = experiment
 	userprofile.save()
 
 	# logic for assigning tasks
-	# set to assign all tasks
-	# TBD update to reflect experiment settings
-	index = 0
-	datasets = Dataset.objects.all()
-	for dataset in datasets:
-		products = dataset.product_set.all()
-		for product in products:
-			tasks = dataset.optask_set.all()
-			for task in tasks:
-				newtasklistitem = TaskListItem()
-				newtasklistitem.userprofile = userprofile
-				newtasklistitem.op_task = task
-				newtasklistitem.product = product
-				newtasklistitem.index = index
-				index = index + 1
+	if request.POST['product_name'] == 'all':
+		# set to assign all tasks
+		# TBD update to reflect experiment settings
+		index = 0
+		datasets = Dataset.objects.all()
+		for dataset in datasets:
+			products = dataset.product_set.all()
+			for product in products:
+				tasks = dataset.optask_set.all()
+				for task in tasks:
+					newtasklistitem = TaskListItem()
+					newtasklistitem.userprofile = userprofile
+					newtasklistitem.op_task = task
+					newtasklistitem.product = product
+					newtasklistitem.index = index
+					index = index + 1
+					newtasklistitem.task_active = True
+					newtasklistitem.save()
+	else:
+		product = Product.objects.get(name=request.POST['product_name'])
+		if str(request.POST['taskorder']) == 'b':
+			print 'true'
+			tasks = product.dataset.optask_set.all().order_by('id').reverse()
+		else:
+			tasks = product.dataset.optask_set.all().order_by('id')
+
+		index = 0
+		for task in tasks:
+			newtasklistitem = TaskListItem()
+			newtasklistitem.userprofile = userprofile
+			newtasklistitem.op_task = task
+			newtasklistitem.product = product
+			newtasklistitem.index = index
+			if index == 0 or experiment.sequential_tasks == False:
 				newtasklistitem.task_active = True
-				newtasklistitem.save()
+			else:
+				newtasklistitem.task_active = False
+			index = index + 1
+			newtasklistitem.save()
+
 
 	return redirect('exp_portal:view_users')
 
@@ -173,6 +200,16 @@ def user_added(request):
 
 def view_user_tasks(request, profile):
 	userprofile = UserProfile.objects.all().filter(user_hash=profile)[0]
+	usertasks = userprofile.tasklistitem_set.all()
+	
+	datasets = Dataset.objects.all()
+	count = 0
+	tasklistitems = []
+	for dataset in datasets:
+		for product in dataset.product_set.all():
+			for task in dataset.optask_set.all():
+				count = count + 1
+
 	return render(request, 'user_tasks.html', {'userprofile': userprofile})
 
 def add_user_task(request, userpk):
@@ -201,3 +238,74 @@ def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()
 	return render(request, 'experiments.html', {'experimentlist': experimentlist})
+
+def view_exp_details(request, exppk):
+	experiment = Experiment.objects.get(id=exppk)
+	return render(request, 'experiment_details.html', {'experiment':experiment})
+
+def add_exp(request):
+	if request.method == 'POST':
+		experiment = Experiment()
+		experiment.name = request.POST['exp_name']
+		experiment.task_count = request.POST['exp_taskcount']
+		experiment.task_length = request.POST['exp_tasklength']
+		experiment.has_achievements = request.POST.get('exp_achievements', False)
+		experiment.has_intake = request.POST.get('exp_intake', False)
+		experiment.has_followup = request.POST.get('exp_followup', False)
+		experiment.consent = request.POST.get('exp_consent', False)
+		experiment.sequential_tasks = request.POST.get('exp_sequentialtasks', False)
+		experiment.show_progress = request.POST.get('exp_progress', False)
+		experiment.timed = request.POST.get('exp_timed', False)
+
+		experiment.save()
+		return redirect('exp_portal:manage_exps')
+
+	return render(request, 'add_experiment.html')
+
+def edit_exp(request, exppk):
+	experiment = Experiment.objects.get(id=exppk)
+	experiment.name = request.POST['exp_name']
+	experiment.task_count = request.POST['exp_taskcount']
+	experiment.task_length = request.POST['exp_tasklength']
+	experiment.has_achievements = request.POST.get('exp_achievements', False)
+	experiment.has_intake = request.POST.get('exp_intake', False)
+	experiment.has_followup = request.POST.get('exp_followup', False)
+	experiment.consent = request.POST.get('exp_consent', False)
+	experiment.sequential_tasks = request.POST.get('exp_sequentialtasks', False)
+	experiment.show_progress = request.POST.get('exp_progress', False)
+	experiment.timed = request.POST.get('exp_timed', False)
+
+	experiment.save()
+
+	return redirect('exp_portal:manage_exps')
+
+def manage_datasets(request):
+	datasets = Dataset.objects.all()
+	return render(request, 'datasets.html', {'datasets':datasets})
+
+def view_dataset_details(request, datasetpk):
+	dataset = Dataset.objects.get(id=datasetpk)
+	return render(request, 'dataset_details.html', {'dataset':dataset})
+
+def add_dataset(request):
+	if request.method == 'POST':
+		# do update
+		dataset = Dataset()
+		dataset.name = request.POST['dataset_name']
+		dataset.version = request.POST['dataset_version']
+		dataset.is_active = request.POST.get('dataset_active', False)
+
+		dataset.save()
+		return redirect('exp_portal:manage_datasets')
+	# else fall here
+	return render(request, 'add_dataset.html')
+
+def edit_dataset(request, datasetpk):
+	dataset = Dataset.objects.get(id=datasetpk)
+	dataset.name = request.POST['dataset_name']
+	dataset.version = request.POST['dataset_version']
+	dataset.is_active = request.POST.get('dataset_active', False)
+
+	dataset.save()
+
+	return redirect('exp_portal:manage_datasets')

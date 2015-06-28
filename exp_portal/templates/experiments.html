@@ -3,19 +3,55 @@
 {% block content %}
 
 <h1>Current Experiments</h1>
+
+<form id="add_exp_form" method="get" action="{% url 'exp_portal:add_exp' %}">
+	{% csrf_token %}
+	<button class="btn btn-default btn-lg" type="submit">Add Experiment</button>
+</form>
+
 <div class="col-md-15">
 <table class="table table-hover">
 	<thead>
 		<tr>
 			<th>Item</th>
 			<th>Name</th>
+			<th>Task Count</th>
+			<th>Task Length (min)</th>
+			<th>Progress Bar</th>
+			<th>Timed</th>
+			<th>Task Order</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for experiment in experimentlist %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td>{{ experiment.name }}</td>
+				<td>
+					<a href="{% url 'exp_portal:view_exp_details' exppk=experiment.pk %}">{{ experiment.name }}</a>
+				</td>
+				<td>{{ experiment.task_count }}</td>
+				<td>{{ experiment.task_length }}</td>
+				<td>
+					{% if experiment.show_progress %}
+						<span class="glyphicon glyphicon-ok" style="color:green"></span>
+					{% else %}
+						<span class="glyphicon glyphicon-remove" style="color:red"></span>
+					{% endif %}
+				</td>
+				<td>
+					{% if experiment.timed %}
+						<span class="glyphicon glyphicon-ok" style="color:green"></span>
+					{% else %}
+						<span class="glyphicon glyphicon-remove" style="color:red"></span>
+					{% endif %}
+				</td>
+				<td>
+					{% if experiment.sequential_tasks %}
+						Sequential
+					{% else %}
+						Open
+					{% endif %}
+				</td>
 		{% endfor %}
 	</tbody>
 </table>
