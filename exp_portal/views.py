@@ -207,10 +207,10 @@ def new_user(request):
 			newtasklistitem.op_task = task
 			newtasklistitem.product = product
 			newtasklistitem.index = index
-			if index == 0 or experiment.sequential_tasks == False:
-				newtasklistitem.task_active = True
-			else:
-				newtasklistitem.task_active = False
+			# if index == 0 or experiment.sequential_tasks == False:
+			# 	newtasklistitem.task_active = True
+			# else:
+			# 	newtasklistitem.task_active = False
 			index = index + 1
 			newtasklistitem.save()
 
