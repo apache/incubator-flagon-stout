@@ -18,8 +18,7 @@
   </div>
   
   <div class="ot-container">
-    <a onclick="window.open('{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}', '_blank');" 
-    class="btn btn-primary ot-open-btn">
+    <a onclick="open_product()" class="btn btn-primary ot-open-btn">
       Open {{tasklistitem.product.name}}
     </a>
     {% if user.userprofile.experiment.timed %}
@@ -35,12 +34,25 @@
     <!-- calls product in views.py -->
     <form id="task-complete" method="post" action="{% url 'op_tasks:product' task_pk=tasklistitem.pk %}">
       {% csrf_token %}
-      <button id="task-complete-button" class="btn btn-danger ot-open-btn" type="submit">
+      <button id="task-complete-button" class="btn btn-danger ot-open-btn" type="submit"
+      onclick="close_product()">
         Quit Task
       </button>
     </form>
   </div>
 </div>
+
+<script>
+var product_tab;
+
+function open_product() {
+  product_tab = window.open("{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}", '_blank');
+}
+
+function close_product() {
+  product_tab.close();
+}
+</script>
 
 <script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
 <script>
