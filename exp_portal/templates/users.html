@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Registered Participant</h1>
+<h1>Registered Participants</h1>
 
 <form id="add_participant_form" method="get" action="{% url 'exp_portal:add_user' %}">
 	{% csrf_token %}
@@ -18,6 +18,7 @@
 			<th>Experiment</th>
 			<th>Progress</th>
 			<th>Last Login</th>
+			<th>Delete</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -37,7 +38,14 @@
 						</div>
 					</div>
 				</td>
-				<td>{{ userprofile.user.last_login }} </td>
+				<td>{{ userprofile.user.last_login }}</td>
+				<td>
+					<form id="delete_participant_form" method="POST" 
+					action="{% url 'exp_portal:delete_user' userprofilepk=userprofile.pk %}">
+						{% csrf_token %}
+						<button class="btn btn-danger" type="submit">Delete</button>
+					</form>
+				</td>
 			</tr>
 		{% endfor %}
 	</tbody>

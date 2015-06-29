@@ -70,15 +70,7 @@ def new_product(request):
 
 	product.save()
 
-	return redirect('exp_portal:view_products')
-
-def view_users(request):
-	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
-	return render(request, 'users.html', {'userprofiles': userprofiles})
-
-def manage_users(request):
-	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
-	return render(request, 'users.html', {'userprofiles': userprofiles})
+	return redirect('exp_portal:view_products')	
 
 def view_tasks(request):
 	tasks = OpTask.objects.all()
@@ -135,10 +127,39 @@ def edit_task(request, taskpk):
 
 	return redirect('exp_portal:view_tasks')
 
+def view_users(request):
+	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
+	return render(request, 'users.html', {'userprofiles': userprofiles})
+
+def manage_users(request):
+	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
+	return render(request, 'users.html', {'userprofiles': userprofiles})
+
+def edit_user(request, userprofilepk):
+	userprofile = UserProfile.objects.get(id=userprofilepk)
+	experiment = Experiment.objects.get(name=request.POST['experiment_name'])
+	userprofile.experiment = experiment
+	userprofile.save()
+
+	return redirect('exp_portal:view_users')
+
 def add_user(request):
 	experiments = Experiment.objects.all()
 	products = Product.objects.all()
 	return render(request, 'add_user.html', {'experiments': experiments, 'products':products})
+
+def delete_user(request, userprofilepk):
+	userprofile = UserProfile.objects.get(id=userprofilepk)
+	user = userprofile.user
+	usertasks = userprofile.tasklistitem_set.all()
+
+	for tasklistitem in usertasks:
+		tasklistitem.delete()
+
+	user.delete()
+	userprofile.delete()
+
+	return redirect('exp_portal:view_users')
 
 def new_user(request):
 	user = User(username=request.POST['username'])
@@ -202,6 +223,7 @@ def user_added(request):
 def view_user_tasks(request, profile):
 	userprofile = UserProfile.objects.all().filter(user_hash=profile)[0]
 	usertasks = userprofile.tasklistitem_set.all()
+	experiments = Experiment.objects.all()
 	
 	datasets = Dataset.objects.all()
 	count = 0
@@ -211,7 +233,7 @@ def view_user_tasks(request, profile):
 			for task in dataset.optask_set.all():
 				count = count + 1
 
-	return render(request, 'user_tasks.html', {'userprofile': userprofile})
+	return render(request, 'user_tasks.html', {'userprofile': userprofile, 'experiments':experiments})
 
 def add_user_task(request, userpk):
 	userprofile = UserProfile.objects.get(id=userpk)
