@@ -10,14 +10,14 @@
 <div class="col-md-15">
 	{% for dataset in datasets %}
 	{% if dataset.optask_set.count > 0 %}
-	<h2>Tasks for dataset {{dataset.name}}</h2>
+	<h2>Tasks for {{dataset.name}}</h2>
 	<table class="table table-hover table-condensed">
 		<thead>
 			<tr>
 				<th>Item</th>
 				<th>Active</th>
 				<th>Task name</th>
-				<th>Challenge Problem</th>
+				<!-- <th>Challenge Problem</th> -->
 				<th>Task URL</th>
 				<th>Exit Survey URL</th>
 			</tr>
@@ -39,9 +39,9 @@
 							{{ task.name }}
 						</a>
 					</td>
-					<td>
+<!-- 					<td>
 						{{task.dataset.name}}
-					</td>
+					</td> -->
 					<td>
 						<a href="{{ task.survey_url }}" target='_blank'>
 							{{ task.survey_url }}
