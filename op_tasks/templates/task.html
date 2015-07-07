@@ -50,6 +50,7 @@
   var instructions_tab;
   var test = 'test';
   var product_button = document.getElementById("product_button");
+  product_button.disabled = true;
 
   function open_product() {
     product_tab = window.open("{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}", '_blank');

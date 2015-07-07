@@ -35,6 +35,7 @@ task_button.disabled = true;
 function open_instructions() {
 	task_button.disabled = false;
 	parent.instructions_tab = window.open("{{tasklistitem.product.instructions}}", '_blank');
+	parent.product_button.disabled = false;
 }
 
 function task_launch() {
