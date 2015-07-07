@@ -175,14 +175,14 @@ def new_user(request):
 
 	# logic for assigning tasks
 	if request.POST['product_name'] == 'all':
-		# set to assign all tasks
-		# TBD update to reflect experiment settings
+		# all products all tasks buffet style
 		index = 0
 		datasets = Dataset.objects.all()
 		for dataset in datasets:
 			products = dataset.product_set.all()
 			for product in products:
 				tasks = dataset.optask_set.all()
+				tasks = tasks.filter(is_active=True)
 				for task in tasks:
 					newtasklistitem = TaskListItem()
 					newtasklistitem.userprofile = userprofile
@@ -193,12 +193,15 @@ def new_user(request):
 					newtasklistitem.task_active = True
 					newtasklistitem.save()
 	else:
+		# single product - task ordering assumed
 		product = Product.objects.get(name=request.POST['product_name'])
 		if str(request.POST['taskorder']) == 'b':
 			print 'true'
 			tasks = product.dataset.optask_set.all().order_by('id').reverse()
 		else:
 			tasks = product.dataset.optask_set.all().order_by('id')
+
+		tasks = tasks.filter(is_active=True)
 
 		index = 0
 		for task in tasks:

@@ -7,6 +7,7 @@
 <!-- Hosted product from XDATA team -->
 <div id="content" style="overflow:hidden">
   <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{% url 'op_tasks:task_launch' task_pk=tasklistitem.pk %}">
+  <!-- <iframe id="iframe" width="100%" height="100%" frameborder="0" src="{{ tasklistitem.op_task.survey_url }}?sid={{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}"> -->
   </iframe>
 </div>
 
@@ -18,12 +19,14 @@
   </div>
   
   <div class="ot-container">
-    <a onclick="open_product()" class="btn btn-primary ot-open-btn">
+    <button id="product_button" onclick="open_product()" class="btn btn-primary ot-open-btn">
       Open {{tasklistitem.product.name}}
-    </a>
+    </button>
     {% if user.userprofile.experiment.timed %}
       <div class="timer">
-        <div class="time"><span id="minutes"></span>:<span id="seconds"></span></div>
+        <div class="time">
+          <span id="minutes"></span>:<span id="seconds"></span>
+        </div>
         <p>until task end</p>
       </div>
     {% else %}
@@ -43,18 +46,29 @@
 </div>
 
 <script>
-var product_tab;
+  var product_tab;
+  var product_button = document.getElementById("product_button");
 
-function open_product() {
-  product_tab = window.open("{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}", '_blank');
-}
+  function open_product() {
+    product_tab = window.open("{% url 'op_tasks:product_test' task_pk=tasklistitem.pk %}", '_blank');
+    product_button.disabled = true;
+  }
 
-function close_product() {
-  product_tab.close();
-}
+  function close_product() {
+    product_tab.close();
+  }
+
+  function enable_product() {
+    if (product_tab && product_tab.closed == true) {
+      product_button.disabled = false;
+    }
+  }
+
+  setInterval(function(){enable_product()}, 1000);
 </script>
 
-<script src="{% static "javascript/draper.activity_logger-2.1.1.js" %}"></script>
+<script src="{% static 'javascript/draper.activity_logger-2.1.1.js' %}"></script>
+
 <script>
   // web worker url
   var worker = "{% static 'javascript/draper.activity_worker-2.1.1.js' %}"
@@ -63,6 +77,7 @@ function close_product() {
   .echo(true) // log to console
   .mute(['SYS']); // don't log SYSTEM actions
 </script>
+
 <script src="{% static 'javascript/task_logging.js' %}"></script>
 <script src="{% static 'javascript/product.js' %}"></script>
 
@@ -71,27 +86,42 @@ function close_product() {
     <form id="timerblock">
       {% csrf_token %}
       <script>
-        var myVar = setInterval(function(){myTimer()},1000);
-        var time = {{user.userprofile.experiment.task_length}}*60;
 
-        function myTimer() {
+        var time = {{user.userprofile.experiment.task_length}}*60;
+        set_time();
+
+        function pad(n) {
+          return (n<10) ? ("0"+n) : n;
+        }
+        
+        function task_timer() {
+          set_time();
           time = time - 1;
+          if (time < 0) {
+            redirect("{% url 'op_tasks:product' task_pk=tasklistitem.pk %}", "post");
+          }
+        }
+
+        function set_time() {
           minutes = parseInt(time / 60);
           seconds = time % 60;
           document.getElementById("minutes").innerHTML = pad(minutes);
           document.getElementById("seconds").innerHTML = pad(seconds);
         }
 
-        function pad(n) {return (n<10) ? ("0"+n) : n;}
+        function start_timer() {
+          setInterval(function(){task_timer()},1000);
+          // setTimeout('redirect("{% url 'op_tasks:product' task_pk=tasklistitem.pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
+        }
         
         var redirect = function(url, method) {
           var form = document.getElementById('timerblock');
           form.method = method;
           form.action = url;
           form.submit();
+          close_product();
         };
 
-        setTimeout('redirect("{% url 'op_tasks:product' task_pk=tasklistitem.pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
       </script>
     </form>
   </div>

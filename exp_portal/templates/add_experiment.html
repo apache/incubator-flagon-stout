@@ -30,18 +30,12 @@
 		<label>Post Task Survey Online</label>
 	</div>
 	<div class="checkbox">
-		<input type="checkbox" name="exp_consent" id="id_exp_consent" {% if experiment.consent %}checked{% endif %}/>Consent Online
+		<input type="checkbox" name="exp_consent" id="id_exp_consent" {% if experiment.consent %}checked{% endif %}/>
 		<label>Consent Online</label>
 	</div>
 	<div class="checkbox">
 		<input type="checkbox" name="exp_sequentialtasks" id="id_exp_sequentialtasks" {% if experiment.sequential_tasks %}checked{% endif %}/>
-		<label for="exp_sequentialtasks" id="id_exp_st">
-			{% if experiment.sequential_tasks %}
-			Sequential Tasks
-			{% else %}
-			All Tasks Open
-			{% endif %}
-		</label>
+		<label for="exp_sequentialtasks" id="id_exp_st">Sequential Tasks (unchecked will open all tasks)</label>
 	</div>
 	<div class="checkbox">
 		<input type="checkbox" name="exp_progress" id="id_exp_progress" {% if experiment.show_progress %}checked{% endif %}/>
@@ -54,17 +48,5 @@
 	<button class="btn btn-primary" type="submit">Save Changes</button>
 	{% csrf_token %}
 </form>
-
-<script>
-var cb = document.getElementById('id_exp_sequentialtasks');
-var label = document.getElementById('id_exp_st');
-cb.addEventListener('click',function(evt){
-    if(cb.checked){
-        label.innerHTML='Sequential Tasks'
-    }else{
-        label.innerHTML='All Tasks Open'
-    }
-},false);
-</script>
 
 {% endblock %}
