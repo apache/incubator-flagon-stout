@@ -47,6 +47,8 @@
 
 <script>
   var product_tab;
+  var instructions_tab;
+  var test = 'test';
   var product_button = document.getElementById("product_button");
 
   function open_product() {
@@ -55,7 +57,12 @@
   }
 
   function close_product() {
-    product_tab.close();
+    if (product_tab) {
+      product_tab.close();
+    }
+    if (instructions_tab) {
+      instructions_tab.close();
+    }
   }
 
   function enable_product() {

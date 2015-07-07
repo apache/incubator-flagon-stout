@@ -293,23 +293,23 @@ def instruct(request, read=None):
     userprofile = user.userprofile
 
     if read == 'experiment':
-        if userprofile.exp_inst_complete == False:
+        if not userprofile.exp_inst_complete:
             userprofile.exp_inst_complete = True
-            userprofile.progress += 10
+            userprofile.progress += 15
 
     elif read == 'portal':
-        if userprofile.portal_inst_complete == False:
+        if not userprofile.portal_inst_complete:
             userprofile.portal_inst_complete = True
-            userprofile.progress += 10
+            userprofile.progress += 15
 
     elif read == 'product':
-        if userprofile.task_inst_complete == False:
+        if not userprofile.task_inst_complete:
             user.userprofile.task_inst_complete = True
             userprofile.progress += 10
 
     userprofile.save()
     product = userprofile.tasklistitem_set.all()[0].product
-    if userprofile.read_instructions() == True:
+    if userprofile.exp_inst_complete and userprofile.portal_inst_complete:
         first_task = userprofile.tasklistitem_set.all()[0]
         first_task.task_active = True
         first_task.save()

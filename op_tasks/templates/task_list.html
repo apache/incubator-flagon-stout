@@ -18,19 +18,23 @@
 <!-- instructions -->
 <div class="instructions" >
   <a href="{% url 'op_tasks:instruct' %}">
-    {% if not user.userprofile.read_instructions %}
-      <div class="task-current">
-        <h3>
-          <span class="glyphicon glyphicon-unchecked"></span>
-          Click here to review instructional materials
-        </h3>
-      </div>
+    {% if user.userprofile.exp_inst_complete and user.userprofile.portal_inst_complete %}
+    
+    <h3>
+      <span class="glyphicon glyphicon-check"></span>
+      Click here to review instructional materials
+    </h3>
+    <h5 class='text'>This material is available throughout the experiment</h5>
+
     {% else %}
+    
+    <div class="task-current">
       <h3>
-        <span class="glyphicon glyphicon-check"></span>
+        <span class="glyphicon glyphicon-unchecked"></span>
         Click here to review instructional materials
       </h3>
-      <p class="text">This material is available throughout the experiment</p>
+    </div>
+
     {% endif %}
   </a>
 </div>

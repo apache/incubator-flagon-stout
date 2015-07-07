@@ -127,6 +127,12 @@ def edit_task(request, taskpk):
 
 	return redirect('exp_portal:view_tasks')
 
+def delete_task(request, taskpk):
+	task = OpTask.objects.get(id=taskpk)
+	task.delete()
+
+	return redirect('exp_portal:view_tasks')
+
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
 	return render(request, 'users.html', {'userprofiles': userprofiles})

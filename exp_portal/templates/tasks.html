@@ -10,7 +10,7 @@
 </form>
 
 <div class="col-md-15">
-<table class="table table-hover">
+<table class="table table-hover table-condensed">
 	<thead>
 		<tr>
 			<th>Item</th>
@@ -41,6 +41,13 @@
 				<td>
 					<a href="{{ task.exit_url }}">{{ task.exit_url }}</a>
 				</td>
+<!-- 				<td>
+					<form id="delete_task_form" method="POST" 
+					action="{% url 'exp_portal:delete_task' taskpk=task.pk %}">
+						{% csrf_token %}
+						<button class="btn btn-danger" type="submit">Delete</button>
+					</form>
+				</td> -->
 			</tr>
 		{% endfor %}
 	</tbody>

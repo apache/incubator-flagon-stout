@@ -36,7 +36,7 @@
   </a>
 </div>
 
-<div class="instructions" >
+<!-- <div class="instructions" >
   <a href="{% url 'op_tasks:product_instruct' %}">
     <h3>
       {% if not user.userprofile.task_inst_complete %}
@@ -50,11 +50,12 @@
       {% endif %}
     </h3>
   </a>
-</div>
+</div> -->
 
-{% if user.userprofile.read_instructions %}
+{% if user.userprofile.exp_inst_complete and user.userprofile.portal_inst_complete %}
 <hr>
 <h4>Thank you for completing the instructions.</h4>
-<p>These links will remain active if you need to review the instructions again in the future.  Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete all tasks</p>
+<h4>These links will remain active if you need to review the instructions again in the future.</h4>  
+<h4>Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete all tasks</h4>
 {% endif %}
 {% endblock %}
