@@ -29,7 +29,9 @@
 		<tbody>
 			{% for product in products %}
 				<tr>
-					<td>{{ forloop.counter }}</td>
+					<td>
+						{{ forloop.counter }}
+					</td>
 					<td>
 						{% if product.is_active %}
 						<span class="glyphicon glyphicon-ok" style="color:green"></span>
@@ -42,11 +44,25 @@
 							{{ product.name }}
 						</a>
 					</td>
-					<td>{{ product.team }}</td>
-					<td>{{ product.version }}</td>
-					<td>{{ product.dataset.name }}</td>
-					<td>{{ product.url }}</td>
-					<td>{{ product.instructions }}</td>
+					<td>
+						{{ product.team }}
+					</td>
+					<td>
+						{{ product.version }}
+					</td>
+					<td>
+						{{ product.dataset.name }}
+					</td>
+					<td>
+						<a href="{{ product.url }}" target='_blank'>
+							{{product.url}}
+						</a>
+					</td>
+					<td>
+						<a href="{{ product.instructions }}" target='_blank'>
+							{{product.instructions}}
+						</a>
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>

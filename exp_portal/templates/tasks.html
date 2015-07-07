@@ -2,55 +2,68 @@
 
 {% block content %}
 
-<h1>All tasks</h1>
-
 <form id="add_task_form" method="get" action="{% url 'exp_portal:add_task' %}">
 	{% csrf_token %}
 	<button class="btn btn-default btn-lg" type="submit">Add Task</button>
 </form>
 
 <div class="col-md-15">
-<table class="table table-hover table-condensed">
-	<thead>
-		<tr>
-			<th>Item</th>
-			<th>Active</th>
-			<th>Task name</th>
-			<th>Challenge Problem</th>
-			<th>Task URL</th>
-			<th>Exit Survey URL</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for task in tasks %}
+	{% for dataset in datasets %}
+	{% if dataset.optask_set.count > 0 %}
+	<h2>Tasks for dataset {{dataset.name}}</h2>
+	<table class="table table-hover table-condensed">
+		<thead>
 			<tr>
-				<td>{{ forloop.counter }}</td>
-				<td>
-					{% if task.is_active %}
-					<span class="glyphicon glyphicon-ok" style="color:green"></span>
-					{% else %}
-					<span class="glyphicon glyphicon-remove" style="color:red"></span>
-					{% endif %}
-				<td>
-					<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">{{ task.name }}</a>
-				</td>
-				<td>{{task.dataset.name}}</td>
-				<td>
-					<a href="{{ task.survey_url }}">{{ task.survey_url }}</a>
-				</td>
-				<td>
-					<a href="{{ task.exit_url }}">{{ task.exit_url }}</a>
-				</td>
-<!-- 				<td>
-					<form id="delete_task_form" method="POST" 
-					action="{% url 'exp_portal:delete_task' taskpk=task.pk %}">
-						{% csrf_token %}
-						<button class="btn btn-danger" type="submit">Delete</button>
-					</form>
-				</td> -->
+				<th>Item</th>
+				<th>Active</th>
+				<th>Task name</th>
+				<th>Challenge Problem</th>
+				<th>Task URL</th>
+				<th>Exit Survey URL</th>
 			</tr>
-		{% endfor %}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{% for task in dataset.optask_set.all %}
+				<tr>
+					<td>
+						{{ forloop.counter }}
+					</td>
+					<td>
+						{% if task.is_active %}
+						<span class="glyphicon glyphicon-ok" style="color:green"></span>
+						{% else %}
+						<span class="glyphicon glyphicon-remove" style="color:red"></span>
+						{% endif %}
+					<td>
+						<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">
+							{{ task.name }}
+						</a>
+					</td>
+					<td>
+						{{task.dataset.name}}
+					</td>
+					<td>
+						<a href="{{ task.survey_url }}" target='_blank'>
+							{{ task.survey_url }}
+						</a>
+					</td>
+					<td>
+						<a href="{{ task.exit_url }}" target='_blank'>
+							{{ task.exit_url }}
+						</a>
+					</td>
+	<!-- 				<td>
+						<form id="delete_task_form" method="POST" 
+						action="{% url 'exp_portal:delete_task' taskpk=task.pk %}">
+							{% csrf_token %}
+							<button class="btn btn-danger" type="submit">Delete</button>
+						</form>
+					</td> -->
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+	{% endfor %}
 </div>
 {% endblock %}

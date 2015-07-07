@@ -74,7 +74,8 @@ def new_product(request):
 
 def view_tasks(request):
 	tasks = OpTask.objects.all()
-	return render(request, 'tasks.html', {'tasks': tasks})
+	datasets = Dataset.objects.all()
+	return render(request, 'tasks.html', {'tasks': tasks, 'datasets':datasets})
 
 def view_completed(request):
 	completed_tasks = TaskListItem.objects.all().filter(task_complete=True).order_by('-date_complete')
