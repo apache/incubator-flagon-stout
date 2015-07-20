@@ -33,19 +33,21 @@
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<th>Item</th>
-			<th>Task Name</th>
-			<th>Product</th>
-			<th>Challenge Problem</th>
-			<th>Active</th>
-			<th>Complete</th>
-			<th>Activity Count</th>
+			<th class="text-center">Item</th>
+			<th class="text-center">SessionID</th>
+			<th class="text-center">Task Name</th>
+			<th class="text-center">Product</th>
+			<th class="text-center">Challenge Problem</th>
+			<th class="text-center">Active</th>
+			<th class="text-center">Complete</th>
+			<th class="text-center">Activity Count</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for task in userprofile.tasklistitem_set.all %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
+				<td>{{ task.userprofile.user_hash }}::{{task.id}}</td>
 				<td>{{ task.op_task.name }}</td>
 				<td>{{ task.product.name }}</td>
 				<td>{{ task.product.dataset.name }}</td>
