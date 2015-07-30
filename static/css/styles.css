@@ -188,3 +188,163 @@ div.product-instructions a:hover{
 div.product-instructions .glyphicon{
   margin-right: 5px;
 }
+
+
+/* EXPERIMENT STATUS PORTAL */
+
+#expStatusHeader {
+  float: left;
+  width: 100%;
+}
+
+.experimentStatusRow {
+  float: left;
+  margin: 15px 0;
+  position: relative;
+  width: 98%;
+}
+
+  .expShelf {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 6px #ccc;
+    height: 100px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+    .topShelf {
+      background: #f5f5f5;
+      border-bottom: 1px solid #ddd;
+      height: 47px;
+      width: 100%;
+    }
+
+    .expName {
+      float: left;
+      font-size: 24px;
+      /*font-weight: bold;*/
+      margin: 8px 2%;
+      width: 50%;
+    }
+
+    .expDates {
+      float: left;
+      font-size: 14px;
+      margin-top: 18px;
+      width: 40%;
+    }
+
+      .expDate {
+        float: left;
+        margin: 10 8px;
+        width: 150px;
+      }
+
+        .expDate:first-child {
+          margin-right: 20px;
+        }
+
+        .expDateLabel {
+          float: left;
+          color: #999;
+          font-size: 12px;
+          margin: 4px 8px 0 0;
+          text-transform: uppercase;
+        }
+
+        .expDateValue {
+          float: left;
+        }
+
+    .expStatsWrapper {
+      float: left;
+      margin: 10px 2%;
+      width: 96%;
+    }
+
+      .expStat {
+        float: left;
+        margin-right: 10px;
+        width: 100px;
+      }
+
+        .expStatsImg {
+          float: left;
+          margin-right: 18px;
+          width: 20px;
+        }
+
+        .expStatsValue {
+          float: left;
+          font-size: 22px;
+          margin-top: -2px;
+          width: 15px;
+        }
+
+  .expTray {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    bottom: 0px;
+    box-shadow: 0 0 6px #ccc;
+    /*display: none;*/
+    float: left;
+    height: 500px;
+    left: 0;
+    margin: 0 2%;
+    position: absolute;
+    top: 100px;
+    width: 96%;
+    z-index: 1;
+  }
+
+    .expTrayNav {
+      background: #222;
+      float: left;
+      height: 50px;
+      width: 100%;
+    }
+
+      .expTrayNavBtn {
+        cursor: pointer;
+        float: left;
+        padding: 6px 10px;
+        text-align: center;
+        width: 60px;
+      }
+
+        .expTrayNavBtn:hover {
+          background: #000;
+        }
+
+        .expTrayNavBtn.active {
+          background: #000;
+        }
+
+      .expTrayNavBtnLabel {
+        color: #ddd;
+        display: none;
+        float: left;
+        font-size: 11px;
+        margin: 13px 8px;
+        text-transform: uppercase;
+      }
+
+      .expTrayNavBtnImg {
+        float: left;
+        height: 25px;
+        margin: 8px;
+        width: 25px;
+      }
+
+    .expTrayBody {
+      background: #555;
+      float: left;
+      height: 450px;
+      width: 100%;
+    }

@@ -4,42 +4,126 @@
 
 {% block content %}
 
-<h1>Experiment Status</h1>
-<div class="col-md-5">
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th>Item</th>
-			<th>Count</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>
-				<a href="{% url 'exp_portal:view_users' %}">Users</a>
-			</td>
-			<td>{{ userprofiles.count }}</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="{% url 'exp_portal:view_products' %}">Products</a>
-			</td>
-			<td>{{ products.count }}</td>
-		</tr>
-		<tr>
-			<td><a href="{% url 'exp_portal:view_tasks' %}">Operational Tasks</a></td>
-			<td>{{ tasks.count }}
-		</tr>
-		<tr>
-			<td><a href="{% url 'exp_portal:view_completed' %}">Completed Tasks</a></td>
-			<td>{{ completed_tasks.count }}</td>
-		</tr>
-		<tr>
-			<td><a href="{% url 'exp_portal:view_incomplete' %}">Incomplete Tasks</a></td>
-			<td>{{ incomplete_tasks.count }}</td>
-		</tr>
-	</tbody>
-</table>
-</div>
+<h1 id="expStatusHeader">Experiment Status</h1>
+	<!-- <table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Count</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<a href="{% url 'exp_portal:view_users' %}">Users</a>
+				</td>
+				<td>{{ userprofiles.count }}</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="{% url 'exp_portal:view_products' %}">Products</a>
+				</td>
+				<td>{{ products.count }}</td>
+			</tr>
+			<tr>
+				<td><a href="{% url 'exp_portal:view_tasks' %}">Operational Tasks</a></td>
+				<td>{{ tasks.count }}
+			</tr>
+			<tr>
+				<td><a href="{% url 'exp_portal:view_completed' %}">Completed Tasks</a></td>
+				<td>{{ completed_tasks.count }}</td>
+			</tr>
+			<tr>
+				<td><a href="{% url 'exp_portal:view_incomplete' %}">Incomplete Tasks</a></td>
+				<td>{{ incomplete_tasks.count }}</td>
+			</tr>
+		</tbody>
+	</table> -->
+	<div id="" class="experimentStatusRow">
+		<div class="expShelf">
+			<div class="topShelf">
+				<div class="expName">Test - Exp</div>
+				<div class="expDates">
+					<div class="expDate expDateCreated">
+						<div class="expDateLabel">Created</div>
+						<div class="expDateValue">2015/07/23</div>
+					</div>
+					<div class="expDate expDateBegins">
+						<div class="expDateLabel">Begins</div>
+						<div class="expDateValue">2015/07/23</div>
+					</div>
+				</div>
+			</div>
+			<div class="expStatsWrapper">
+				<div class="users expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/users.png">
+					</div>
+					<div class="expStatsValue">3</div>
+				</div>
+				<div class="products expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/products.png">
+					</div>
+					<div class="expStatsValue">3</div>
+				</div>
+				<div class="tasks expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/tasks.png">
+					</div>
+					<div class="expStatsValue">3</div>
+				</div>
+				<div class="completedTasks expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/tasksComplete.png">
+					</div>
+					<div class="expStatsValue">3</div>
+				</div>
+			</div>
+		</div>
+		<div class="expTray">
+			<div class="expTrayNav">
+				<div class="expTrayNavBtn active">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/users.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Users</div>
+				</div>
+				<div class="expTrayNavBtn">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/products.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Products</div>
+				</div>
+				<div class="expTrayNavBtn">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/tasks.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Tasks</div>
+				</div>
+				<div class="expTrayNavBtn">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/tasksComplete.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Completed</div>
+				</div>
+				<div class="expTrayNavBtn">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/tasksIncomplete.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Incomplete</div>
+				</div>
+				<div class="expTrayNavBtn">
+					<div class="expTrayNavBtnImg">
+						<img src="{{STATIC_URL}}images/metrics.png">
+					</div>
+					<div class="expTrayNavBtnLabel">Metrics</div>
+				</div>
+			</div>
+			<div class="expTrayBody">
+				
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
