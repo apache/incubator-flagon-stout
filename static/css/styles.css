@@ -326,14 +326,29 @@ div.product-instructions .glyphicon{
           background: #000;
         }
 
+      #expTrayNavBtnLabels {
+        background: #000;
+        float: right;
+        height: 50px;
+        position: relative;
+        text-align: center;
+        width: 150px;
+      }
+
       .expTrayNavBtnLabel {
         color: #ddd;
         display: none;
+        font-size: 12px;
         float: left;
-        font-size: 11px;
-        margin: 13px 8px;
+        margin-top: 17px;
         text-transform: uppercase;
+        text-align: center;
+        width: 150px;
       }
+
+        .expTrayNavBtnLabel.active {
+          display: block;
+        }
 
       .expTrayNavBtnImg {
         float: left;
@@ -343,8 +358,78 @@ div.product-instructions .glyphicon{
       }
 
     .expTrayBody {
-      background: #555;
+      background: #444;
       float: left;
       height: 450px;
       width: 100%;
     }
+
+      .expTraySection {
+        color: #eee;
+        display: none;
+        float: left;
+        width: 100%;
+      }
+
+        .expTraySection.active {
+          display: block;
+        }
+
+        .expTraySection tr:hover {
+          color: #444;
+        }
+
+          .expTraySection a {
+            color: #eee;
+          }
+
+            .expTraySection a:hover {
+              color: #428bca;
+            }
+
+      #metricsNav {
+        float: left;
+        margin-top: 40px;
+        width: 17%;
+      }
+
+        .metricsNavBtn {
+          background: #666;
+          color: #ccc;
+          cursor: pointer;
+          float: left;
+          padding: 8px 12px;
+          width: 95%;
+        }
+
+          .metricsNavBtn:hover, .metricsNavBtn.active {
+            color: #eee;
+            background: #428bca;
+          }
+
+      #metricsBody {
+        float: left;
+        margin-left: 2%;
+        width: 75%;
+      }
+
+        .metricsSection {
+          display: none;
+          float: left;
+          margin: 20px 0 0 20px;
+          width: 100%;
+        }
+
+          .metricsSection.active {
+            display: block;
+          }
+
+          .chart rect {
+            fill: #428bca;
+          }
+
+          .chart text {
+            fill: white;
+            font: 10px sans-serif;
+            text-anchor: end;
+          }

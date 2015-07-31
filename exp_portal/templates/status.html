@@ -5,7 +5,7 @@
 {% block content %}
 
 <h1 id="expStatusHeader">Experiment Status</h1>
-	<!-- <table class="table table-hover">
+	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>Item</th>
@@ -38,7 +38,7 @@
 				<td>{{ incomplete_tasks.count }}</td>
 			</tr>
 		</tbody>
-	</table> -->
+	</table>
 	<div id="" class="experimentStatusRow">
 		<div class="expShelf">
 			<div class="topShelf">
@@ -59,69 +59,203 @@
 					<div class="expStatsImg">
 						<img src="{{STATIC_URL}}images/users.png">
 					</div>
-					<div class="expStatsValue">3</div>
+					<div class="expStatsValue">{{ userprofiles.count }}</div>
 				</div>
 				<div class="products expStat">
 					<div class="expStatsImg">
 						<img src="{{STATIC_URL}}images/products.png">
 					</div>
-					<div class="expStatsValue">3</div>
+					<div class="expStatsValue">{{ products.count }}</div>
 				</div>
 				<div class="tasks expStat">
 					<div class="expStatsImg">
 						<img src="{{STATIC_URL}}images/tasks.png">
 					</div>
-					<div class="expStatsValue">3</div>
+					<div class="expStatsValue">{{ tasks.count }}</div>
 				</div>
 				<div class="completedTasks expStat">
 					<div class="expStatsImg">
 						<img src="{{STATIC_URL}}images/tasksComplete.png">
 					</div>
-					<div class="expStatsValue">3</div>
+					<div class="expStatsValue">{{ completed_tasks.count }}</div>
 				</div>
 			</div>
 		</div>
 		<div class="expTray">
 			<div class="expTrayNav">
-				<div class="expTrayNavBtn active">
+				<div id="usersBtn" class="expTrayNavBtn active">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/users.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Users</div>
 				</div>
-				<div class="expTrayNavBtn">
+				<div id="productsBtn" class="expTrayNavBtn">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/products.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Products</div>
 				</div>
-				<div class="expTrayNavBtn">
+				<div id="tasksBtn" class="expTrayNavBtn">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/tasks.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Tasks</div>
 				</div>
-				<div class="expTrayNavBtn">
+				<div id="tasksCompletedBtn" class="expTrayNavBtn">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/tasksComplete.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Completed</div>
 				</div>
-				<div class="expTrayNavBtn">
+				<div id="tasksIncompleteBtn" class="expTrayNavBtn">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/tasksIncomplete.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Incomplete</div>
 				</div>
-				<div class="expTrayNavBtn">
+				<div id="metricsBtn" class="expTrayNavBtn">
 					<div class="expTrayNavBtnImg">
 						<img src="{{STATIC_URL}}images/metrics.png">
 					</div>
-					<div class="expTrayNavBtnLabel">Metrics</div>
+				</div>
+				<div id="expTrayNavBtnLabels">
+					<div id="usersLabel" class="expTrayNavBtnLabel active">Users</div>
+					<div id="productsLabel" class="expTrayNavBtnLabel">Products</div>
+					<div id="tasksLabel" class="expTrayNavBtnLabel">Tasks</div>
+					<div id="tasksCompletedLabel" class="expTrayNavBtnLabel">Completed Tasks</div>
+					<div id="tasksIncompleteLabel" class="expTrayNavBtnLabel">Incomplete Tasks</div>
+					<div id="metricsLabel" class="expTrayNavBtnLabel">Metrics</div>
 				</div>
 			</div>
 			<div class="expTrayBody">
-				
+				<div id="users" class="expTraySection">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Username</th>
+								<th>Experiment</th>
+								<th>Progress</th>
+								<th>Last Login</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for userprofile in userprofiles %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>
+										<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
+											{{ userprofile.user.username }}
+										</a>
+									</td>
+									<td>{{ userprofile.experiment }}</td>
+									<td>
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: {{ userprofile.progress }}%;">
+												{{ userprofile.progress }}%
+											</div>
+										</div>
+									</td>
+									<td>{{ userprofile.user.last_login }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<div id="products" class="expTraySection">
+					Products
+				</div>
+				<div id="tasks" class="expTraySection">
+					Tasks
+					{% for dataset in datasets %}
+					{% if dataset.optask_set.count > 0 %}
+					<h2>Tasks for {{dataset.name}}</h2>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Active</th>
+								<th>Task name</th>
+								<!-- <th>Challenge Problem</th> -->
+								<th>Task URL</th>
+								<th>Exit Survey URL</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for task in dataset.optask_set.all %}
+								<tr>
+									<td>
+										{{ forloop.counter }}
+									</td>
+									<td>
+										{% if task.is_active %}
+										<span class="glyphicon glyphicon-ok" style="color:green"></span>
+										{% else %}
+										<span class="glyphicon glyphicon-remove" style="color:red"></span>
+										{% endif %}
+									<td>
+										<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">
+											{{ task.name }}
+										</a>
+									</td>
+				<!-- 					<td>
+										{{task.dataset.name}}
+									</td> -->
+									<td>
+										<a href="{{ task.survey_url }}" target='_blank'>
+											{{ task.survey_url }}
+										</a>
+									</td>
+									<td>
+										<a href="{{ task.exit_url }}" target='_blank'>
+											{{ task.exit_url }}
+										</a>
+									</td>
+					<!-- 				<td>
+										<form id="delete_task_form" method="POST" 
+										action="{% url 'exp_portal:delete_task' taskpk=task.pk %}">
+											{% csrf_token %}
+											<button class="btn btn-danger" type="submit">Delete</button>
+										</form>
+									</td> -->
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{% endif %}
+					{% endfor %}
+				</div>
+				<div id="tasksCompleted" class="expTraySection">
+					Tasks Completed
+				</div>
+				<div id="tasksIncomplete" class="expTraySection">
+					Tasks Incomplete
+				</div>
+				<div id="metrics" class="expTraySection active">
+					<div id="metricsNav">
+						<div id="loadBtn" class="metricsNavBtn active">Load</div>
+						<div id="difficultyBtn" class="metricsNavBtn">Difficulty</div>
+						<div id="performanceBtn" class="metricsNavBtn">Performance</div>
+						<div id="confidenceBtn" class="metricsNavBtn">Confidence</div>
+						<div id="activityBtn" class="metricsNavBtn">Activity</div>
+						<div id="timeBtn" class="metricsNavBtn">Time</div>
+					</div>
+					<div id="metricsBody">
+						<div id="load" class="metricsSection active">
+							<svg id="loadChart" class="chart"></svg>
+						</div>
+						<div id="difficulty" class="metricsSection">
+							<svg id="difficultyChart" class="chart"></svg>
+						</div>
+						<div id="performance" class="metricsSection">
+							<svg id="performanceChart" class="chart"></svg>
+						</div>
+						<div id="confidence" class="metricsSection">
+							<svg id="confidenceChart" class="chart"></svg>
+						</div>
+						<div id="activity" class="metricsSection">
+							<svg id="activityChart" class="chart"></svg>
+						</div>
+						<div id="time" class="metricsSection">
+							<svg id="timeChart" class="chart"></svg>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
