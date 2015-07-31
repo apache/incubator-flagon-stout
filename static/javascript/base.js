@@ -25,6 +25,9 @@ $(".expTrayNavBtn").on("click", function(){
 	id = id.replace("Btn", "Label");
 	$(".expTrayNavBtnLabel").removeClass("active");
 	$("#" + id).addClass("active");
+	id = id.slice(0, -5);
+	$(".expTraySection").removeClass("active");
+	$("#" + id).addClass("active");
 })
 
 $(".metricsNavBtn").click(function(){
