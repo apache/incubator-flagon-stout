@@ -10,13 +10,15 @@ def home_page(request):
 	return render(request, 'experimenthome.html')
 
 def view_status(request):
+	experiments = Experiment.objects.all()
 	userprofiles = UserProfile.objects.all()
 	products = Product.objects.all()
 	tasks = OpTask.objects.all()
 	incomplete_tasks = TaskListItem.objects.all().filter(task_complete=False)
 	completed_tasks = TaskListItem.objects.all().filter(task_complete=True)
 	return render(request, 'status.html', 
-		{'userprofiles': userprofiles, 
+		{'experiments': experiments,
+		'userprofiles': userprofiles, 
 		'products': products, 
 		'tasks': tasks,
 		'incomplete_tasks': incomplete_tasks, 

@@ -124,7 +124,7 @@
 			</div>
 			<div class="expTrayBody">
 				<div id="users" class="expTraySection active">
-					<table class="table">
+					<!-- <table class="table">
 						<thead>
 							<tr>
 								<th>Item</th>
@@ -155,13 +155,144 @@
 								</tr>
 							{% endfor %}
 						</tbody>
-					</table>
+					</table> -->
+					<ul id="usersHeader" class="trayTableHeader">
+						<li class="username">Username</li>
+						<li class="experiment">Experiment</li>
+						<li class="progressBar">Progress</li>
+						<li class="lastLogin">Last Login</li>
+					</ul>
+					<ul id="usersBody" class="trayTableBody">
+						{% for userprofile in userprofiles %}
+						<li>
+							<div class="username">
+								<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
+									{{ userprofile.user.username }}
+								</a>
+							</div>
+							<div class="experiment">
+								{{ userprofile.experiment }}
+							</div>
+							<div class="progressBar">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{ userprofile.progress }}%;">
+										{{ userprofile.progress }}%
+									</div>
+								</div>
+							</div>
+							<div class="lastLogin">
+								{{ userprofile.user.last_login }}
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
 				</div>
 				<div id="products" class="expTraySection">
-					Products
+					<!-- <table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="text-center">Item</th>
+								<th class="text-center">Active</th>
+								<th class="text-center">Name</th>
+								<th class="text-center">Team</th>
+								<th class="text-center">Version</th>
+								<th class="text-center">Challenge Problem</th>
+								<th class="text-center">URL</th>
+								<th class="text-center">Instructions</th>
+							</tr>
+						</thead>
+						<div style="overflow-y:auto">
+							<tbody>
+								{% for product in products %}
+									<tr>
+										<td>
+											{{ forloop.counter }}
+										</td>
+										<td>
+											{% if product.is_active %}
+											<span class="glyphicon glyphicon-ok" style="color:green"></span>
+											{% else %}
+											<span class="glyphicon glyphicon-remove" style="color:red"></span>
+											{% endif %}
+										</td>
+										<td>
+											<a href="{% url 'exp_portal:view_product_details' productname=product.name %}">
+												{{ product.name }}
+											</a>
+										</td>
+										<td>
+											{{ product.team }}
+										</td>
+										<td>
+											{{ product.version }}
+										</td>
+										<td>
+											{{ product.dataset.name }}
+										</td>
+										<td>
+											<a href="{{ product.url }}" target='_blank'>
+												{{product.url}}
+											</a>
+										</td>
+										<td>
+											<a href="{{ product.instructions }}" target='_blank'>
+												{{product.instructions}}
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</div>
+					</table> -->
+
+					<ul id="productsHeader" class="trayTableHeader">
+						<li class="productActive">Active</li>
+						<li class="productName">Name</li>
+						<li class="productTeam">Team</li>
+						<li class="productVersion">Version</li>
+						<li class="productCP">Dataset</li>
+						<li class="productURL">URL</li>
+						<li class="productInst">Instructions</li>
+					</ul>
+					<ul id="productsBody" class="trayTableBody">
+						{% for product in products %}
+						<li>
+							<div class="productActive">
+								{% if product.is_active %}
+								<span class="glyphicon glyphicon-ok" style="color:green"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" style="color:red"></span>
+								{% endif %}
+							</div>
+							<div class="productName">
+								<a href="{% url 'exp_portal:view_product_details' productname=product.name %}">
+									{{ product.name }}
+								</a>
+							</div>
+							<div class="productTeam">
+								{{ product.team }}
+							</div>
+							<div class="productVersion">
+								{{ product.version }}
+							</div>
+							<div class="productCP">
+								{{ product.dataset.name }}
+							</div>
+							<div class="productURL">
+								<a href="{{ product.url }}" target='_blank'>
+									{{product.url}}
+								</a>
+							</div>
+							<div class="productInst">
+								<a href="{{ product.instructions }}" target='_blank'>
+									{{product.instructions}}
+								</a>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
 				</div>
 				<div id="tasks" class="expTraySection">
-					Tasks
 					{% for dataset in datasets %}
 					{% if dataset.optask_set.count > 0 %}
 					<h2>Tasks for {{dataset.name}}</h2>
@@ -171,7 +302,7 @@
 								<th>Item</th>
 								<th>Active</th>
 								<th>Task name</th>
-								<!-- <th>Challenge Problem</th> -->
+								<th>Challenge Problem</th>
 								<th>Task URL</th>
 								<th>Exit Survey URL</th>
 							</tr>
@@ -193,9 +324,9 @@
 											{{ task.name }}
 										</a>
 									</td>
-				<!-- 					<td>
+									<td>
 										{{task.dataset.name}}
-									</td> -->
+									</td>
 									<td>
 										<a href="{{ task.survey_url }}" target='_blank'>
 											{{ task.survey_url }}
@@ -206,25 +337,102 @@
 											{{ task.exit_url }}
 										</a>
 									</td>
-					<!-- 				<td>
+									<td>
 										<form id="delete_task_form" method="POST" 
 										action="{% url 'exp_portal:delete_task' taskpk=task.pk %}">
 											{% csrf_token %}
 											<button class="btn btn-danger" type="submit">Delete</button>
 										</form>
-									</td> -->
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>
 					</table>
 					{% endif %}
 					{% endfor %}
+
+					<!-- {% for dataset in datasets %}
+					{% if dataset.optask_set.count > 0 %}
+					<ul id="" class="trayTableHeader">
+						<li class="taskActive">Active</li>
+						<li class="taskName">Name</li>
+						<li class="taskSurvey">Survey</li>
+						<li class="taskExit">Exit Survey</li>
+					</ul>
+					<ul id="" class="trayTableBody">
+						{% for task in dataset.optask_set.all %}
+						<li>
+							<div class="taskActive">
+								{% if task.is_active %}
+								<span class="glyphicon glyphicon-ok" style="color:green"></span>
+								{% else %}
+								<span class="glyphicon glyphicon-remove" style="color:red"></span>
+								{% endif %}
+							</div>
+							<div class="taskName">
+								<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">
+									{{ task.name }}
+								</a>
+							</div>
+							<div class="taskSurvey">
+								<a href="{{ task.survey_url }}" target='_blank'>
+									{{ task.survey_url }}
+								</a>
+							</div>
+							<div class="taskExit">
+								<a href="{{ task.exit_url }}" target='_blank'>
+									{{ task.exit_url }}
+								</a>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					{% endfor %} -->
 				</div>
 				<div id="tasksCompleted" class="expTraySection">
-					Completed Tasks
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>User</th>
+								<th>Task Name</th>
+								<th>Date Completed</th>
+								<th>Activity Count</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for task in completed_tasks %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ task.userprofile.user.username }}</td>
+									<td>{{ task.op_task.name }}</td>
+									<td>{{ task.date_complete }}</td>
+									<td>{{ task.activity_count }}</td>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 				<div id="tasksIncomplete" class="expTraySection">
-					Incomplete Tasks
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>User</th>
+								<th>Task Name</th>
+								<th>Date assigned</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for task in incomplete_tasks %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ task.userprofile.user.username }}</td>
+									<td>{{ task.op_task.name }}</td>
+									<td>{{ task.userprofile.user.date_joined }}</td>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 				<div id="metrics" class="expTraySection">
 					<div id="metricsNav">

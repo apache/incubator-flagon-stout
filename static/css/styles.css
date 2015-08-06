@@ -387,6 +387,80 @@ div.product-instructions .glyphicon{
               color: #428bca;
             }
 
+        .expTraySection ul {
+          float: left;
+          margin: 0;
+          width: 100%;
+        }
+
+          .expTraySection li {
+            float: left;
+            list-style-type: none;
+          }
+
+          .trayTableHeader {
+            background: #333;
+            color: #fff;
+            padding: 10px 2%;
+          }
+
+          .trayTableHeader li {
+            float: left;
+          }
+
+          .trayTableBody {
+            padding: 18px 2%;
+          }
+
+          .trayTableBody li {
+            width: 100%;
+          }
+
+          .trayTableBody>li>div {
+            float: left;
+          }
+
+          #usersHeader li {
+            width: 25%;
+          }
+
+          #usersBody>li>div {
+            width: 25%;
+          }
+
+          .progress {
+            width: 75%;
+          }
+
+          .productActive {
+            width: 6%;
+          }
+
+          .productName {
+            width: 15%;
+          }
+
+          .productTeam {
+            width: 7%;
+          }
+
+          .productVersion {
+            text-align: center;
+            width: 10%;
+          }
+
+          .productCP {
+            width: 10%;
+          }
+
+          .productURL {
+            width: 22%;
+          }
+
+          .productInst {
+            width: 22%;
+          }
+
       #metricsNav {
         float: left;
         margin-top: 40px;
