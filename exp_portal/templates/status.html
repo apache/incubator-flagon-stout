@@ -5,50 +5,11 @@
 {% block content %}
 
 <h1 id="expStatusHeader">Experiment Status</h1>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Item</th>
-				<th>Count</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>
-					<a href="{% url 'exp_portal:view_users' %}">Users</a>
-				</td>
-				<td>{{ userprofiles.count }}</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="{% url 'exp_portal:view_products' %}">Products</a>
-				</td>
-				<td>{{ products.count }}</td>
-			</tr>
-			<tr>
-				<td><a href="{% url 'exp_portal:view_tasks' %}">Operational Tasks</a></td>
-				<td>{{ tasks.count }}
-			</tr>
-			<tr>
-				<td><a href="{% url 'exp_portal:view_completed' %}">Completed Tasks</a></td>
-				<td>{{ completed_tasks.count }}</td>
-			</tr>
-			<tr>
-				<td><a href="{% url 'exp_portal:view_incomplete' %}">Incomplete Tasks</a></td>
-				<td>{{ incomplete_tasks.count }}</td>
-			</tr>
-		</tbody>
-	</table>
+	{% for experiment in experiments %}
 	<div id="" class="experimentStatusRow">
 		<div class="expShelf">
 			<div class="topShelf">
-			{% for experiment in experiments %}
-				{% for userprofile in experimemt.userprofile_set %}
-					//do cool things with userprofile
-				{% endfor %}
-			{% endfor %}
-
-				<div class="expName">Test - Exp</div>
+				<div class="expName">{{ experiment.name }}</div>
 				<div class="expDates">
 					<div class="expDate expDateCreated">
 						<div class="expDateLabel">Created</div>
@@ -167,7 +128,7 @@
 						<li class="productName">Name</li>
 						<li class="productTeam">Team</li>
 						<li class="productVersion">Version</li>
-						<li class="productCP">Dataset</li>
+						<li class="productDataset">Dataset</li>
 						<li class="productURL">URL</li>
 						<li class="productInst">Instructions</li>
 					</ul>
@@ -192,17 +153,17 @@
 							<div class="productVersion">
 								{{ product.version }}
 							</div>
-							<div class="productCP">
+							<div class="productDataset">
 								{{ product.dataset.name }}
 							</div>
 							<div class="productURL">
 								<a href="{{ product.url }}" target='_blank'>
-									{{product.url}}
+									<img src="{{STATIC_URL}}images/globe.png">
 								</a>
 							</div>
 							<div class="productInst">
 								<a href="{{ product.instructions }}" target='_blank'>
-									{{product.instructions}}
+									<img src="{{STATIC_URL}}images/globe.png">
 								</a>
 							</div>
 						</li>
@@ -322,5 +283,6 @@
 			</div>
 		</div>
 	</div>
+	{% endfor %}
 {% endblock %}
 

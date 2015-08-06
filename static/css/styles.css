@@ -199,6 +199,7 @@ div.product-instructions .glyphicon{
 
 .experimentStatusRow {
   float: left;
+  height: 100px;
   margin: 15px 0;
   position: relative;
   width: 98%;
@@ -209,6 +210,7 @@ div.product-instructions .glyphicon{
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 0 6px #ccc;
+    float: left;
     height: 100px;
     left: 0;
     position: absolute;
@@ -292,7 +294,7 @@ div.product-instructions .glyphicon{
     border-top: none;
     bottom: 0px;
     box-shadow: 0 0 6px #ccc;
-    /*display: none;*/
+    display: none;
     float: left;
     height: 500px;
     left: 0;
@@ -433,15 +435,20 @@ div.product-instructions .glyphicon{
           }
 
           .productActive {
+            text-align: center;
+            margin-right: 2%;
             width: 6%;
           }
 
+            div.productActive {
+            }
+
           .productName {
-            width: 15%;
+            width: 30%;
           }
 
           .productTeam {
-            width: 7%;
+            width: 15%;
           }
 
           .productVersion {
@@ -449,16 +456,18 @@ div.product-instructions .glyphicon{
             width: 10%;
           }
 
-          .productCP {
-            width: 10%;
+          .productDataset {
+            width: 20%;
           }
 
           .productURL {
-            width: 22%;
+            text-align: center;
+            width: 6%;
           }
 
           .productInst {
-            width: 22%;
+            text-align: center;
+            width: 10%;
           }
 
       #metricsNav {
