@@ -39,6 +39,19 @@ $(".metricsNavBtn").click(function(){
 	$("#" + id).addClass("active");
 })
 
+$(".expShelf").click(function(){
+	var $this = $(this).parents(".experimentStatusRow").find(".expTray");
+	if (($this).hasClass("active")) {
+		$this.fadeOut(300);
+		$(this).parents(".experimentStatusRow").animate({"height": "100px"}, 300);
+	} else {
+		$(this).parents(".experimentStatusRow").animate({"height": "600px"}, 300, function(){
+			$this.fadeIn(400);
+		})
+	}
+	$this.toggleClass("active");
+})
+
 $(".chart").each(function(){
 	var chartId = $(this).attr("id");
 	var dataPath = "";
