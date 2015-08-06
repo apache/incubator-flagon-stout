@@ -45,6 +45,9 @@
 			{% for experiment in experiments %}
 				{% for userprofile in experimemt.userprofile_set %}
 					//do cool things with userprofile
+				{% endfor %}
+			{% endfor %}
+
 				<div class="expName">Test - Exp</div>
 				<div class="expDates">
 					<div class="expDate expDateCreated">
@@ -207,8 +210,6 @@
 					</ul>
 				</div>
 				<div id="tasks" class="expTraySection">
-					{% for dataset in datasets %}
-					{% if dataset.optask_set.count > 0 %}
 					<ul id="" class="trayTableHeader">
 						<li class="taskActive">Active</li>
 						<li class="taskName">Name</li>
@@ -216,7 +217,7 @@
 						<li class="taskExit">Exit Survey</li>
 					</ul>
 					<ul id="" class="trayTableBody">
-						{% for task in dataset.optask_set.all %}
+						{% for task in tasks %}
 						<li>
 							<div class="taskActive">
 								{% if task.is_active %}
@@ -243,8 +244,6 @@
 						</li>
 						{% endfor %}
 					</ul>
-					{% endif %}
-					{% endfor %}
 				</div>
 				<div id="tasksCompleted" class="expTraySection">
 					<table class="table table-hover">
