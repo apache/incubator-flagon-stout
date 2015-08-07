@@ -210,6 +210,7 @@ div.product-instructions .glyphicon{
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 0 6px #ccc;
+    cursor: pointer;
     float: left;
     height: 100px;
     left: 0;
@@ -415,6 +416,7 @@ div.product-instructions .glyphicon{
           }
 
           .trayTableBody li {
+            margin-bottom: 20px;
             width: 100%;
           }
 
@@ -422,16 +424,24 @@ div.product-instructions .glyphicon{
             float: left;
           }
 
-          #usersHeader li {
+          .username {
+            margin-right: 1%;
+            width: 40%;
+          }
+
+          .progressBar {
+            margin-right: 1%;
             width: 25%;
           }
 
-          #usersBody>li>div {
-            width: 25%;
-          }
+            .expTray .progress {
+              margin-bottom: 0; 
+              width: 75%;
+            }
 
-          .progress {
-            width: 75%;
+          .lastLogin {
+            margin-right: 1%;
+            width: 25%;
           }
 
           .productActive {
@@ -439,9 +449,6 @@ div.product-instructions .glyphicon{
             margin-right: 2%;
             width: 6%;
           }
-
-            div.productActive {
-            }
 
           .productName {
             width: 30%;
@@ -468,6 +475,27 @@ div.product-instructions .glyphicon{
           .productInst {
             text-align: center;
             width: 10%;
+          }
+
+          .taskActive {
+            text-align: center;
+            margin-right: 2%;
+            width: 6%;
+          }
+
+          .taskName {
+            margin-right: 2%;
+            width: 30%;
+          }
+
+          .taskSurvey {
+            text-align: center;
+            width: 15%;
+          }
+
+          .taskExit {
+            text-align: center;
+            width: 15%;
           }
 
       #metricsNav {

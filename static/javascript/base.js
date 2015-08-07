@@ -19,15 +19,16 @@ $(".expTrayNavBtn").hover(function(){
 })
 
 $(".expTrayNavBtn").on("click", function(){
+	var $this = $(this).parents(".expTray");
 	$(this).parent().find(".expTrayNavBtn").removeClass("active");
 	$(this).addClass("active");
 	var id = $(this).attr("id");
-	id = id.replace("Btn", "Label");
-	$(".expTrayNavBtnLabel").removeClass("active");
-	$("#" + id).addClass("active");
-	id = id.slice(0, -5);
-	$(".expTraySection").removeClass("active");
-	$("#" + id).addClass("active");
+	var labelId = id.replace("Btn", "Label");
+	$this.find(".expTrayNavBtnLabel").removeClass("active");
+	$this.find("#" + labelId).addClass("active");
+	var divId = id.slice(0, -3);
+	$this.find(".expTraySection").removeClass("active");
+	$this.find("#" + divId).addClass("active");
 })
 
 $(".metricsNavBtn").click(function(){
@@ -40,16 +41,16 @@ $(".metricsNavBtn").click(function(){
 })
 
 $(".expShelf").click(function(){
-	var $this = $(this).parents(".experimentStatusRow").find(".expTray");
-	if (($this).hasClass("active")) {
-		$this.fadeOut(300);
+	var $thisTray = $(this).parents(".experimentStatusRow").find(".expTray");
+	if ($(this).hasClass("active")) {
+		$thisTray.fadeOut(300);
 		$(this).parents(".experimentStatusRow").animate({"height": "100px"}, 300);
 	} else {
 		$(this).parents(".experimentStatusRow").animate({"height": "600px"}, 300, function(){
-			$this.fadeIn(400);
+			$thisTray.fadeIn(400);
 		})
 	}
-	$this.toggleClass("active");
+	$(this).toggleClass("active");
 })
 
 $(".chart").each(function(){
