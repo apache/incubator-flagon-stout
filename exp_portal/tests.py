@@ -98,4 +98,7 @@ class ExperimentTest(TestCase):
 		saved_products = Product.objects.all()
 		first_product = saved_products[0]
 		# print first_product.id
+
+	# def test_can_find_users_by_experiment(self):
+	# 	True
 		
