@@ -141,7 +141,8 @@ def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 def view_users_experiment(request, experiment_name):
 	experiment = Experiment.objects.get(name=experiment_name)
 	userprofiles = experiment.userprofile_set.all()
+	user_hashes = []
 	for userprofile in userprofiles:
-		print userprofile
-	response = JsonResponse([{'foo':'bar'}, {'one':'two'}], safe=False)
+		user_hashes.append(userprofile.user_hash)
+	response = JsonResponse(user_hashes, safe=False)
 	return response
