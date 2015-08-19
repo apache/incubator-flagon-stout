@@ -150,7 +150,7 @@
 								{% for user in expObjVal %}
 								<li>
 									<div class="username">
-										<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
+										<a href="{% url 'exp_portal:view_user_tasks' profile=user.user_hash %}">
 											{{ user }}
 										</a>
 									</div>
@@ -164,7 +164,7 @@
 										</div>
 									</div>
 									<div class="lastLogin">
-										{{ user.last_login }}
+										{{ user.user.last_login }}
 									</div>
 								</li>
 								{% endfor %}
