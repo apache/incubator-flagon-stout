@@ -2,15 +2,10 @@ from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 from django.http import JsonResponse
-
-=======
 from users import *
 from products import *
 from tasks import *
->>>>>>> 3613ddd43de872b3b9bf2f0b9bd949b747859032
-# Create your views here.
 
 @login_required(login_url='/tasking/login')
 def home_page(request):
