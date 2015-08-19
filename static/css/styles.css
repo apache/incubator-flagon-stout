@@ -498,6 +498,35 @@ div.product-instructions .glyphicon{
             width: 15%;
           }
 
+          .taskCompletedUser {
+            width: 30%
+          }
+
+          .taskCompletedName {
+            width: 30%
+          }
+
+          .taskCompletedDateCompleted {
+            width: 25%
+          }
+
+          .taskCompletedActCount {
+            text-align: center;
+            width: 15%
+          }
+
+          .taskIncompleteUser {
+            width: 35%;
+          }
+
+          .taskIncompleteName {
+            width: 35%;
+          }
+
+          .taskIncompleteDateAssigned {
+            width: 25%;
+          }
+
       #metricsNav {
         float: left;
         margin-top: 40px;

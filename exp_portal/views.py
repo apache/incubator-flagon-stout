@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -11,18 +12,38 @@ def home_page(request):
 
 def view_status(request):
 	experiments = Experiment.objects.all()
-	userprofiles = UserProfile.objects.all()
-	products = Product.objects.all()
-	tasks = OpTask.objects.all()
-	incomplete_tasks = TaskListItem.objects.all().filter(task_complete=False)
-	completed_tasks = TaskListItem.objects.all().filter(task_complete=True)
-	return render(request, 'status.html', 
-		{'experiments': experiments,
-		'userprofiles': userprofiles, 
-		'products': products, 
-		'tasks': tasks,
-		'incomplete_tasks': incomplete_tasks, 
-		'completed_tasks': completed_tasks})
+	masterList = {}
+	for experiment in experiments:
+		name = experiment.name
+		userprofiles = experiment.userprofile_set.all()
+		usp = sorted(userprofiles)
+		products = []
+		tasks = []
+		completedTasks = []
+		incompleteTasks = []
+		experimentList = {}
+		for userprofile in userprofiles:
+			tasklistitems = userprofile.tasklistitem_set.all()
+			for tasklistitem in tasklistitems:
+				products.append(tasklistitem.product)
+				tasks.append(tasklistitem.op_task)
+				if tasklistitem.task_complete is True:
+					completedTasks.append(tasklistitem)
+				else:
+					incompleteTasks.append(tasklistitem)
+		percentageComplete = int((len(completedTasks) / float(len(completedTasks) + len(incompleteTasks))) * 100)
+		sortedProd = sorted(set(products))
+		sortedTasks = sorted(set(tasks))
+		sortedCompletedTasks = sorted(completedTasks)
+		sortedIncompleteTasks = sorted(incompleteTasks)
+		experimentList["users"] = usp
+		experimentList["products"] = sortedProd
+		experimentList["tasks"] = sortedTasks
+		experimentList["completedTasks"] = sortedCompletedTasks
+		experimentList["incompleteTasks"] = sortedIncompleteTasks
+		experimentList["percentageComplete"] = percentageComplete
+		masterList[name] = experimentList
+	return render(request, 'status.html', {'experimentList': masterList})
 
 def view_products(request):
 	products = Product.objects.all()
@@ -344,3 +365,39 @@ def edit_dataset(request, datasetpk):
 	dataset.save()
 
 	return redirect('exp_portal:manage_datasets')
+
+def view_experiment_products(request):
+	experiments = Experiment.objects.all()
+	masterList = {}
+	for experiment in experiments:
+		name = experiment.name
+		userprofiles = experiment.userprofile_set.all()
+		usp = sorted(userprofiles)
+		products = []
+		tasks = []
+		completedTasks = []
+		incompleteTasks = []
+		experimentList = {}
+		for userprofile in userprofiles:
+			tasklistitems = userprofile.tasklistitem_set.all()
+			for tasklistitem in tasklistitems:
+				products.append(tasklistitem.product)
+				tasks.append(tasklistitem.op_task)
+				if tasklistitem.task_complete is True:
+					completedTasks.append(tasklistitem)
+				else:
+					incompleteTasks.append(tasklistitem)
+		percentageComplete = int((len(completedTasks) / float(len(completedTasks) + len(incompleteTasks))) * 100)
+		sortedProd = sorted(set(products))
+		sortedTasks = sorted(set(tasks))
+		sortedCompletedTasks = sorted(completedTasks)
+		sortedIncompleteTasks = sorted(incompleteTasks)
+		experimentList["users"] = usp
+		experimentList["products"] = sortedProd
+		experimentList["tasks"] = sortedTasks
+		experimentList["completedTasks"] = sortedCompletedTasks
+		experimentList["incompleteTasks"] = sortedIncompleteTasks
+		experimentList["percentageComplete"] = percentageComplete
+		masterList[name] = experimentList
+	response = JsonResponse({'experimentInfo': str(masterList)})
+	return response

@@ -5,58 +5,93 @@
 {% block content %}
 
 <h1 id="expStatusHeader">Experiment Status</h1>
-	{% for experiment in experiments %}
+	{% for experimentName, experimentVal in experimentList.items %}
 	<div id="" class="experimentStatusRow">
 		<div class="expShelf">
 			<div class="topShelf">
-				<div class="expName">{{ experiment.name }}</div>
+				<div class="expName">{{ experimentName }}</div>
 				<div class="expDates">
-					<div class="expDate expDateCreated">
+					<!-- <div class="expDate expDateCreated">
 						<div class="expDateLabel">Created</div>
 						<div class="expDateValue">2015/07/23</div>
 					</div>
 					<div class="expDate expDateBegins">
 						<div class="expDateLabel">Begins</div>
 						<div class="expDateValue">2015/07/23</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="expStatsWrapper">
 				<div class="users expStat">
 					<div class="expStatsImg">
-						<img src="{{STATIC_URL}}images/users.png">
+						<img src="{{STATIC_URL}}images/users.png" title="users">
 					</div>
 					<div class="expStatsValue">
-							{{ experiment.userprofile_set.count }}
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'users' in expObjKey %}
+								{{ expObjVal|length }}
+							{% endif %}
+						{% endfor %}
 					</div>
 				</div>
 				<div class="products expStat">
 					<div class="expStatsImg">
-						<img src="{{STATIC_URL}}images/products.png">
+						<img src="{{STATIC_URL}}images/products.png" title="products">
 					</div>
 					<div class="expStatsValue">
-						{% for userprofile in experiment.userprofile_set.all %}
-							{% for tasklistitem in userprofile.tasklistitem_set.all|slice:":1" %}
-								{{ tasklistitem.product_set.count }}
-							{% endfor %}
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'products' in expObjKey %}
+								{{ expObjVal|length }}
+							{% endif %}
 						{% endfor %}
 					</div>
 				</div>
 				<div class="tasks expStat">
 					<div class="expStatsImg">
-						<img src="{{STATIC_URL}}images/tasks.png">
+						<img src="{{STATIC_URL}}images/tasks.png" title="tasks">
 					</div>
 					<div class="expStatsValue">
-						<!-- # of tasks in the task list items used by the experiment's users -->
-						{{ experiment.task_count }}
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'tasks' in expObjKey %}
+								{{ expObjVal|length }}
+							{% endif %}
+						{% endfor %}
 					</div>
 				</div>
 				<div class="completedTasks expStat">
 					<div class="expStatsImg">
-						<img src="{{STATIC_URL}}images/tasksComplete.png">
+						<img src="{{STATIC_URL}}images/tasksComplete.png" title="completed tasks">
 					</div>
 					<div class="expStatsValue">
-						{{ completed_tasks.count }}
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'completedTasks' in expObjKey %}
+								{{ expObjVal|length }}
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				<div class="incompleteTasks expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/tasksIncomplete.png" title="incomplete tasks">
+					</div>
+					<div class="expStatsValue">
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'incompleteTasks' in expObjKey %}
+								{{ expObjVal|length }}
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+				<div class="percentageTasks expStat">
+					<div class="expStatsImg">
+						<img src="{{STATIC_URL}}images/tasksPercentage.png" title="% complete">
+					</div>
+					<div class="expStatsValue">
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'percentageComplete' in expObjKey %}
+								{{ expObjVal }}%
+							{% endif %}
+						{% endfor %}
 					</div>
 				</div>
 			</div>
@@ -110,26 +145,30 @@
 						<li class="lastLogin">Last Login</li>
 					</ul>
 					<ul id="usersBody" class="trayTableBody">
-						{% for userprofile in experiment.userprofile_set.all %}
-						<li>
-							<div class="username">
-								<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
-									{{ userprofile.user.username }}
-								</a>
-							</div>
-							<div class="progressBar">
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: {{ userprofile.progress }}%;
-									{% if userprofile.progress < 30 %} color: #000; {% else %} color: #fff; {% endif %}
-									">
-										{{ userprofile.progress }}%
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'users' in expObjKey %}
+								{% for user in expObjVal %}
+								<li>
+									<div class="username">
+										<a href="{% url 'exp_portal:view_user_tasks' profile=userprofile.user_hash %}">
+											{{ user }}
+										</a>
 									</div>
-								</div>
-							</div>
-							<div class="lastLogin">
-								{{ userprofile.user.last_login }}
-							</div>
-						</li>
+									<div class="progressBar">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 0em; width: {{ userprofile.progress }}%;
+											{% if userprofile.progress < 30 %} color: #000; {% else %} color: #fff; {% endif %}
+											">
+												
+											</div>
+										</div>
+									</div>
+									<div class="lastLogin">
+										
+									</div>
+								</li>
+								{% endfor %}
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
@@ -144,40 +183,44 @@
 						<li class="productInst">Instructions</li>
 					</ul>
 					<ul id="productsBody" class="trayTableBody">
-						{% for product in products %}
-						<li>
-							<div class="productActive">
-								{% if product.is_active %}
-								<span class="glyphicon glyphicon-ok" style="color:green"></span>
-								{% else %}
-								<span class="glyphicon glyphicon-remove" style="color:red"></span>
-								{% endif %}
-							</div>
-							<div class="productName">
-								<a href="{% url 'exp_portal:view_product_details' productname=product.name %}">
-									{{ product.name }}
-								</a>
-							</div>
-							<div class="productTeam">
-								{{ product.team }}
-							</div>
-							<div class="productVersion">
-								{{ product.version }}
-							</div>
-							<div class="productDataset">
-								{{ product.dataset.name }}
-							</div>
-							<div class="productURL">
-								<a href="{{ product.url }}" target='_blank'>
-									<img src="{{STATIC_URL}}images/globe.png" title="{{ product.url }}">
-								</a>
-							</div>
-							<div class="productInst">
-								<a href="{{ product.instructions }}" target='_blank'>
-									<img src="{{STATIC_URL}}images/globe.png" title="{{ product.instructions }}">
-								</a>
-							</div>
-						</li>
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'products' in expObjKey %}
+								{% for product in expObjVal %}
+								<li>
+									<div class="productActive">
+										{% if product.is_active %}
+										<span class="glyphicon glyphicon-ok" style="color:green"></span>
+										{% else %}
+										<span class="glyphicon glyphicon-remove" style="color:red"></span>
+										{% endif %}
+									</div>
+									<div class="productName">
+										<a href="{% url 'exp_portal:view_product_details' productname=product.name %}">
+											{{ product.name }}
+										</a>
+									</div>
+									<div class="productTeam">
+										{{ product.team }}
+									</div>
+									<div class="productVersion">
+										{{ product.version }}
+									</div>
+									<div class="productDataset">
+										{{ product.dataset.name }}
+									</div>
+									<div class="productURL">
+										<a href="{{ product.url }}" target='_blank'>
+											<img src="{{STATIC_URL}}images/globe.png" title="{{ product.url }}">
+										</a>
+									</div>
+									<div class="productInst">
+										<a href="{{ product.instructions }}" target='_blank'>
+											<img src="{{STATIC_URL}}images/globe.png" title="{{ product.instructions }}">
+										</a>
+									</div>
+								</li>
+								{% endfor %}
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
@@ -189,77 +232,93 @@
 						<li class="taskExit">Exit Survey</li>
 					</ul>
 					<ul id="" class="trayTableBody">
-						{% for task in tasks %}
-						<li>
-							<div class="taskActive">
-								{% if task.is_active %}
-								<span class="glyphicon glyphicon-ok" style="color:green"></span>
-								{% else %}
-								<span class="glyphicon glyphicon-remove" style="color:red"></span>
-								{% endif %}
-							</div>
-							<div class="taskName">
-								<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">
-									{{ task.name }}
-								</a>
-							</div>
-							<div class="taskSurvey">
-								<a href="{{ task.survey_url }}" target='_blank'>
-									<img src="{{STATIC_URL}}images/globe.png" title="{{ task.survey_url }}">
-								</a>
-							</div>
-							<div class="taskExit">
-								<a href="{{ task.exit_url }}" target='_blank'>
-									<img src="{{STATIC_URL}}images/globe.png" title="{{ task.exit_url }}">
-								</a>
-							</div>
-						</li>
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'tasks' in expObjKey %}
+								{% for task in expObjVal %}
+								<li>
+									<div class="taskActive">
+										{% if task.is_active %}
+										<span class="glyphicon glyphicon-ok" style="color:green"></span>
+										{% else %}
+										<span class="glyphicon glyphicon-remove" style="color:red"></span>
+										{% endif %}
+									</div>
+									<div class="taskName">
+										<a href="{% url 'exp_portal:view_task_details' taskname=task.name %}">
+											{{ task.name }}
+										</a>
+									</div>
+									<div class="taskSurvey">
+										<a href="{{ task.survey_url }}" target='_blank'>
+											<img src="{{STATIC_URL}}images/globe.png" title="{{ task.survey_url }}">
+										</a>
+									</div>
+									<div class="taskExit">
+										<a href="{{ task.exit_url }}" target='_blank'>
+											<img src="{{STATIC_URL}}images/globe.png" title="{{ task.exit_url }}">
+										</a>
+									</div>
+								</li>
+								{% endfor %}
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 				<div id="tasksCompleted" class="expTraySection">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>User</th>
-								<th>Task Name</th>
-								<th>Date Completed</th>
-								<th>Activity Count</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for task in completed_tasks %}
-								<tr>
-									<td>{{ forloop.counter }}</td>
-									<td>{{ task.userprofile.user.username }}</td>
-									<td>{{ task.op_task.name }}</td>
-									<td>{{ task.date_complete }}</td>
-									<td>{{ task.activity_count }}</td>
-							{% endfor %}
-						</tbody>
-					</table>
+					<ul class="trayTableHeader">
+						<li class="taskCompletedUser">User</li>
+						<li class="taskCompletedName">Task Name</li>
+						<li class="taskCompletedDateCompleted">Date Completed</li>
+						<li class="taskCompletedActCount">Activity Count</li>
+					</ul>
+					<ul class="trayTableBody">
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'completedTasks' in expObjKey %}
+								{% for completedTask in expObjVal %}
+								<li>
+									<div class="taskCompletedUser">
+										{{ completedTask.userprofile.user.username }}
+									</div>
+									<div class="taskCompletedName">
+										{{ completedTask.op_task.name }}
+									</div>
+									<div class="taskCompletedDateCompleted">
+										{{ completedTask.date_complete }}
+									</div>
+									<div class="taskCompletedActCount">
+										{{ completedTask.activity_count }}
+									</div>
+								</li>
+								{% endfor %}
+							{% endif %}
+						{% endfor %}
+					</ul>
 				</div>
 				<div id="tasksIncomplete" class="expTraySection">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>User</th>
-								<th>Task Name</th>
-								<th>Date assigned</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for task in incomplete_tasks %}
-								<tr>
-									<td>{{ forloop.counter }}</td>
-									<td>{{ task.userprofile.user.username }}</td>
-									<td>{{ task.op_task.name }}</td>
-									<td>{{ task.userprofile.user.date_joined }}</td>
-							{% endfor %}
-						</tbody>
-					</table>
+					<ul class="trayTableHeader">
+						<li class="taskIncompleteUser">User</li>
+						<li class="taskIncompleteName">Task Name</li>
+						<li class="taskIncompleteDateAssigned">Date Assigned</li>
+					</ul>
+					<ul class="trayTableBody">
+						{% for expObjKey, expObjVal in experimentVal.items %}
+							{% if 'incompleteTasks' in expObjKey %}
+								{% for incompleteTask in expObjVal %}
+								<li>
+									<div class="taskIncompleteUser">
+										{{ incompleteTask.userprofile.user.username }}
+									</div>
+									<div class="taskIncompleteName">
+										{{ incompleteTask.op_task.name }}
+									</div>
+									<div class="taskIncompleteDateAssigned">
+										{{ incompleteTask.userprofile.user.date_joined }}
+									</div>
+								</li>
+								{% endfor %}
+							{% endif %}
+						{% endfor %}
+					</ul>
 				</div>
 				<div id="metrics" class="expTraySection">
 					<div id="metricsNav">
