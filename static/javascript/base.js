@@ -53,42 +53,83 @@ $(".expShelf").click(function(){
 	$(this).toggleClass("active");
 })
 
-$(".chart").each(function(){
-	var chartId = $(this).attr("id");
-	var dataPath = "";
+var start = true;
 
-	switch (chartId) {
-		case "loadChart":
-			dataPath = "loadData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-		case "difficultyChart":
-			dataPath = "difficultyData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-		case "performanceChart":
-			dataPath = "performanceData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-		case "confidenceChart":
-			dataPath = "confidenceData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-		case "activityChart":
-			dataPath = "activityData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-		case "timeChart":
-			dataPath = "timeData.tsv"
-			buildChart(dataPath, chartId)
-			break;
-	}
+loopCharts(start);
+
+$("#toolsSelect, #tasksSelect").change(function(){
+	start = false;
+	var id = $(this).parents(".experimentStatusRow").attr("id");
+	loopCharts(start, id);
 })
 
-function buildChart(dataPath, chartId) {
+function loopCharts(start, id) {
+	if (start==true) {
+		chartsToLoad = ".chart";
+	} else {
+		chartsToLoad = "#" + id + " .chart";
+	}
+	$(chartsToLoad).each(function(){
+		var chartId = $(this).attr("id");
+		var range;
+		var metric;
+
+		$(".metricsNavBtn").each(function(){
+			if ($(this).hasClass("active")) {
+				var id = $(this).attr("id");
+				metric = id.replace("Btn", "");
+			}
+		})
+
+		var tool = $(this).parents(".metricsBody").find("#toolsSelect").val();
+
+		if (tool == "All") {
+			tool = "";
+		};
+
+		var task = $(this).parents(".metricsBody").find("#tasksSelect").val();
+
+		if (task == "all") {
+			task = "";
+		} else if (task == "Test-OT1") {
+			task = "OT1"
+		} else if (task == "Test-OT2") {
+			task = "OT2"
+		};
+
+		console.log("metric = " + metric);
+		console.log("tool = " + tool);
+		console.log("task = " + task);
+
+		switch (chartId) {
+			case "loadChart":
+				dataPath = "load" + task + ".csv"
+				break;
+			case "difficultyChart":
+				dataPath = "difficulty" + task + ".csv"
+				break;
+			case "performanceChart":
+				dataPath = "performance" + task + ".csv"
+				break;
+			case "confidenceChart":
+				dataPath = "confidence" + task + ".csv"
+				break;
+			case "activityChart":
+				dataPath = "activity" + task + ".csv"
+				break;
+			case "timeChart":
+				dataPath = "time" + task + ".csv"
+				break;
+		}
+		$(this).empty();
+		buildChart(dataPath, chartId, tool)
+	})
+}
+
+function buildChart(dataPath, chartId, tool) {
 	var margin = {top: 20, right: 30, bottom: 30, left: 40},
-	    width = 600 - margin.left - margin.right,
-	    height = 392 - margin.top - margin.bottom;
+	    width = 535 - margin.left - margin.right,
+	    height = 350 - margin.top - margin.bottom;
 
 	var x = d3.scale.ordinal()
 	    .rangeRoundBands([0, width], .1);
@@ -103,7 +144,7 @@ function buildChart(dataPath, chartId) {
 	var yAxis = d3.svg.axis()
 	    .scale(y)
 	    .orient("left")
-	    .ticks(10, "%");
+	    .ticks(5);
 
 	var chart = d3.select("#" + chartId)
 	    .attr("width", width + margin.left + margin.right)
@@ -111,9 +152,16 @@ function buildChart(dataPath, chartId) {
 	  .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.tsv("/static/javascript/fakeData/" + dataPath, type, function(error, data) {
-	  x.domain(data.map(function(d) { return d.letter; }));
-	  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+	d3.csv("/static/javascript/data/" + dataPath, type, function(error, data) {
+		
+		if (tool !== "all") {
+			data = data.filter(function(row) {
+				return row["Tool"] == tool;
+			});
+		};
+
+	  x.domain(data.map(function(d) { return d.Range; }));
+	  y.domain([0, d3.max(data, function(d) { return d.Count; })]);
 
 	  chart.append("g")
 	      .attr("class", "x axis")
@@ -134,14 +182,14 @@ function buildChart(dataPath, chartId) {
 	      .data(data)
 	    .enter().append("rect")
 	      .attr("class", "bar")
-	      .attr("x", function(d) { return x(d.letter); })
-	      .attr("y", function(d) { return y(d.frequency); })
-	      .attr("height", function(d) { return height - y(d.frequency); })
+	      .attr("x", function(d) { return x(d.Range); })
+	      .attr("y", function(d) { return y(d.Count); })
+	      .attr("height", function(d) { return height - y(d.Count); })
 	      .attr("width", x.rangeBand());
 	});
 
 	function type(d) {
-	  d.frequency = +d.frequency; // coerce to number
+	  d.Count = +d.Count; // coerce to number
 	  return d;
 	}
 }

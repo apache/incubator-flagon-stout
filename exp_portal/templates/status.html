@@ -6,7 +6,7 @@
 
 <h1 id="expStatusHeader">Experiment Status</h1>
 	{% for experimentName, experimentVal in experimentList.items %}
-	<div id="" class="experimentStatusRow">
+	<div id="{{ experimentName }}" class="experimentStatusRow">
 		<div class="expShelf">
 			<div class="topShelf">
 				<div class="expName">{{ experimentName }}</div>
@@ -329,7 +329,39 @@
 						<div id="activityBtn" class="metricsNavBtn">Activity</div>
 						<div id="timeBtn" class="metricsNavBtn">Time</div>
 					</div>
-					<div id="metricsBody">
+					<div class="metricsBody">
+						<div class="metricsDropdowns">
+							<div class="selectTitle">Tool</div>
+							<select name="tools" id="toolsSelect">
+								<!-- <option value="all">All</option> -->
+								{% for expObjKey, expObjVal in experimentVal.items %}
+									{% if 'products' in expObjKey %}
+										{% for product in expObjVal %}
+										<!-- <option value="{{ product.name }}"> -->{{ product.name }}</option>
+										{% endfor %}
+									{% endif %}
+								{% endfor %}
+								<option value="APERTURE">APERTURE</option>
+								<option value="GeoMap">GeoMap</option>
+								<option value="GeoMen">GeoMen</option>
+								<option value="Influent">Influent</option>
+								<option value="LineUP">LineUP</option>
+								<option value="NEON">NEON</option>
+								<option value="NEWMAN">NEWMAN</option>
+								<option value="TrackCom">TrackCom</option>
+							</select>
+							<div class="selectTitle">Task</div>
+							<select name="tasks" id="tasksSelect">
+								<option value="all">All</option>
+								{% for expObjKey, expObjVal in experimentVal.items %}
+									{% if 'tasks' in expObjKey %}
+										{% for task in expObjVal %}
+										<option value="{{ task.name }}">{{ task.name }}</option>
+										{% endfor %}
+									{% endif %}
+								{% endfor %}
+							</select>
+						</div>
 						<div id="load" class="metricsSection active">
 							<svg id="loadChart" class="chart"></svg>
 						</div>

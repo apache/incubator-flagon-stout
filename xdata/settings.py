@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'op_tasks',
     'exp_portal',
     'developer',
+    'uploads',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,6 +100,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 LOGIN_URL = '/login/'
 

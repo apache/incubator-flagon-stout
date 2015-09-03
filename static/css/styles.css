@@ -273,8 +273,12 @@ div.product-instructions .glyphicon{
       .expStat {
         float: left;
         margin-right: 10px;
-        width: 100px;
+        width: 90px;
       }
+
+        .expStatsWrapper:last-child {
+          margin-right: 0;
+        }
 
         .expStatsImg {
           float: left;
@@ -547,11 +551,23 @@ div.product-instructions .glyphicon{
             background: #428bca;
           }
 
-      #metricsBody {
+      .metricsBody {
         float: left;
         margin-left: 2%;
-        width: 75%;
+        margin-top: 30px;
+        width: 70%;
       }
+
+        .selectTitle {
+          float: left;
+          margin-right: 8px;
+        }
+
+        .metricsBody select {
+          color: #000;
+          float: left;
+          margin-right: 18px;
+        }
 
         .metricsSection {
           display: none;

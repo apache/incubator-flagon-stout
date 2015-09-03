@@ -7,6 +7,7 @@ from users import *
 from products import *
 from tasks import *
 import csv
+import pandas
 
 @login_required(login_url='/tasking/login')
 def home_page(request):
@@ -44,8 +45,8 @@ def view_status(request):
 		experimentList["completedTasks"] = sortedCompletedTasks
 		experimentList["incompleteTasks"] = sortedIncompleteTasks
 		experimentList["percentageComplete"] = percentageComplete
-		masterList[name] = experimentList 
-	return render(request, 'status.html', {'experimentList': masterList})
+		masterList[name] = experimentList
+	return render(request, 'status.html', {'experimentList': masterList})	
 
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()

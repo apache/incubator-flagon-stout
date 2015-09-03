@@ -3,6 +3,7 @@ from xdata import views
 from django.contrib import admin
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 admin.autodiscover()
 		
 urlpatterns = patterns('',
@@ -12,9 +13,10 @@ urlpatterns = patterns('',
     url(r'^developer/', include('developer.urls', namespace="developer")),
     url(r'^user_feedback/', views.user_feedback_home, name='user_feedback_home'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include('uploads.urls')),
     url(r'^$', views.index, name='index'),    
     # (r'^contact/$', contact),
 
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
