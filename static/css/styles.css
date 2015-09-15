@@ -43,9 +43,9 @@ html {
   filter: alpha(opacity=40);
 }*/
 
-.btn {
+/*.btn {
   margin: 2px;
-}
+}*/
 
 .modal-dialog {
   width: 1140px;
@@ -589,3 +589,13 @@ div.product-instructions .glyphicon{
             font: 10px sans-serif;
             text-anchor: end;
           }
+
+#contacts li {
+  cursor: pointer;
+  padding: 6px 0 0 10px;
+}
+
+  #contacts li:hover {
+    background: #39f;
+    color: #fff;
+  }

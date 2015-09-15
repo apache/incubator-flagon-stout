@@ -1,3 +1,8 @@
+$("#contacts li").click(function(){
+	var emailAddress = $(this).html();
+	$("#email-to").val(emailAddress);
+})
+
 $(".expTrayNavBtn").hover(function(){
 	var id = $(this).attr("id");
 	id = id.replace("Btn", "Label");

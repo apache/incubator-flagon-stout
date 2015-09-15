@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from users import *
 from products import *
 from tasks import *
+from email import *
 import csv
 import pandas
 
@@ -48,13 +49,16 @@ def view_status(request):
 		masterList[name] = experimentList
 	return render(request, 'status.html', {'experimentList': masterList})	
 
+
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()
 	return render(request, 'experiments.html', {'experimentlist': experimentlist})
 
+
 def view_exp_details(request, exppk):
 	experiment = Experiment.objects.get(id=exppk)
 	return render(request, 'experiment_details.html', {'experiment':experiment})
+
 
 def add_exp(request):
 	if request.method == 'POST':
@@ -75,6 +79,7 @@ def add_exp(request):
 
 	return render(request, 'add_experiment.html')
 
+
 def edit_exp(request, exppk):
 	experiment = Experiment.objects.get(id=exppk)
 	experiment.name = request.POST['exp_name']
@@ -92,13 +97,16 @@ def edit_exp(request, exppk):
 
 	return redirect('exp_portal:manage_exps')
 
+
 def manage_datasets(request):
 	datasets = Dataset.objects.all()
 	return render(request, 'datasets.html', {'datasets':datasets})
 
+
 def view_dataset_details(request, datasetpk):
 	dataset = Dataset.objects.get(id=datasetpk)
 	return render(request, 'dataset_details.html', {'dataset':dataset})
+
 
 def add_dataset(request):
 	if request.method == 'POST':
@@ -113,6 +121,7 @@ def add_dataset(request):
 	# else fall here
 	return render(request, 'add_dataset.html')
 
+
 def edit_dataset(request, datasetpk):
 	dataset = Dataset.objects.get(id=datasetpk)
 	dataset.name = request.POST['dataset_name']
@@ -122,6 +131,7 @@ def edit_dataset(request, datasetpk):
 	dataset.save()
 
 	return redirect('exp_portal:manage_datasets')
+
 
 def view_experiment_products(request):
 	experiments = Experiment.objects.all()
