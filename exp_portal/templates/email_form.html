@@ -1,39 +1,39 @@
 {% extends "experimentpage.html" %}
 
 {% block content %}
-<form name="emailBlast" action="{%url 'exp_portal:send_email' %}">
-<div class="row">
-    <div class="col-lg-10">
-        <label for="email-to" class="col-lg-2">To:</label>
-        <div class="input-group">
-            <input type="text" class="form-control" id="email-to">
-            <div class="input-group-btn">
-                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right" id="contacts">
-                    <li value="all">All Participants</li>
-                    <div role="separator" class="divider")></div>
-                    {% for userprofile in userprofiles %}
-                    <li>{{userprofile.user.email}}</li>
-                    {% endfor %}
-                </ul>
+    <form method="POST" name="emailBlast" action="{%url 'exp_portal:send_email' %}">
+        <div class="row">
+            <div class="col-lg-10">
+                <label for="email-to" class="col-lg-2">To:</label>
+                <div class="input-group">
+                    <input class="form-control" name="email_to" id="email-to"/>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="contacts">
+                            <li value="all">All Participants</li>
+                            <div role="separator" class="divider")></div>
+                            {% for userprofile in userprofiles %}
+                                <li>{{userprofile.user.email}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <label for="email-subject" class="col-lg-2">Subject:</label>
+                <div class="input-group">
+                    <input class="form-control" name="email_subject" id="email-subject"/>
+                </div>
+                <label for="email-message" class="col-lg-2">Message:</label>
+                <div class="input_group">
+                    <textarea class="form-control" rows="5" name="email_message" id="email-message"></textarea>
+                </div>
             </div>
         </div>
-        <label for="email-subject" class="col-lg-2">Subject:</label>
-        <div class="input-group">
-            <input type="text" class="form-control" id="email-subject">
-        </div>
-        <label for="email-message" class="col-lg-2">Message:</label>
-        <div class="input_group">
-            <textarea class="form-control" rows="5" id="email-message"></textarea>
-        </div>
-    </div>
-</div>
-
-<input type="submit">
-
-</form>
+        <input class="btn btn-default" type="submit" value="Send Mail">
+        {% csrf_token %}
+    </form>
+    {{ status }}
 
 {% endblock %}

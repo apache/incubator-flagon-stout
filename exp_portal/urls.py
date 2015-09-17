@@ -40,6 +40,5 @@ urlpatterns= patterns('',
 	url(r'^users/tasks/update/(?P<userpk>.*)/(?P<datasetpk>.*)/(?P<productpk>.*)/(?P<taskpk>.*)', views.update_user_tasks, name='update_user_tasks'),
 	url(r'^users/tasks/viewall/(?P<profile>.*)$', views.view_user_tasks, name='view_user_tasks'),
 	url(r'^experiment/products/$', views.view_experiment_products, name='view_experiment_products'),
-	url(r'^email/$', views.email_form, name='email_form'),
-	url(r'^email/send/$', views.send_email, name='send_email'),
+	url(r'^email/$', views.send_email, name='send_email'),
 	)

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
 
+import exp_portal
 import json
 import datetime
 import exceptions
@@ -201,6 +202,11 @@ def register(request):
 
         # add some logic to log events, log in users directly
         print "successful registration of " + request.POST['username'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        request.POST['email_to'] = user.email
+        request.POST['email_subject'] = 'Welcome to XDATA Online'
+        request.POST['email_message'] = 'successful registration'
+        exp_portal.email.send_email(request)
+
         # login_participant(request)
         # return render(request, 'instructions/exp_instructions.html', {'user': request.user})
 

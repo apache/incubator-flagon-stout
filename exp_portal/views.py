@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from users import *
 from products import *
