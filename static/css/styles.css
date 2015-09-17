@@ -590,12 +590,65 @@ div.product-instructions .glyphicon{
             text-anchor: end;
           }
 
+.emailRow {
+  float: left;
+  margin-bottom: 20px;
+  width: 800px;
+}
+
+.emailLabel {
+  float: left;
+  margin-top: 7px;
+  width: 100px;
+}
+
+.emailInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: none;
+  float: left;
+  height: 34px;
+  padding: 4px 8px;
+  width: 400px;
+}
+
+  #email-to {
+    border-radius: 4px 0 0 4px;
+  }
+
+  #email-subject {
+    width: 450px;
+  }
+
+.emailRow .input-group-btn {
+  width: 1px;
+}
+
+#contacts {
+  margin: 0;
+  padding: 0;
+}
+
 #contacts li {
   cursor: pointer;
-  padding: 6px 0 0 10px;
+  padding: 6px 0 6px 10px;
 }
 
   #contacts li:hover {
     background: #39f;
     color: #fff;
   }
+
+.emailRow textarea {
+  border-radius: 4px;
+  height: 500px;
+  padding: 8px;
+  resize: none;
+  width: 690px;
+}
+
+#emailSubmit {
+  clear: both;
+  float: left;
+  margin: -5px 0 0 100px;
+}
