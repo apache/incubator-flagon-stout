@@ -640,6 +640,7 @@ div.product-instructions .glyphicon{
   }
 
 .emailRow textarea {
+  border-color: #ccc;
   border-radius: 4px;
   height: 500px;
   padding: 8px;
