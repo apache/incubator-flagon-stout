@@ -13,3 +13,5 @@ files/draper-openrc.sh
 op_tasks/migrations/*
 exp_portal/migrations/*
 developer/migrations/*
+uploads/migrations/*
+secret.py
