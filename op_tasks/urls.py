@@ -12,7 +12,6 @@ urlpatterns = patterns('',
     url(r'^task_test/(?P<task_pk>[0-9]+)$', views.task_test, name='task_test'),
     url(r'^task_launch/(?P<task_pk>[0-9]+)$', views.task_launch, name='task_launch'),
     url(r'^register$', views.register, name='register'),
-    # url(r'^login/(?P<title>\w+)$', views.login_participant, name='login'),
     url(r'^login/$', views.login_participant, name='login'),
     url(r'^logout/$', views.logout_participant, name='logout'),
     url(r'^intro/$', views.intro, name='intro'),
@@ -22,7 +21,9 @@ urlpatterns = patterns('',
     url(r'^experiment_instructions$', views.exp_instruct, name='exp_instruct'),
     url(r'^portal_instructions$', views.portal_instruct, name='portal_instruct'),
     url(r'^product_instructions$', views.product_instruct, name='product_instruct'), 
-    url(r'^user_profile$', views.view_profile, name='view_profile'), 
+    url(r'^user_profile$', views.view_profile, name='view_profile'),
+    url(r'^reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', views.reset_confirm, name='reset_confirm'),
+    url(r'^reset/$', views.reset, name='reset'),
 )
 
 # print settings.DEBUG, settings.STATIC_ROOT
