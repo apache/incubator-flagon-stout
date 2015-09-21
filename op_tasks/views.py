@@ -281,15 +281,20 @@ def login_participant(request):
 	# return login_view(request, authentication_form=MyAuthForm)
 
 
-def reset_confirm(request, uidb36=None, token=None):
-    return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
-                                  uidb36=uidb36, token=token,
+def reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='registration/reset_password_confirm.html',
+                                  uidb64=uidb64, token=token,
                                   post_reset_redirect=reverse('op_tasks:login'))
 
 
 def reset(request):
-    return password_reset(request, template_name='registration/password_reset_form.html',
-                          post_reset_redirect=reverse('op_tasks:login'))
+    return password_reset(request, template_name='registration/reset_password_form.html',
+                          email_template_name='registration/reset_password_email.html',
+                          post_reset_redirect=reverse('op_tasks:reset_sent'))
+
+
+def reset_sent(request):
+    return render(request, 'registration/reset_password_done.html')
 
 
 @login_required(login_url='/tasking/login')

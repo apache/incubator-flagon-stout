@@ -22,8 +22,9 @@ urlpatterns = patterns('',
     url(r'^portal_instructions$', views.portal_instruct, name='portal_instruct'),
     url(r'^product_instructions$', views.product_instruct, name='product_instruct'), 
     url(r'^user_profile$', views.view_profile, name='view_profile'),
-    url(r'^reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', views.reset_confirm, name='reset_confirm'),
+    url(r'^reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.reset_confirm, name='reset_confirm'),
     url(r'^reset/$', views.reset, name='reset'),
+    url(r'^reset/sent/$', views.reset_sent, name='reset_sent')
 )
 
 # print settings.DEBUG, settings.STATIC_ROOT
