@@ -3,6 +3,9 @@ from op_tasks.models import Experiment
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+import pandas
+import numpy
+
 import os
 
 from models import Document
@@ -25,7 +28,7 @@ def list(request):
         return render(request, 'list.html', {'form': form, 'experiments': experiments})
 
 def handle_uploaded_file(f, dirname):
-    path = os.path.join('../', dirname)
+    path = os.path.join('../results/', dirname)
     try:
         os.mkdir(path)
     except:
@@ -34,3 +37,6 @@ def handle_uploaded_file(f, dirname):
     with open(path  + '/' + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
+
+    # new code for parsing
+
