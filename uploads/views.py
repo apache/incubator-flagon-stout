@@ -39,4 +39,7 @@ def handle_uploaded_file(f, dirname):
             destination.write(chunk)
 
     # new code for parsing
-
+    print file.name
+    print path + '/' + file.name
+    data = pandas.read_csv(path + '/' + file.name)
+    print data.shape
