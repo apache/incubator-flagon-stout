@@ -36,6 +36,8 @@
         </div>
         {% csrf_token %}
     </form>
-    {{ status }}
+    <div id="statusMessage" class="{{ status }}">
+        {{ statusMessage }}
+    </div>
 
 {% endblock %}

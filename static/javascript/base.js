@@ -23,6 +23,16 @@ $(".expTrayNavBtn").hover(function(){
 	// $(this).find(".expTrayNavBtnLabel").hide();
 })
 
+$("#statusMessage").bind("DOMSubtreeModified", function(){
+	if ($(this).hasClass("0")) {
+		$(this).css("color", "red");
+	} else if ($(this).hasClass("1")) {
+		$(this).css("color", "red");
+	} else {
+		$(this).css("color", "#000");
+	}
+})
+
 $(".expTrayNavBtn").on("click", function(){
 	var $this = $(this).parents(".expTray");
 	$(this).parent().find(".expTrayNavBtn").removeClass("active");

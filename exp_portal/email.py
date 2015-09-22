@@ -12,9 +12,15 @@ def send_email(request):
         print email_to, subject, message
         status = mail.send_mail(subject, message, settings.EMAIL_HOST_USER, [email_to], fail_silently=False)
     else:
-        status = 0
+        status = 2
     userprofiles = UserProfile.objects.all()
-    return render(request, 'email_form.html', {'userprofiles': userprofiles, 'status': status})
+    if status == 0:
+        statusMessage = "The email did not send. Try again."
+    elif status == 1:
+        statusMessage = "Email sent!"
+    elif status == 2:
+        statusMessage = ""
+    return render(request, 'email_form.html', {'userprofiles': userprofiles, 'status': status, 'statusMessage': statusMessage})
 
 
 def printme(string):

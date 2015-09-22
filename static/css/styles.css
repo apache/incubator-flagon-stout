@@ -653,3 +653,23 @@ div.product-instructions .glyphicon{
   float: left;
   margin: -5px 0 0 100px;
 }
+
+  #emailSubmit input {
+    background-color: #777;
+    color: #fff;
+    font-size: 18px;
+    height: 50px;
+    /*text-transform: uppercase;*/
+    width: 150px;
+  }
+
+  #emailSubmit input:hover {
+    background-color: #39f;
+    color: #fff;
+  }
+
+#statusMessage {
+  float: left;
+  font-size: 18px;
+  margin: 8px 0 0 40px;
+}
