@@ -2,18 +2,18 @@ from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.conf import settings
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
 
-import json
+import exp_portal
 import datetime
-import exceptions
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
+from op_tasks.models import Product, UserProfile, TaskListItem, Experiment
 
 
 def set_cookie(response, key, value, days_expire = 7):
@@ -127,6 +127,7 @@ def product(request, task_pk):
     set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
     return response
 
+
 def product_test(request, task_pk):
     user = request.user
     userprofile = user.userprofile
@@ -138,6 +139,7 @@ def product_test(request, task_pk):
     set_cookie(response, 'USID', '%s::%s' % (userprofile.user_hash, tasklistitem.pk))
     return response
 
+
 def task_test(request, task_pk):
     user = request.user
     userprofile = user.userprofile
@@ -146,6 +148,7 @@ def task_test(request, task_pk):
     request.session['current_optask'] = current_task.pk
 
     return render(request, 'task.html', {'tasklistitem':tasklistitem})
+
 
 def task_launch(request, task_pk):
     tasklistitem = TaskListItem.objects.get(pk=task_pk)
@@ -201,6 +204,11 @@ def register(request):
 
         # add some logic to log events, log in users directly
         print "successful registration of " + request.POST['username'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        request.POST['email_to'] = user.email
+        request.POST['email_subject'] = 'Welcome to XDATA Online'
+        request.POST['email_message'] = 'successful registration'
+        exp_portal.email.send_email(request)
+
         # login_participant(request)
         # return render(request, 'instructions/exp_instructions.html', {'user': request.user})
 
@@ -216,12 +224,14 @@ def register(request):
     # possibly change this to render task list - see notes above
     return render_to_response('registration/register.html', {'registered': registered}, context)
 
+
 def logout_participant(request):
     """
     Log users out and re-direct them to the main page.
     """
     logout(request)
     return HttpResponseRedirect('/')
+
 
 def login_participant(request):
 	# Like before, obtain the context for the user's request.
@@ -270,6 +280,23 @@ def login_participant(request):
 
 	# return login_view(request, authentication_form=MyAuthForm)
 
+
+def reset_confirm(request, uidb64=None, token=None):
+    return password_reset_confirm(request, template_name='registration/reset_password_confirm.html',
+                                  uidb64=uidb64, token=token,
+                                  post_reset_redirect=reverse('op_tasks:login'))
+
+
+def reset(request):
+    return password_reset(request, template_name='registration/reset_password_form.html',
+                          email_template_name='registration/reset_password_email.html',
+                          post_reset_redirect=reverse('op_tasks:reset_sent'))
+
+
+def reset_sent(request):
+    return render(request, 'registration/reset_password_done.html')
+
+
 @login_required(login_url='/tasking/login')
 def task_list(request):
     # print [x.both_complete for x in userprofile.tasklistitem_set.all()]
@@ -315,14 +342,18 @@ def instruct(request, read=None):
         first_task.save()
     return render(request, 'instruction_home.html', {'user': request.user, 'product': product})
 
+
 def exp_instruct(request):
     return render(request, 'instructions/exp_instructions.html', {'user': request.user})
+
 
 def portal_instruct(request):
     return render(request, 'instructions/portal_instructions.html', {'user': request.user})
 
+
 def product_instruct(request):
     return render(request, 'instructions/product_instructions.html', {'user': request.user})
+
 
 def view_profile(request):
     return render(request, 'user_profile.html', {'user': request.user})

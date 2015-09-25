@@ -43,9 +43,9 @@ html {
   filter: alpha(opacity=40);
 }*/
 
-.btn {
+/*.btn {
   margin: 2px;
-}
+}*/
 
 .modal-dialog {
   width: 1140px;
@@ -589,3 +589,87 @@ div.product-instructions .glyphicon{
             font: 10px sans-serif;
             text-anchor: end;
           }
+
+.emailRow {
+  float: left;
+  margin-bottom: 20px;
+  width: 800px;
+}
+
+.emailLabel {
+  float: left;
+  margin-top: 7px;
+  width: 100px;
+}
+
+.emailInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: none;
+  float: left;
+  height: 34px;
+  padding: 4px 8px;
+  width: 400px;
+}
+
+  #email-to {
+    border-radius: 4px 0 0 4px;
+  }
+
+  #email-subject {
+    width: 450px;
+  }
+
+.emailRow .input-group-btn {
+  width: 1px;
+}
+
+#contacts {
+  margin: 0;
+  padding: 0;
+}
+
+#contacts li {
+  cursor: pointer;
+  padding: 6px 0 6px 10px;
+}
+
+  #contacts li:hover {
+    background: #39f;
+    color: #fff;
+  }
+
+.emailRow textarea {
+  border-color: #ccc;
+  border-radius: 4px;
+  height: 500px;
+  padding: 8px;
+  resize: none;
+  width: 690px;
+}
+
+#emailSubmit {
+  clear: both;
+  float: left;
+  margin: -5px 0 0 100px;
+}
+
+  #emailSubmit input {
+    background-color: #777;
+    color: #fff;
+    font-size: 18px;
+    height: 50px;
+    /*text-transform: uppercase;*/
+    width: 150px;
+  }
+
+  #emailSubmit input:hover {
+    background-color: #39f;
+    color: #fff;
+  }
+
+#statusMessage {
+  float: left;
+  font-size: 18px;
+  margin: 8px 0 0 40px;
+}

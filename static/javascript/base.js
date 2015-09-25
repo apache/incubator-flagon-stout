@@ -1,3 +1,8 @@
+$("#contacts li").click(function(){
+	var emailAddress = $(this).html();
+	$("#email-to").val(emailAddress);
+})
+
 $(".expTrayNavBtn").hover(function(){
 	var id = $(this).attr("id");
 	id = id.replace("Btn", "Label");
@@ -16,6 +21,16 @@ $(".expTrayNavBtn").hover(function(){
 	});
 	// $(this).css("width", "60px");
 	// $(this).find(".expTrayNavBtnLabel").hide();
+})
+
+$("#statusMessage").bind("DOMSubtreeModified", function(){
+	if ($(this).hasClass("0")) {
+		$(this).css("color", "red");
+	} else if ($(this).hasClass("1")) {
+		$(this).css("color", "red");
+	} else {
+		$(this).css("color", "#000");
+	}
 })
 
 $(".expTrayNavBtn").on("click", function(){

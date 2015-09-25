@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+from secret import *
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os, sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -109,3 +111,11 @@ LOGIN_URL = '/login/'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Email integration setup
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'xdataonline@gmail.com'
+EMAIL_HOST_PASSWORD = MY_EMAIL_PASSWORD
+EMAIL_PORT = 587
