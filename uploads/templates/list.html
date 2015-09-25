@@ -1,8 +1,10 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Master Answer Sheet Uploader</title>   
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     </head>
     <body>
 
@@ -28,5 +30,6 @@
             </p>
             <p><input type="submit" value="Upload" /></p>
         </form>
+        <script type="text/javascript" src="{% static "javascript/uploads.js" %}"></script>
     </body>
 </html> 

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 import pandas
-import numpy
+import numpy as np
 
 import os
 
@@ -39,7 +39,31 @@ def handle_uploaded_file(f, dirname):
             destination.write(chunk)
 
     # new code for parsing
-    print file.name
-    print path + '/' + file.name
     data = pandas.read_csv(path + '/' + file.name)
-    print data.shape
+    cols = ['SYS.FIL.APP.','PST.EXP.CLD.','PST.EXP.CLD.CP1.OT1.','PST.EXP.CLD.CP1.OT2.', 'PST.EXP.BED.', 'PST.EXP.BED.CP1.OT1.', 'PST.EXP.BED.CP1.OT2.']
+    workingData = data[cols]
+    workingDataDF = pandas.DataFrame(workingData)
+    workingDataDF[['PST.EXP.CLD.','PST.EXP.CLD.CP1.OT1.','PST.EXP.CLD.CP1.OT2.', 'PST.EXP.BED.', 'PST.EXP.BED.CP1.OT1.', 'PST.EXP.BED.CP1.OT2.']] = np.around(workingDataDF[['PST.EXP.CLD.','PST.EXP.CLD.CP1.OT1.','PST.EXP.CLD.CP1.OT2.', 'PST.EXP.BED.', 'PST.EXP.BED.CP1.OT1.', 'PST.EXP.BED.CP1.OT2.']], 0)
+    workingDataDF.head()
+
+    tools = pandas.DataFrame(workingData['SYS.FIL.APP.']).drop_duplicates().sort('SYS.FIL.APP.').reset_index();
+    del tools['index']
+    tools.columns = ['Tools']
+
+    metrics = {'load':{'col':'PST.EXP.CLD.','max':5},'loadOT1':{'col':'PST.EXP.CLD.CP1.OT1.','max':5}, 'loadOT2':{'col':'PST.EXP.CLD.CP1.OT2.','max':5},
+    'difficulty':{'col':'PST.EXP.BED.','max':10}, 'difficultyOT1':{'col':'PST.EXP.BED.CP1.OT1.','max':10},'difficultyOT2':{'col':'PST.EXP.BED.CP1.OT2.','max':10}}
+
+    for key, value in metrics.items():
+        df = pandas.DataFrame({key: workingDataDF.groupby(['SYS.FIL.APP.', value['col']], sort=0, as_index=False).size()}).reset_index()
+        df.columns = ['Tool', 'Range', 'Count']
+        df = df.sort(['Tool', 'Range'], ascending=[1, 1])
+        array = []
+        min = 1
+        for i in tools.Tools:
+            maxVal = int(value['max']) + 1
+            for j in range(1,maxVal):
+                subarray = [i, j]
+                array.append(subarray)
+        d = pandas.DataFrame(array, columns=('Tool', 'Range'))
+        result = pandas.ordered_merge(df,d)
+        result.to_csv(path_or_buf=path + str(key) + '.csv', sep=',',na_rep='0',index=False)
