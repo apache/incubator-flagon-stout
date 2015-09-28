@@ -1,9 +1,9 @@
-from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.contrib.auth.models import User 
 from django.contrib.auth.hashers import make_password
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
+from op_tasks.models import Dataset, \
+	Product, OpTask, UserProfile, TaskListItem, Experiment, Achievement, UserAchievement
 
 # Create your tests here.
 
@@ -11,6 +11,7 @@ from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem,
 
 # 	def test_bad_math(self):
 # 		self.assertEqual(1+1,3)
+
 
 class ModelTest(TestCase):
 
@@ -197,9 +198,15 @@ class ModelTest(TestCase):
 		testtask2 = OpTask(dataset=testdata, name='task2')
 		testtask2.save()
 
-		test_tli_1 = TaskListItem(userprofile=userprofile1, product=testproduct, op_task=testtask1, index=0)
+		test_tli_1 = TaskListItem(userprofile=userprofile1,
+								  product=testproduct,
+								  op_task=testtask1,
+								  index=0)
 		test_tli_1.save()
-		test_tli_2 = TaskListItem(userprofile=userprofile1, product=testproduct, op_task=testtask2, index=1)
+		test_tli_2 = TaskListItem(userprofile=userprofile1,
+								  product=testproduct,
+								  op_task=testtask2,
+								  index=1)
 		test_tli_2.save()
 
 		test_tlis = TaskListItem.objects.all()
@@ -213,3 +220,43 @@ class ModelTest(TestCase):
 				self.assertEqual(matched_task_items.count(),2)
 			else:
 				self.assertEqual(matched_task_items.count(),0)
+
+	def test_can_assign_user_achievements(self):
+		# create a bunch of users
+		user = User(username='John', password=make_password('John'))
+		user.save()
+		userprofile = UserProfile(user=user)
+		userprofile.save()
+
+		userTwo = User(username='Paul', password=make_password('Paul'))
+		userTwo.save()
+		userprofileTwo = UserProfile(user=userTwo)
+		userprofileTwo.save()
+
+		achievement = Achievement(name='One')
+		achievement.save()
+
+		userachievement = UserAchievement()
+		userachievement.achievement = achievement
+		userachievement.userprofile = userprofile
+		userachievement.save()
+
+		userachievementTwo = UserAchievement()
+		userachievementTwo.userprofile = userprofileTwo
+		userachievementTwo.achievement = Achievement.objects.get(name='One')
+		userachievementTwo.save()
+
+		saved_achievements = Achievement.objects.all()
+		self.assertEqual(saved_achievements.count(), 1)
+
+		saved_userachievements = UserAchievement.objects.all()
+		self.assertEqual(saved_userachievements.count(), 2)
+
+		for saved_userachievement in saved_userachievements:
+			if saved_userachievement.userprofile.user.username == 'Paul':
+				self.assertEqual(saved_userachievement.achievement.name, 'One')
+
+
+
+
+

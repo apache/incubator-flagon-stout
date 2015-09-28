@@ -6,8 +6,6 @@ from users import *
 from products import *
 from tasks import *
 from email import *
-import csv
-import pandas
 
 @login_required(login_url='/tasking/login')
 def home_page(request):

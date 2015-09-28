@@ -3,20 +3,25 @@ from django.contrib.auth.models import User
 import hashlib
 import time, datetime
 
+
 def _createHash():
     hash = hashlib.sha1()
     hash.update(str(time.time()))
     return hash.hexdigest()[:-10]
+
 
 # the dataset class stores parameters about the 
 class Dataset(models.Model):
     name = models.CharField(max_length=1000) # name of dataset
     version = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
+
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s - %s' % (self.name, self.version)
+
     class Meta:
         unique_together = ("name", "version")
+
 
 class Product(models.Model): # product = tool + dataset
     dataset = models.ForeignKey(Dataset, null=True, blank=True) # data for tool
@@ -26,8 +31,10 @@ class Product(models.Model): # product = tool + dataset
     version = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
     instructions = models.CharField(max_length=1000) 
+
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s:%s:%s:%s' % (self.team, self.name, self.dataset, self.version)
+
 
 class OpTask(models.Model):
     dataset = models.ForeignKey(Dataset, null=True, blank=True)
@@ -39,6 +46,7 @@ class OpTask(models.Model):
     
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s-%s' % (self.name, self.dataset)
+
 
 class Experiment(models.Model):
     name = models.CharField(max_length=250)  # name of the experiment
@@ -58,6 +66,7 @@ class Experiment(models.Model):
 
     def __unicode__(self):
         return '%s' % (self.name)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -107,3 +116,19 @@ class TaskListItem(models.Model):
     class Meta:
         ordering = ('userprofile', 'index')
     # index = models.IntegerField()
+
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=50)
+    desc = models.CharField(max_length=1000)
+
+    def __unicode__(self):
+        return '%s' % (self.name)
+
+
+class UserAchievement(models.Model):
+    userprofile = models.ForeignKey(UserProfile)
+    achievement = models.ForeignKey(Achievement)
+
+    def __unicode__(self):
+        return '%s - %s' % (self.userprofile.user.username, self.achievement.name)

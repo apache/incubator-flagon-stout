@@ -42,3 +42,7 @@ urlpatterns= patterns('',
 	url(r'^experiment/products/$', views.view_experiment_products, name='view_experiment_products'),
 	url(r'^email/$', views.send_email, name='send_email'),
 	)
+
+# print settings.DEBUG, settings.STATIC_ROOT
+if settings.DEBUG:
+    urlpatterns += url(r'^static/(?P<path>.*)$', vs.serve),
