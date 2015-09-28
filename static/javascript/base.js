@@ -75,15 +75,35 @@ loopCharts(start);
 $("#toolsSelect, #tasksSelect").change(function(){
 	start = false;
 	var id = $(this).parents(".experimentStatusRow").attr("id");
+	$(".chart").empty();
 	loopCharts(start, id);
 })
+
+function buildExperimentToolList() {
+	$(".experimentStatusRow").each(function(){
+		var expName = $(this).find(".expName").html();
+		$.ajax({
+			url: "../static/results/" + expName + "/tools.json",
+			dataType: "json"
+		}).done(function(data){
+			console.log(data)
+			var tools = data.Tools;
+			for (i in tools) {
+				var html = '<option value="' + tools[i] + '">' + tools[i] + '</option>';
+				$("#" + expName + " #toolsSelect").append(html);
+			}
+		})
+	})
+}
 
 function loopCharts(start, id) {
 	if (start==true) {
 		chartsToLoad = ".chart";
-	} else {
+		buildExperimentToolList();
+	} else if (start==false) {
 		chartsToLoad = "#" + id + " .chart";
 	}
+
 	$(chartsToLoad).each(function(){
 		var chartId = $(this).attr("id");
 		var range;
@@ -95,6 +115,8 @@ function loopCharts(start, id) {
 				metric = id.replace("Btn", "");
 			}
 		})
+
+		var expName = $(this).parents(".experimentStatusRow").attr("id");
 
 		var tool = $(this).parents(".metricsBody").find("#toolsSelect").val();
 
@@ -112,31 +134,30 @@ function loopCharts(start, id) {
 			task = "OT2"
 		};
 
-		console.log("metric = " + metric);
-		console.log("tool = " + tool);
-		console.log("task = " + task);
+		var dataPath = "";
 
+		// paths are based on location of d3.js file...
 		switch (chartId) {
-			case "loadChart":
-				dataPath = "load" + task + ".csv"
+			case expName + "LoadChart":
+				dataPath = "../../results/" + expName + "/load" + task + ".csv";
 				break;
-			case "difficultyChart":
-				dataPath = "difficulty" + task + ".csv"
+			case expName + "DifficultyChart":
+				dataPath = "../../results/" + expName + "/difficulty" + task + ".csv";
 				break;
-			case "performanceChart":
-				dataPath = "performance" + task + ".csv"
+			case expName + "PerformanceChart":
+				dataPath = "../../results/" + expName + "/performance" + task + ".csv";
 				break;
-			case "confidenceChart":
-				dataPath = "confidence" + task + ".csv"
+			case expName + "ConfidenceChart":
+				dataPath = "../../results/" + expName + "/confidence" + task + ".csv";
 				break;
-			case "activityChart":
-				dataPath = "activity" + task + ".csv"
+			case expName + "ActivityChart":
+				dataPath = "../../results/" + expName + "/activity" + task + ".csv";
 				break;
-			case "timeChart":
-				dataPath = "time" + task + ".csv"
+			case expName + "TimeChart":
+				dataPath = "../../results/" + expName + "/time" + task + ".csv";
 				break;
 		}
-		$(this).empty();
+		// $(this).empty();
 		buildChart(dataPath, chartId, tool)
 	})
 }

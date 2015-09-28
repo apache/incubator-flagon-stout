@@ -15,4 +15,5 @@ exp_portal/migrations/*
 developer/migrations/*
 uploads/migrations/*
 secret.py
+static/results/*
 

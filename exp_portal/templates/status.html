@@ -341,14 +341,6 @@
 										{% endfor %}
 									{% endif %}
 								{% endfor %}
-								<option value="APERTURE">APERTURE</option>
-								<option value="GeoMap">GeoMap</option>
-								<option value="GeoMen">GeoMen</option>
-								<option value="Influent">Influent</option>
-								<option value="LineUP">LineUP</option>
-								<option value="NEON">NEON</option>
-								<option value="NEWMAN">NEWMAN</option>
-								<option value="TrackCom">TrackCom</option>
 							</select>
 							<div class="selectTitle">Task</div>
 							<select name="tasks" id="tasksSelect">
@@ -363,22 +355,22 @@
 							</select>
 						</div>
 						<div id="load" class="metricsSection active">
-							<svg id="loadChart" class="chart"></svg>
+							<svg id="{{ experimentName }}LoadChart" class="chart"></svg>
 						</div>
 						<div id="difficulty" class="metricsSection">
-							<svg id="difficultyChart" class="chart"></svg>
+							<svg id="{{ experimentName }}DifficultyChart" class="chart"></svg>
 						</div>
 						<div id="performance" class="metricsSection">
-							<svg id="performanceChart" class="chart"></svg>
+							<svg id="{{ experimentName }}PerformanceChart" class="chart"></svg>
 						</div>
 						<div id="confidence" class="metricsSection">
-							<svg id="confidenceChart" class="chart"></svg>
+							<svg id="{{ experimentName }}ConfidenceChart" class="chart"></svg>
 						</div>
 						<div id="activity" class="metricsSection">
-							<svg id="activityChart" class="chart"></svg>
+							<svg id="{{ experimentName }}ActivityChart" class="chart"></svg>
 						</div>
 						<div id="time" class="metricsSection">
-							<svg id="timeChart" class="chart"></svg>
+							<svg id="{{ experimentName }}TimeChart" class="chart"></svg>
 						</div>
 					</div>
 				</div>

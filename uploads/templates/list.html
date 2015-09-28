@@ -13,13 +13,12 @@
             {% csrf_token %}
             <div>
                 <h3>Folder:</h3>
-                <label for="dirName">Exp Name:</label>
-                <input type="text" name="dirName">
+                <label for="dirName">Experiment Name:</label>
+                <input type="text" id="dirName" name="dirName">
                 <select id="existingExpNames">
                     <option></option>
                     {% for experiment in experiments %}
-                    <option>{{ experiment }}</option>
-                    }
+                        <option value="{{ experiment }}">{{ experiment }}</option>
                     {% endfor %}
                 </select>
             </div>
