@@ -49,7 +49,8 @@ $(".expTrayNavBtn").on("click", function(){
 $(".metricsNavBtn").click(function(){
 	$(this).parent().find(".metricsNavBtn").removeClass("active");
 	$(this).addClass("active");
-	$(".metricsSection").removeClass("active");
+	var rowId = $(this).parents(".experimentStatusRow").attr("id");
+	$("#" + rowId + " .metricsSection").removeClass("active");
 	var id = $(this).attr("id");
 	id = id.slice(0, -3);
 	$("#" + id).addClass("active");
@@ -77,34 +78,35 @@ $("#toolsSelect, #tasksSelect").change(function(){
 	var id = $(this).parents(".experimentStatusRow").attr("id");
 	$(".chart").empty();
 	loopCharts(start, id);
-})
+});
 
-function buildExperimentToolList() {
+function loopCharts(start, id) {
+	if (start==true) {
+		startChartBuildwithToolLists();
+	} else if (start==false) {
+		buildCharts();
+	}
+}
+
+function startChartBuildwithToolLists() {
 	$(".experimentStatusRow").each(function(){
 		var expName = $(this).find(".expName").html();
 		$.ajax({
 			url: "../static/results/" + expName + "/tools.json",
 			dataType: "json"
 		}).done(function(data){
-			console.log(data)
 			var tools = data.Tools;
 			for (i in tools) {
 				var html = '<option value="' + tools[i] + '">' + tools[i] + '</option>';
 				$("#" + expName + " #toolsSelect").append(html);
 			}
+			buildCharts();
 		})
 	})
 }
 
-function loopCharts(start, id) {
-	if (start==true) {
-		chartsToLoad = ".chart";
-		buildExperimentToolList();
-	} else if (start==false) {
-		chartsToLoad = "#" + id + " .chart";
-	}
-
-	$(chartsToLoad).each(function(){
+function buildCharts(){
+	$(".chart").each(function(){
 		var chartId = $(this).attr("id");
 		var range;
 		var metric;
@@ -150,20 +152,20 @@ function loopCharts(start, id) {
 			case expName + "ConfidenceChart":
 				dataPath = "../../results/" + expName + "/confidence" + task + ".csv";
 				break;
-			case expName + "ActivityChart":
-				dataPath = "../../results/" + expName + "/activity" + task + ".csv";
-				break;
+			// case expName + "ActivityChart":
+			// 	dataPath = "../../results/" + expName + "/activity" + task + ".csv";
+			// 	break;
 			case expName + "TimeChart":
 				dataPath = "../../results/" + expName + "/time" + task + ".csv";
 				break;
 		}
 		// $(this).empty();
-		buildChart(dataPath, chartId, tool)
+		buildD3Chart(dataPath, chartId, tool)
 	})
-}
+};
 
-function buildChart(dataPath, chartId, tool) {
-	var margin = {top: 20, right: 30, bottom: 30, left: 40},
+function buildD3Chart(dataPath, chartId, tool) {
+	var margin = {top: 20, right: 30, bottom: 40, left: 50},
 	    width = 535 - margin.left - margin.right,
 	    height = 350 - margin.top - margin.bottom;
 
@@ -202,17 +204,23 @@ function buildChart(dataPath, chartId, tool) {
 	  chart.append("g")
 	      .attr("class", "x axis")
 	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis);
+	      .call(xAxis)
+	    .append("text")
+		    .attr("y", 25)
+		    .attr("x", 230)
+		    .attr("dy", "1em")
+		    .style("text-anchor", "end")
+		    .text("Value");
 
 	  chart.append("g")
 	      .attr("class", "y axis")
 	      .call(yAxis)
 	    .append("text")
 		    .attr("transform", "rotate(-90)")
-		    .attr("y", 6)
-		    .attr("dy", ".71em")
+		    .attr("y", -50)
+		    .attr("dy", "1em")
 		    .style("text-anchor", "end")
-		    .text("Frequency");
+		    .text("Count");
 
 	  chart.selectAll(".bar")
 	      .data(data)
