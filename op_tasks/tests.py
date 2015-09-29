@@ -5,6 +5,8 @@ from django.contrib.auth.hashers import make_password
 from op_tasks.models import Dataset, \
 	Product, OpTask, UserProfile, TaskListItem, Experiment, Achievement, UserAchievement
 
+import achievements
+
 # Create your tests here.
 
 # class SmokeTest(TestCase):
@@ -257,6 +259,5 @@ class ModelTest(TestCase):
 				self.assertEqual(saved_userachievement.achievement.name, 'One')
 
 
-
-
-
+	def test_can_check_achievements(self):
+		self.assertEqual(True, True)
