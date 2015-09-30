@@ -40,10 +40,16 @@ def handle_uploaded_file(f, dirname):
 
     # new code for parsing
     data = pandas.read_csv(path + '/' + file.name)
-    cols = ['SYS.FIL.APP.','PST.EXP.CLD.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.','PST.EXP.BED.OT1.','PST.EXP.BED.OT2.','TSK.PRB.ANS.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.','TSK.CON.OT1.','TSK.CON.OT2.','TSK.TIME.DIFF.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']
+    cols = ['SYS.FIL.APP.','PST.EXP.CLD.CP.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.CP.','PST.EXP.BED.OT1.',
+        'PST.EXP.BED.OT2.','TSK.PRB.ANS.CP.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.CP.','TSK.CON.OT1.',
+        'TSK.CON.OT2.','TSK.TIME.DIFF.CP.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']
     workingData = data[cols]
     workingDataDF = pandas.DataFrame(workingData)
-    workingDataDF[['PST.EXP.CLD.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.','PST.EXP.BED.OT1.','PST.EXP.BED.OT2.','TSK.PRB.ANS.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.','TSK.CON.OT1.','TSK.CON.OT2.','TSK.TIME.DIFF.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']] = np.around(workingDataDF[['PST.EXP.CLD.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.','PST.EXP.BED.OT1.','PST.EXP.BED.OT2.','TSK.PRB.ANS.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.','TSK.CON.OT1.','TSK.CON.OT2.','TSK.TIME.DIFF.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']], 0)
+    workingDataDF[['PST.EXP.CLD.CP.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.CP.','PST.EXP.BED.OT1.',
+        'PST.EXP.BED.OT2.','TSK.PRB.ANS.CP.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.CP.','TSK.CON.OT1.',
+        'TSK.CON.OT2.','TSK.TIME.DIFF.CP.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']] = np.around(workingDataDF[['PST.EXP.CLD.CP.','PST.EXP.CLD.OT1.','PST.EXP.CLD.OT2.','PST.EXP.BED.CP.','PST.EXP.BED.OT1.',
+        'PST.EXP.BED.OT2.','TSK.PRB.ANS.CP.','TSK.PRB.ANS.OT1.','TSK.PRB.ANS.OT2.','TSK.CON.CP.','TSK.CON.OT1.',
+        'TSK.CON.OT2.','TSK.TIME.DIFF.CP.','TSK.TIME.DIFF.OT1.','TSK.TIME.DIFF.OT2.']], 0)
 
     tools = pandas.DataFrame(workingData['SYS.FIL.APP.']).drop_duplicates().sort('SYS.FIL.APP.').reset_index();
     del tools['index']
@@ -51,19 +57,19 @@ def handle_uploaded_file(f, dirname):
     tools.to_json(path_or_buf=path + '\/' + "tools.json")
 
 
-    metrics = {'load':{'col':'PST.EXP.CLD.','max':5},
+    metrics = {'load':{'col':'PST.EXP.CLD.CP.','max':5},
       'loadOT1':{'col':'PST.EXP.CLD.OT1.','max':5},
       'loadOT2':{'col':'PST.EXP.CLD.OT2.','max':5},
-      'difficulty':{'col':'PST.EXP.BED.','max':10},
+      'difficulty':{'col':'PST.EXP.BED.CP.','max':10},
       'difficultyOT1':{'col':'PST.EXP.BED.OT1.','max':10},
       'difficultyOT2':{'col':'PST.EXP.BED.OT2.','max':10},
-      'performance':{'col':'TSK.PRB.ANS.','max':10},
+      'performance':{'col':'TSK.PRB.ANS.CP.','max':10},
       'performanceOT1':{'col':'TSK.PRB.ANS.OT1.','max':10},
       'performanceOT2':{'col':'TSK.PRB.ANS.OT2.','max':10},
-      'confidence':{'col':'TSK.CON.','max':10},
+      'confidence':{'col':'TSK.CON.CP.','max':10},
       'confidenceOT1':{'col':'TSK.CON.OT1.','max':10},
       'confidenceOT2':{'col':'TSK.CON.OT2.','max':10},
-      'time':{'col':'TSK.TIME.DIFF.','max':10},
+      'time':{'col':'TSK.TIME.DIFF.CP.','max':10},
       'timeOT1':{'col':'TSK.TIME.DIFF.OT1.','max':10},
       'timeOT2':{'col':'TSK.TIME.DIFF.OT2.','max':10}}
 
