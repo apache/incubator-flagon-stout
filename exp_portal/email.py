@@ -2,8 +2,10 @@ from django.shortcuts import render
 from op_tasks.models import UserProfile
 from django.core import mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/tasking/login')
 def send_email(request):
     if request.method == 'POST':
         email_to = request.POST.get('email_to', 'xdataonlineerrors@gmail.com')
@@ -21,7 +23,3 @@ def send_email(request):
     elif status == 2:
         statusMessage = ""
     return render(request, 'email_form.html', {'userprofiles': userprofiles, 'status': status, 'statusMessage': statusMessage})
-
-
-def printme(string):
-    print string

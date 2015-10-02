@@ -13,6 +13,8 @@ import pandas
 def home_page(request):
 	return render(request, 'experimenthome.html')
 
+
+@login_required(login_url='/tasking/login')
 def view_status(request):
 	experiments = Experiment.objects.all()
 	masterList = {}
@@ -49,16 +51,19 @@ def view_status(request):
 	return render(request, 'status.html', {'experimentList': masterList})	
 
 
+@login_required(login_url='/tasking/login')
 def manage_exps(request):
 	experimentlist = Experiment.objects.all()
 	return render(request, 'experiments.html', {'experimentlist': experimentlist})
 
 
+@login_required(login_url='/tasking/login')
 def view_exp_details(request, exppk):
 	experiment = Experiment.objects.get(id=exppk)
 	return render(request, 'experiment_details.html', {'experiment':experiment})
 
 
+@login_required(login_url='/tasking/login')
 def add_exp(request):
 	if request.method == 'POST':
 		experiment = Experiment()
@@ -79,6 +84,7 @@ def add_exp(request):
 	return render(request, 'add_experiment.html')
 
 
+@login_required(login_url='/tasking/login')
 def edit_exp(request, exppk):
 	experiment = Experiment.objects.get(id=exppk)
 	experiment.name = request.POST['exp_name']
@@ -97,16 +103,19 @@ def edit_exp(request, exppk):
 	return redirect('exp_portal:manage_exps')
 
 
+@login_required(login_url='/tasking/login')
 def manage_datasets(request):
 	datasets = Dataset.objects.all()
 	return render(request, 'datasets.html', {'datasets':datasets})
 
 
+@login_required(login_url='/tasking/login')
 def view_dataset_details(request, datasetpk):
 	dataset = Dataset.objects.get(id=datasetpk)
 	return render(request, 'dataset_details.html', {'dataset':dataset})
 
 
+@login_required(login_url='/tasking/login')
 def add_dataset(request):
 	if request.method == 'POST':
 		# do update
@@ -121,6 +130,7 @@ def add_dataset(request):
 	return render(request, 'add_dataset.html')
 
 
+@login_required(login_url='/tasking/login')
 def edit_dataset(request, datasetpk):
 	dataset = Dataset.objects.get(id=datasetpk)
 	dataset.name = request.POST['dataset_name']
@@ -132,6 +142,7 @@ def edit_dataset(request, datasetpk):
 	return redirect('exp_portal:manage_datasets')
 
 
+@login_required(login_url='/tasking/login')
 def view_experiment_products(request):
 	experiments = Experiment.objects.all()
 	masterList = {}

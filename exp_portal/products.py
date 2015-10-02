@@ -1,15 +1,21 @@
 from django.shortcuts import render, redirect
 from op_tasks.models import Product, Dataset
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/tasking/login')
 def view_products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
 
+
+@login_required(login_url='/tasking/login')
 def view_product_details(request, productname):
 	product = Product.objects.all().filter(name=productname)[0]
 	datasets = Dataset.objects.all()
 	return render(request, 'product_details.html', {'product': product, 'datasets': datasets})
 
+
+@login_required(login_url='/tasking/login')
 def edit_product(request, productpk):
 	product = Product.objects.get(id=productpk)
 	product.name = request.POST['product_name']
@@ -27,14 +33,20 @@ def edit_product(request, productpk):
 
 	return redirect('exp_portal:view_products')
 
+
+@login_required(login_url='/tasking/login')
 def manage_products(request):
 	products = Product.objects.all()
 	return render(request, 'products.html', {'products': products})
 
+
+@login_required(login_url='/tasking/login')
 def add_product(request):
 	datasets = Dataset.objects.all()
 	return render(request, 'add_product.html', {'datasets': datasets})
 
+
+@login_required(login_url='/tasking/login')
 def new_product(request):
 	product = Product(name=request.POST['product_name'])
 	product.url = request.POST['product_url']

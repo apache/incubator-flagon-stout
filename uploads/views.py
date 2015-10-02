@@ -2,6 +2,7 @@ from django.shortcuts import render
 from op_tasks.models import Experiment
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 import pandas
 import numpy as np
@@ -11,6 +12,7 @@ import os
 from models import Document
 from forms import DocumentForm
 
+@login_required
 def expuploads(request):
     # Handle file uploads
     if request.method == 'POST':
@@ -28,13 +30,14 @@ def expuploads(request):
         return render(request, 'expuploads.html', {'form': form, 'experiments': experiments})
 
 def handle_uploaded_file(f, dirname):
-    path = os.path.join('static/results/', dirname)
+    path = os.path.join('../static/results', dirname)
     try:
-        os.mkdir(path)
-    except:
-        pass
+        os.makedirs(path)
+    except OSError as e:
+        print e
+        print 'unable to create directory ' + path
     file = f['docfile']
-    with open(path  + '/' + file.name, 'wb+') as destination:
+    with open(path + '/' + file.name, 'wb+') as destination:
         for chunk in file.chunks():
             destination.write(chunk)
 
@@ -54,7 +57,7 @@ def handle_uploaded_file(f, dirname):
     tools = pandas.DataFrame(workingData['SYS.FIL.APP.']).drop_duplicates().sort('SYS.FIL.APP.').reset_index();
     del tools['index']
     tools.columns = ['Tools']
-    tools.to_json(path_or_buf=path + '\/' + "tools.json")
+    tools.to_json(path_or_buf=path + '/' + "tools.json")
 
 
     metrics = {'load':{'col':'PST.EXP.CLD.CP.','max':5},
@@ -86,4 +89,4 @@ def handle_uploaded_file(f, dirname):
                 array.append(subarray)
         d = pandas.DataFrame(array, columns=('Tool', 'Range'))
         result = pandas.ordered_merge(df,d)
-        result.to_csv(path_or_buf=path + '\/' + str(key) + '.csv', sep=',',na_rep='0',index=False)
+        result.to_csv(path_or_buf=path + '/' + str(key) + '.csv', sep=',',na_rep='0',index=False)

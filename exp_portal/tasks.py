@@ -3,23 +3,32 @@ from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+@login_required(login_url='/tasking/login')
 def view_tasks(request):
 	tasks = OpTask.objects.all()
 	datasets = Dataset.objects.all()
 	return render(request, 'tasks.html', {'tasks': tasks, 'datasets':datasets})
 
+
+@login_required(login_url='/tasking/login')
 def view_completed(request):
 	completed_tasks = TaskListItem.objects.all().filter(task_complete=True).order_by('-date_complete')
 	return render(request, 'completed.html', {'completed_tasks': completed_tasks})
 
+
+@login_required(login_url='/tasking/login')
 def view_incomplete(request):
 	incomplete_tasks = TaskListItem.objects.all().filter(task_complete=False)
 	return render(request, 'incomplete.html', {'incomplete_tasks': incomplete_tasks})
-	
+
+
+@login_required(login_url='/tasking/login')
 def add_task(request):
 	datasets = Dataset.objects.all()
 	return render(request, 'add_task.html', {'datasets': datasets})
 
+
+@login_required(login_url='/tasking/login')
 def new_task(request):
 	dataset = Dataset.objects.get(name=request.POST['task_dataset'])
 	task = OpTask()
@@ -32,9 +41,13 @@ def new_task(request):
 	task.save()
 	return redirect('exp_portal:view_tasks')
 
+
+@login_required(login_url='/tasking/login')
 def manage_tasks(request):
 	return view_tasks(request)
 
+
+@login_required(login_url='/tasking/login')
 def view_task_details(request, taskname):
 	task = OpTask.objects.all().filter(name=taskname)[0]
 	datasets = Dataset.objects.all()
@@ -43,6 +56,8 @@ def view_task_details(request, taskname):
 		print dataset.name
 	return render(request, 'task_details.html', {'task': task, 'datasets': datasets})
 
+
+@login_required(login_url='/tasking/login')
 def edit_task(request, taskpk):
 	task = OpTask.objects.get(id=taskpk)
 	task.name = request.POST['task_name']
@@ -59,6 +74,8 @@ def edit_task(request, taskpk):
 
 	return redirect('exp_portal:view_tasks')
 
+
+@login_required(login_url='/tasking/login')
 def delete_task(request, taskpk):
 	task = OpTask.objects.get(id=taskpk)
 	task.delete()

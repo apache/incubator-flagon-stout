@@ -44,6 +44,7 @@ def count_activities(session_id):
     return len(timestamps)
    
 # manages which prodct is delivered to the current user
+@login_required(login_url='/tasking/login')
 def product(request, task_pk):
     if request.method == 'POST':
         user = request.user
