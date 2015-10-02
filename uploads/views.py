@@ -12,7 +12,7 @@ import os
 from models import Document
 from forms import DocumentForm
 
-@login_required
+@login_required(login_url='/tasking/login')
 def expuploads(request):
     # Handle file uploads
     if request.method == 'POST':
