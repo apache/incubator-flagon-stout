@@ -417,15 +417,20 @@ div.product-instructions .glyphicon{
           }
 
           .trayTableBody {
-            padding: 18px 2%;
+            margin: 0;
+            padding: 0;
             max-height: 410px;
             overflow: auto;
           }
 
           .trayTableBody li {
-            margin-bottom: 20px;
+            padding: 12px 2%;
             width: 100%;
           }
+
+            .trayTableBody li:nth-child(even) {
+              background: #555;
+            } 
 
           .trayTableBody>li>div {
             float: left;
