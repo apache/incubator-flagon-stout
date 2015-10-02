@@ -408,6 +408,7 @@ div.product-instructions .glyphicon{
           .trayTableHeader {
             background: #333;
             color: #fff;
+            height: 40px;
             padding: 10px 2%;
           }
 
@@ -417,6 +418,8 @@ div.product-instructions .glyphicon{
 
           .trayTableBody {
             padding: 18px 2%;
+            max-height: 410px;
+            overflow: auto;
           }
 
           .trayTableBody li {

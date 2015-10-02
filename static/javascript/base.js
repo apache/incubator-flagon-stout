@@ -57,6 +57,7 @@ $(".metricsNavBtn").click(function(){
 })
 
 $(".expShelf").click(function(){
+	if ($(this).parents(".experimentStatusRow").is(":animated")) return false;
 	var $thisTray = $(this).parents(".experimentStatusRow").find(".expTray");
 	if ($(this).hasClass("active")) {
 		$thisTray.fadeOut(300);
