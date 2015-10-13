@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'exp_portal',
     'developer',
     'uploads',
+    'axes',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.FailedLoginMiddleware',
 )
 
 ROOT_URLCONF = 'xdata.urls'
@@ -72,9 +74,17 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, '../db', 'db.sqlite3'),
+#    }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../db', 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'xdatadb',
+        'USER': 'xdatauser',
+        'PASSWORD': 'xd@t@!',
+        'HOST': '127.0.0.1',
+        'PORT': '',
     }
 }
 
@@ -119,3 +129,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'xdataonline@gmail.com'
 EMAIL_HOST_PASSWORD = MY_EMAIL_PASSWORD
 EMAIL_PORT = 587
+
+# After three failed logins, require users to wait 5 minutes before they can attempt to log in again
+AXES_LOGIN_FAILURE_LIMIT = 3
+from datetime import timedelta
+AXES_COOLOFF_TIME=timedelta(seconds = 300)
