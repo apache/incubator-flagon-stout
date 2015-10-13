@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User 
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ObjectDoesNotExist
 
 from op_tasks.models import Dataset, \
 	Product, OpTask, UserProfile, TaskListItem, Experiment, Achievement, UserAchievement
@@ -52,6 +53,7 @@ class ModelTest(TestCase):
 		dataset = Dataset()
 		dataset.version = '1'
 		dataset.name = 'test'
+		dataset.save()
 
 		product = Product()
 		product.dataset = dataset
@@ -238,6 +240,9 @@ class ModelTest(TestCase):
 		achievement = Achievement(name='One')
 		achievement.save()
 
+		achievement2 = Achievement(name='Two')
+		achievement2.save()
+
 		userachievement = UserAchievement()
 		userachievement.achievement = achievement
 		userachievement.userprofile = userprofile
@@ -249,7 +254,7 @@ class ModelTest(TestCase):
 		userachievementTwo.save()
 
 		saved_achievements = Achievement.objects.all()
-		self.assertEqual(saved_achievements.count(), 1)
+		self.assertEqual(saved_achievements.count(), 2)
 
 		saved_userachievements = UserAchievement.objects.all()
 		self.assertEqual(saved_userachievements.count(), 2)
@@ -258,6 +263,43 @@ class ModelTest(TestCase):
 			if saved_userachievement.userprofile.user.username == 'Paul':
 				self.assertEqual(saved_userachievement.achievement.name, 'One')
 
+		try:
+			johnAchievement = UserAchievement.objects.get(userprofile=userprofile, achievement=achievement2)
+			self.assertEqual(johnAchievement.userprofile, userprofile)
 
-	def test_can_check_achievements(self):
-		self.assertEqual(True, True)
+		except ObjectDoesNotExist:
+			print 'object does not exist'
+			johnAchievements = UserAchievement.objects.get(userprofile=userprofile)
+			print johnAchievements
+
+
+	def test_can_check_achievement_conditions(self):
+		user = User(username='John', password=make_password('John'))
+		user.save()
+		userprofile = UserProfile(user=user)
+		userprofile.referrals = 3
+		userprofile.save()
+
+		achievement1 = Achievement(name='referralsOne')
+		achievement1.save()
+		achievement2 = Achievement(name='referralsTwo')
+		achievement2.save()
+		achievement3 = Achievement(name='referralsThree')
+		achievement3.save()
+
+		self.assertEqual(achievements.referralsOne(user), True)
+
+		userprofile.referrals = 6
+		userprofile.save()
+
+		self.assertEqual(achievements.referralsTwo(user), True)
+
+		userprofile.referrals = 9
+		userprofile.save()
+
+		self.assertEqual(achievements.referralsThree(user), True)
+
+		johnsAchievements = UserAchievement.objects.filter(userprofile=userprofile)
+		self.assertEqual(3, johnsAchievements.count())
+
+

@@ -78,6 +78,9 @@ class UserProfile(models.Model):
     portal_inst_complete = models.BooleanField(default=False)
     task_inst_complete = models.BooleanField(default=False)
     experiment = models.ForeignKey(Experiment, null=True, blank=True)
+    referrals = models.IntegerField(default=0)
+    bestGenAccuracy = models.IntegerField(default=0)
+    bestDevAccuracy = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.user.username
