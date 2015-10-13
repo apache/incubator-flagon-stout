@@ -266,7 +266,6 @@ class ModelTest(TestCase):
 		try:
 			johnAchievement = UserAchievement.objects.get(userprofile=userprofile, achievement=achievement2)
 			self.assertEqual(johnAchievement.userprofile, userprofile)
-
 		except ObjectDoesNotExist:
 			print 'object does not exist'
 			johnAchievements = UserAchievement.objects.get(userprofile=userprofile)
