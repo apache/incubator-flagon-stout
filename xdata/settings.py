@@ -26,6 +26,8 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ADMINS = ADMIN_EMAILS
+
 ALLOWED_HOSTS = ['*']
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
