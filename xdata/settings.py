@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'exp_portal',
     'developer',
     'uploads',
-    'axes',
+    'axes',  # Throttling capabilities
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,13 +78,24 @@ DATABASES = {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': os.path.join(BASE_DIR, '../db', 'db.sqlite3'),
 #    }
+#
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'xdatadb',
+#        'USER': 'xdatauser',
+#        'PASSWORD': 'xd@t@!',
+#        'HOST': '127.0.0.1',
+#        'PORT': '',
+#    }
+#
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql', 
+#        'ENGINE': 'mysql.connector.django', 
         'NAME': 'xdatadb',
         'USER': 'xdatauser',
-        'PASSWORD': 'xd@t@!',
-        'HOST': '127.0.0.1',
-        'PORT': '',
+        'PASSWORD': 'Dr@perUs3r!',
+        'HOST': 'localhost', #'127.0.0.1',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
