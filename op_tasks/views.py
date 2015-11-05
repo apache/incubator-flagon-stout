@@ -9,11 +9,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
-<<<<<<< HEAD
-from Crypto.Cipher import AES
-=======
 import achievements
->>>>>>> achievements
 
 import exp_portal
 import datetime
@@ -170,46 +166,9 @@ def task_launch(request, task_pk):
 
     return render(request, 'task_launch.html', {'tasklistitem': tasklistitem})
 
-# Get unencrypted username
-def decryptUsername(request):
-	user = request.user
-	return aesDecryptor(user.username)
-
-# decrypt the text passed in
-def aesDecryptor(encryptedText):
-	key = readInKey('fileLocation') #'0123456789abcdef0123456789abcdef'
-	IV = 16 * '\x00'           # Initialization vector: discussed later
-	mode = AES.MODE_CBC
-	decryptor = AES.new(key, mode, IV=IV)
-	plainText = decryptor.decrypt(ciphertext)
-	return plainText
-
-# encrypt the text passed in
-def aesEncryptor(plainText):
-	key = readInKey('fileLocation') #'0123456789abcdef0123456789abcdef'
-	IV = 16 * '\x00'           # Initialization vector: discussed later
-	mode = AES.MODE_CBC
-	encryptor = AES.new(key, mode, IV=IV)
-	if len(plainText) % 16 != 0:
-	    plainText += ' ' * (16 - len(plainText) % 16)
-	cipherText = encryptor.encrypt(plainText)
-	return cipherText;
-
-def readInKey(fileLocation):
-	# Open file and read in key (TODO)
-	# For now, create a 32-bit key from a phrase
-	key = createKeyFromPhrase("WouldYouLike12Muffins?")
-	return key
-
-# Will not need this function when key is read in from file while running operationally
-def createKeyFromPhrase(phrase):
-	key = hashlib.sha256(phrase).digest()
-	return key
-
 # cretaes a new user and assigns tasks 
 def register(request):
-    logging.basicConfig(filename='/home/ubuntu/logs/log.txt', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-    logger.debug("Logging is working.")
+    # TODO : add logging back in.  Good practice!!
     # Like before, get the request's context.
     context = RequestContext(request)
 
@@ -224,10 +183,6 @@ def register(request):
         # Once hashed, we can update the user object.
         user = User(username=request.POST['username'])
         user.set_password(request.POST['password'])
-        logger.debug("This is the username: ", user.username, " and password, before encryption: ", user.password)
-        user.username = aesEncryptor(user.username).decode('utf-16')
-        #user.username = sqlite3.Binary(zlib.compress(aesEncryptor(user.username)))
-        logger.debug("This is the username: ", user.username, " and password, after encryption: ", user.password)
         user.email = user.username
         user.save()
 
@@ -243,7 +198,6 @@ def register(request):
 
         # Now we save the UserProfile model instance.
         userprofile.save()
-        logger.debug("Saved the user profile successfully")
 
         # Finally we assign tasks to the new user
         # Get a random product, get a random order of tasks
@@ -300,8 +254,6 @@ def login_participant(request):
         # Gather the username and password provided by the user.
         # This information is obtained from the login form.
         username = request.POST['username']
-        #username = sqlite3.Binary(zlib.compress(aesEncryptor(username)))
-        username = aesEncryptor(username).decode('utf-16')
         password = request.POST['password']
         # print "Login attempt by " + username + " at " + datetime
 
