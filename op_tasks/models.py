@@ -12,7 +12,7 @@ def _createHash():
 
 # the dataset class stores parameters about the 
 class Dataset(models.Model):
-    name = models.CharField(max_length=1000) # name of dataset
+    name = models.CharField(max_length=255) # name of dataset
     version = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
 
@@ -25,13 +25,13 @@ class Dataset(models.Model):
 
 class Product(models.Model): # product = tool + dataset
     dataset = models.ForeignKey(Dataset, null=True, blank=True) # data for tool
-    url = models.CharField(max_length=1000, unique=True) # path to product 
-    team = models.CharField(max_length=1000) # developer team
-    name = models.CharField(max_length=1000) # name of 
+    url = models.CharField(max_length=255, unique=False) # path to product 
+    #url = models.CharField(max_length=255, unique=False) # path to product 
+    team = models.CharField(max_length=255) # developer team
+    name = models.CharField(max_length=255) # name of 
     version = models.CharField(max_length=10)
     is_active = models.BooleanField(default=True)
-    instructions = models.CharField(max_length=1000) 
-
+    instructions = models.CharField(max_length=255)
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s:%s:%s:%s' % (self.team, self.name, self.dataset, self.version)
 
@@ -39,10 +39,10 @@ class Product(models.Model): # product = tool + dataset
 class OpTask(models.Model):
     dataset = models.ForeignKey(Dataset, null=True, blank=True)
     name = models.CharField(max_length=200)
-    survey_url = models.CharField(max_length=1000, unique=False)
+    survey_url = models.CharField(max_length=255, unique=False)
     is_active = models.BooleanField(default=True)
-    exit_url = models.CharField(max_length=1000, unique=False)
-    instructions = models.CharField(max_length=1000)
+    exit_url = models.CharField(max_length=255, unique=False)
+    instructions = models.CharField(max_length=255)
     
     def __unicode__(self):  # Python 3: def __str__(self):
         return '%s-%s' % (self.name, self.dataset)
