@@ -4,14 +4,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
+@login_required(login_url='/tasking/login')
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
 	return render(request, 'users.html', {'userprofiles': userprofiles})
 
+
+@login_required(login_url='/tasking/login')
 def manage_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
 	return render(request, 'users.html', {'userprofiles': userprofiles})
 
+
+@login_required(login_url='/tasking/login')
 def edit_user(request, userprofilepk):
 	userprofile = UserProfile.objects.get(id=userprofilepk)
 	experiment = Experiment.objects.get(name=request.POST['experiment_name'])
@@ -20,11 +25,15 @@ def edit_user(request, userprofilepk):
 
 	return redirect('exp_portal:view_users')
 
+
+@login_required(login_url='/tasking/login')
 def add_user(request):
 	experiments = Experiment.objects.all()
 	products = Product.objects.all()
 	return render(request, 'add_user.html', {'experiments': experiments, 'products':products})
 
+
+@login_required(login_url='/tasking/login')
 def delete_user(request, userprofilepk):
 	userprofile = UserProfile.objects.get(id=userprofilepk)
 	user = userprofile.user
@@ -38,6 +47,8 @@ def delete_user(request, userprofilepk):
 
 	return redirect('exp_portal:view_users')
 
+
+@login_required(login_url='/tasking/login')
 def new_user(request):
 	user = User(username=request.POST['username'])
 	user.set_password(request.POST['password_1'])
@@ -97,9 +108,13 @@ def new_user(request):
 
 	return redirect('exp_portal:view_users')
 
+
+@login_required(login_url='/tasking/login')
 def user_added(request):
 	return render(request, 'user_added.html')
 
+
+@login_required(login_url='/tasking/login')
 def view_user_tasks(request, profile):
 	userprofile = UserProfile.objects.all().filter(user_hash=profile)[0]
 	usertasks = userprofile.tasklistitem_set.all()
@@ -115,6 +130,8 @@ def view_user_tasks(request, profile):
 
 	return render(request, 'user_tasks.html', {'userprofile': userprofile, 'experiments':experiments})
 
+
+@login_required(login_url='/tasking/login')
 def add_user_task(request, userpk):
 	userprofile = UserProfile.objects.get(id=userpk)
 	datasets = Dataset.objects.all()
@@ -123,6 +140,8 @@ def add_user_task(request, userpk):
 	return render(request, 'add_user_task.html', {'userprofile':userprofile, 
 		'datasets': datasets, 'products': products, 'tasks': tasks})
 
+
+@login_required(login_url='/tasking/login')
 def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 	dataset = Dataset.objects.get(id=datasetpk)
 	userprofile = UserProfile.objects.get(id=userpk)
@@ -138,6 +157,7 @@ def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 
 	return redirect('exp_portal:add_user_task', userpk)
 
+@login_required(login_url='/tasking/login')
 def view_users_experiment(request, experiment_name):
 	experiment = Experiment.objects.get(name=experiment_name)
 	userprofiles = experiment.userprofile_set.all()
