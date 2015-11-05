@@ -82,6 +82,7 @@ class UserProfile(models.Model):
     bestGenAccuracy = models.IntegerField(default=0)
     bestDevAccuracy = models.IntegerField(default=0)
 
+
     def __unicode__(self):
         return self.user.username
 
