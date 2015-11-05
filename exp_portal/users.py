@@ -9,6 +9,7 @@ def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
 	return render(request, 'users.html', {'userprofiles': userprofiles})
 
+
 @login_required(login_url='/tasking/login')
 def manage_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
@@ -155,7 +156,6 @@ def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 	newtasklistitem.save()
 
 	return redirect('exp_portal:add_user_task', userpk)
-
 
 @login_required(login_url='/tasking/login')
 def view_users_experiment(request, experiment_name):

@@ -9,10 +9,15 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
+<<<<<<< HEAD
 from Crypto.Cipher import AES
+=======
+import achievements
+>>>>>>> achievements
 
 import exp_portal
 import datetime
+
 
 from op_tasks.models import Product, UserProfile, TaskListItem, Experiment
 

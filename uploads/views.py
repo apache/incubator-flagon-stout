@@ -3,10 +3,8 @@ from op_tasks.models import Experiment
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-
 import pandas
 import numpy as np
-
 import os
 
 from models import Document
@@ -28,6 +26,7 @@ def expuploads(request):
         experiments = Experiment.objects.all()
         # Render list page with the documents and the form
         return render(request, 'expuploads.html', {'form': form, 'experiments': experiments})
+
 
 def handle_uploaded_file(f, dirname):
     path = os.path.join('../static/results', dirname)

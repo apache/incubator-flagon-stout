@@ -26,6 +26,8 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+ADMINS = ADMIN_EMAILS
+
 ALLOWED_HOSTS = ['*']
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
@@ -116,7 +118,7 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/tasking/login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
