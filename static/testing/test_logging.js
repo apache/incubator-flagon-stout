@@ -1,5 +1,5 @@
 ac.registerActivityLogger( 
-	"http://10.1.93.208", 
+	"http://52.20.48.202",
 	"STOUT", 
 	"v0.1"
 	);
