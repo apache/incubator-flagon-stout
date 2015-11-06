@@ -138,3 +138,6 @@ EMAIL_PORT = 587
 AXES_LOGIN_FAILURE_LIMIT = 3
 from datetime import timedelta
 AXES_COOLOFF_TIME=timedelta(seconds = 300)
+
+# Activity Logging Endpoint
+ALE_URL = 'http://52.20.48.202'

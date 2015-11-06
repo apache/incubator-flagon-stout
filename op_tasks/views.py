@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
+from xdata.settings import ALE_URL
 import achievements
 import exp_portal
 import datetime
@@ -39,10 +40,9 @@ def set_cookie(response, key, value, days_expire = 7):
 
 # connects with User-ALE to count activities.  
 def count_activities(session_id):
-    ELK_SERVER="http://10.1.93.208"
     XDATA_INDEX="xdata_v3"
 
-    es = Elasticsearch(ELK_SERVER)
+    es = Elasticsearch(ALE_URL)
 
     queryData = {}
     fieldFilter = ["timestamp", "sessionID", "parms.desc"]
