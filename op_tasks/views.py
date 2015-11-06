@@ -84,7 +84,8 @@ def product(request, task_pk):
                 current_tasklistitem.date_complete = timezone.localtime(timezone.now())
                 sessionID = '%s::%s' % (userprofile.user_hash, current_tasklistitem.pk)
                 try:
-                    current_tasklistitem.activity_count = count_activities(sessionID)
+                    current_tasklistitem.activity_count = 0
+                    # current_tasklistitem.activity_count = count_activities(sessionID)
                 except Exception as inst:
                     # print inst
                     current_tasklistitem.activity_count = 0
