@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 	# include urls for op_tasks and administration pages
     url(r'^tasking/', include('op_tasks.urls', namespace="op_tasks")),
     url(r'^experiment/', include('exp_portal.urls', namespace="exp_portal")),
-    # url(r'^developer/', include('developer.urls', namespace="developer")),
+    url(r'^developer/', include('developer.urls', namespace="developer")),
     url(r'^user_feedback/', views.user_feedback_home, name='user_feedback_home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('uploads.urls')),
