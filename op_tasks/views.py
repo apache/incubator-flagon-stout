@@ -194,7 +194,7 @@ def register(request):
 
         # TODO: change this from default experiment 
         saved_experiments = Experiment.objects.get(name='fandf_experiment_2015')
-        userprofile.experiment = saved_experiments[0]
+        userprofile.experiment = Experiment.objects.get(name='fandf_experiment_2015')
 
         # Now we save the UserProfile model instance.
         userprofile.save()
