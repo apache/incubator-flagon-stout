@@ -193,7 +193,7 @@ def register(request):
         userprofile.user = user
 
         # TODO: change this from default experiment 
-        saved_experiments = Experiment.objects.all()
+        saved_experiments = Experiment.objects.get(name='fandf_experiment_2015')
         userprofile.experiment = saved_experiments[0]
 
         # Now we save the UserProfile model instance.
@@ -321,10 +321,14 @@ def task_list(request):
 
 def intro(request, process=None):
     if process == 'register':
-        follow = '/tasking/register'
+        next_page = '/tasking/register'
     elif process == 'login':
-        follow = '/tasking/login'
-    return render(request, 'intro.html', {'user': request.user, 'follow': follow})
+        next_page = '/tasking/login'
+    return render(request, 'intro.html', {'user': request.user, 'next_page': next_page})
+
+
+def safety(request):
+    return redirect('http://www.xdataonline.com')
 
 
 def instruct(request, read=None):

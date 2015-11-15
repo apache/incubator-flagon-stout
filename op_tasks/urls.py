@@ -24,7 +24,8 @@ urlpatterns = patterns('',
     url(r'^user_profile$', views.view_profile, name='view_profile'),
     url(r'^reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', views.reset_confirm, name='reset_confirm'),
     url(r'^reset/$', views.reset, name='reset'),
-    url(r'^reset/sent/$', views.reset_sent, name='reset_sent')
+    url(r'^reset/sent/$', views.reset_sent, name='reset_sent'),
+    url(r'^safety/$', views.safety, name='safety'),
 )
 
 # print settings.DEBUG, settings.STATIC_ROOT
