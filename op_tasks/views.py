@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
 from xdata.settings import ALE_URL
+from axes.decorators import watch_login
 import achievements
 import exp_portal
 import datetime
@@ -245,6 +246,7 @@ def logout_participant(request):
     return HttpResponseRedirect('/')
 
 
+@watch_login
 def login_participant(request):
 	# Like before, obtain the context for the user's request.
     context = RequestContext(request)
