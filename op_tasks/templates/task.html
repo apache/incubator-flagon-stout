@@ -17,7 +17,7 @@
     <span class="glyphicon glyphicon-chevron-down"></span>
     Task Menu
   </div>
-  
+
   <div class="ot-container">
     <button id="product_button" onclick="open_product()" class="btn btn-primary ot-open-btn">
       Open {{tasklistitem.product.name}}
@@ -101,7 +101,7 @@
         function pad(n) {
           return (n<10) ? ("0"+n) : n;
         }
-        
+
         function task_timer() {
           set_time();
           time = time - 1;
@@ -121,7 +121,7 @@
           setInterval(function(){task_timer()},1000);
           // setTimeout('redirect("{% url 'op_tasks:product' task_pk=tasklistitem.pk %}", "post")', 1000*60*{{user.userprofile.experiment.task_length}});
         }
-        
+
         var redirect = function(url, method) {
           var form = document.getElementById('timerblock');
           form.method = method;
@@ -136,5 +136,3 @@
 {% endif %}
 
 {% endblock %}
-
-

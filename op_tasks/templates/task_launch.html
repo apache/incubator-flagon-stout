@@ -1,28 +1,33 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 {% block head %}
 {% endblock %}
-{% block body %}
+{% block header %}
+  <div id="header-navbar">
+    Signed in as {{user.username}} | <a class="header-navbar-link" href="{% url 'op_tasks:logout' %}">Sign Out</a>
+  </div>
+{% endblock %}
+{% block container %}
 
 <div class="head" onunload="close_instructions()">
 	<h1>{{tasklistitem.op_task.name}}</h1>
-	<h3>
-		Please read all of these instructions before clicking any buttons!
-	</h3>
 	<h4>
-		Click the button below to view instructions for {{tasklistitem.product.name}}.  After you have read the instructions, the button below to begin your task will be enabled.  
+		Please read all of these instructions before clicking any buttons!
 	</h4>
+	<p>
+		Click the button below to view instructions for {{tasklistitem.product.name}}.  After you have read the instructions, the button below to begin your task will be enabled.
+	</p>
 	<button id="instructions_button" onclick="open_instructions();" class="btn btn-lg btn-warning">
 		Instructions
 	</button>
-	<h4>
+	<p>
 		Click the blue button in the Task Menu below to launch {{ tasklistitem.product.name }} when ready
-	</h4>
-	<h4>
+	</p>
+	<p>
 		Click the red button in the Task Menu below when you have completed your task
-	</h4>
-	<h4>
-		Please click the green button below to begin your task.  This will load the task in this page and you will have {{tasklistitem.userprofile.experiment.task_length}} minutes to answer all questions.  
-	</h4>
+	</p>
+	<p>
+		Please click the green button below to begin your task.  This will load the task in this page and you will have {{tasklistitem.userprofile.experiment.task_length}} minutes to answer all questions.
+	</p>
 	<button id="open_task_button" onclick="task_launch();" class="btn btn-lg btn-success">
 		Begin Task
 	</button>

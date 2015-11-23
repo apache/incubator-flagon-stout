@@ -1,45 +1,66 @@
 {% extends "main.html" %}
-{% block head %}  
+{% block head %}
 <!-- <link rel="stylesheet" type="text/css" href="/static/css/styles.css"> -->
 {% endblock %}
 
 {% block body %}
-<div class="container">
+<!-- <div class="container"> -->
 	{% block container %}
-        <div class="head">
-            <h1>XDATA</h1>
-            <p class="lead">Welcome to XDATA.  Thank you for participating in our online user testing session and
-                helping us model user workflow through analysis of your activities</p>
+		<div class='pane'>
+      <div id='landing-header'>
+				<div id='landing-container'>
+        	<div id='landing-title'>WELCOME TO THE XDATA EVALUATION ENVIRONMENT</div>
+  				<div id='landing-subtitle'>Thank you for participating in our online user testing session and helping us model user workflow through analysis of your activities</div>
+				</div>
+			</div>
+			<div id='landing-login'>
+      	<div id="landing-register">
+        	<h2>New Participant?</h2>
+        	<a class="btn-bordered" id="landing-button" href="#recruitment" role="button">LEARN MORE</a>
+      	</div>
+      	<div id="landing-signin">
+        	<h3>Already Registered? <a href="{% url 'op_tasks:login' %}">Sign in</a></h3>
+      	</div>
+			</div>
+		</div>
 
-            <div class="register">
-                <h3>New Participant?</h3>
-                <a class="btn btn-lg btn-success" href="{% url 'op_tasks:intro' process='register' %}" role="button">Register</a>
-            </div>
-            <div class="signin">
-                <h4 class="form-signin-heading">Already Registered? <a href="{% url 'op_tasks:login' %}">Sign in</a></h4>
-            </div>
+		<div class="pane">
+			<div id="recruitment-header">
+				<a name="recruitment"></a>
+				<div id="recruitment-header-container">
+					<div id="recruitment-title">
+						<b>THANK YOU</b> for your interest in the XDATA research study!
+					</div>
+				</div>
+			</div>
+			<div id="recruitment-info-container">
+				<div id="recruitment-text">
+      		<h4>Call for Research Participants</h4>
+					<p>The purpose of this study is to determine whether certain kinds of interfaces and analytic tools affect your analytic workflow. This study is funded by the Defense Advanced Research Projects Agency. Your participation will include providing information about your basic demographics, personality, analytic abilities via online questionnaire. This will be followed by a testing session to be completed at your convenience through our online testing portal. During the testing session, you will be asked to participate in a variety of tasks, questionnaires and cognitive tests, as well as interactive tasks on a computer.</p>
 
-            <h4>Call for Research Participants</h4>
-            <p>The purpose of this study is to determine whether certain kinds of interfaces and analytic tools affect your analytic workflow. This study is funded by the Defense Advanced Research Projects Agency. Your participation will include providing information about your basic demographics, personality, analytic abilities via online questionnaire. This will be followed by a testing session to be completed at your convenience through our online testing portal. During the testing session, you will be asked to participate in a variety of tasks, questionnaires and cognitive tests, as well as interactive tasks on a computer.</p>
-            <h4>Eligibility Information</h4>
-            <p>Participation in this research is open to any persons between the ages of 18 and 60 years, that are not incarcerated (i.e., prisoners) or a member of another legally protected population (i.e., intellectually handicapped, children, etc.), with the exception of pregnant women (the procedures and materials used in this study do not limit the participation of pregnant women). You may be excluded from participation if you do not have sufficient formal training or experience in interpretation of data, hypothesis testing, or construction of reasoned argument to effectively answer questions about analytic process or participate in laboratory tasks. Ideally, potential participants have at least 3 years applied or working experience within an analytic vocation (e.g., intelligence, military, legal, business, marketing, credit, banking, finance, and capital markets, etc.) OR post-graduate training within a relevant area of study and associated analytic skills (e.g., economics, behavioral sciences, statistics, political science, etc.), OR have had relevant internships, post-doctoral, or research experience. However, should you feel that you meet the requirements given your applied experience, we will consider eligibility on a case-by-case basis. </p>
-            <h4>Additional Study Details</h4>
-            <p><i>Study Duration:</i>  Your participation in this study can involve up to 3 hours of your time: approximately 30-60 minutes to fill out online questionnaires, and 90-120 minutes as you engage in online analytic tasks. Additional follow-up tasks with similar content may be solicited, with your permission. Each of these are estimated to take between 90-120 minutes.</p>
-            <p><i>Participant Involvement:</i>  Participation involves both completion of the online questionnaires and online tasks, which involve using next generation analytic tools to solve difficult analytic problems using complex data sources. However, participation in the online questionnaires neither obligates you to participate in online analytic tasks nor guarantees that you will be invited for follow up tasks.</p>
-            <p><i>Compensation:</i>  Participation is strictly voluntary—there is no monetary compensation for participation in this study. However, participants being recruited from university research sites may be eligible for course/research credit commensurate with their participation as per their institution’s guidelines.</p>
-            <p>To register as a participant or just to learn more about this unique research opportunity, please click on the link to the Online Consent Form posted below. If you acknowledge the terms in the consent form, you can register a unique, but anonymous username that will be used to keep track of your data. If, after visiting our website, you have additional questions and concerns, please contact us at software-evaluation@draper.com.</p>
-            <p>Thank you in advance for your interest and consideration!</p>
-            <p><b>[AFFILIATED SITE RESEARCH LEAD]</b></p>
+					<h4>Eligibility Information</h4>
+					<p>Participation in this research is open to any persons between the ages of 18 and 60 years, that are not incarcerated (i.e., prisoners) or a member of another legally protected population (i.e., intellectually handicapped, children, etc.), with the exception of pregnant women (the procedures and materials used in this study do not limit the participation of pregnant women). You may be excluded from participation if you do not have sufficient formal training or experience in interpretation of data, hypothesis testing, or construction of reasoned argument to effectively answer questions about analytic process or participate in laboratory tasks. Ideally, potential participants have at least 3 years applied or working experience within an analytic vocation (e.g., intelligence, military, legal, business, marketing, credit, banking, finance, and capital markets, etc.), OR post-graduate training within a relevant area of study and associated analytic skills (e.g., economics, behavioral sciences, statistics, political science, etc.), OR have had relevant internships, post-doctoral, or research experience. However, should you feel that you meet the requirements given your applied experience, we will consider eligibility on a case-by-case basis.</p>
 
-            <p>Dr. Joshua C. Poore (Principal Investigator)
-            <br>Senior Member of the Technical Staff
-            <br>The Charles Stark Draper Laboratory
-            <br>555 Technology Square, Rm. 2242
-            <br>Cambridge, MA 02139-3563
-            <br>Phone: (617) 258-4023
-            <br>Email: jpoore@draper.com</p>
+					<h4>Additional Study Details</h4>
+      		<p><i>Study Duration:</i>  Your participation in this study can involve up to 3 hours of your time: approximately 30-60 minutes to fill out online questionnaires, and 90-120 minutes as you engage in online analytic tasks. Additional follow-up tasks with similar content may be solicited, with your permission. Each of these are estimated to take between 90-120 minutes.</p>
+					<p><i>Participant Involvement:</i>  Participation involves both completion of the online questionnaires and online tasks, which involve using next generation analytic tools to solve difficult analytic problems using complex data sources. However, participation in the online questionnaires neither obligates you to participate in online analytic tasks nor guarantees that you will be invited for follow up tasks.</p>
+					<p><i>Compensation:</i>  Participation is strictly voluntary—there is no monetary compensation for participation in this study. However, participants being recruited from university research sites may be eligible for course/research credit commensurate with their participation as per their institution’s guidelines.</p>
 
-        </div>
-    {% endblock %}
-</div> <!-- /container -->
+					<p><b>To register as a participant or just to learn more about this unique research opportunity, please click on the green Register link above.</b> This will forward you to our Online Consent Form. If you acknowledge the terms in the consent form, you can register a unique, but anonymous username that will be used to keep track of your data. If, after visiting our website, you have additional questions and concerns, please contact us at <a href='mailto:software-evaluation@draper.com'>software-evaluation@draper.com</a>.</p>
+      		<p>Thank you in advance for your interest and consideration!</p>
+
+      		<p>Dr. Joshua C. Poore (Principal Investigator)
+      		<br>Senior Member of the Technical Staff
+      		<br>The Charles Stark Draper Laboratory
+      		<br>555 Technology Square, Rm. 2242
+      		<br>Cambridge, MA 02139-3563
+      		<br>Phone: (617) 258-4023
+      		<br>Email: <a href='software-evaluation@draper.com'>software-evaluation@draper.com</a></p>
+
+					<a class="btn-bordered" id="landing-button" href="{% url 'op_tasks:intro' process='register' %}" role="button">REGISTER</a>
+				</div>
+			</div>
+    </div>
+  {% endblock %}
+<!-- </div> -->
 {% endblock %}
