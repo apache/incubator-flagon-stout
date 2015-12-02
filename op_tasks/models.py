@@ -54,7 +54,7 @@ class Experiment(models.Model):
     task_length = models.IntegerField(default=30)  # minutes
     has_achievements = models.BooleanField(default=False)
     has_intake = models.BooleanField(default=False)
-    intake_url = models.CharField(max_length=255, unique=False)
+    intake_url = models.CharField(max_length=255, unique=False, blank=True, default='')
     has_followup = models.BooleanField(default=False)
     consent = models.BooleanField(default=True)
     sequential_tasks = models.BooleanField(default=True)
