@@ -318,15 +318,16 @@ def task_list(request):
     userprofile = user.userprofile
     all_complete = all([x.both_complete for x in userprofile.tasklistitem_set.all()])
     # handling for instructions & intake, transition to first OpTask when ready
-    first_task = userprofile.tasklistitem_set.all()[0]
-    if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_complete:
-        if userprofile.experiment.has_intake:
-            if userprofile.intake_complete:
+    if userprofile.tasklistitem_set.all().count() > 0:
+        first_task = userprofile.tasklistitem_set.all()[0]
+        if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_complete:
+            if userprofile.experiment.has_intake:
+                if userprofile.intake_complete:
+                    first_task.task_active = True
+                    first_task.save()
+            else:
                 first_task.task_active = True
                 first_task.save()
-        else:
-            first_task.task_active = True
-            first_task.save()
     return render(request, 'task_list.html', 
         {'userprofile': userprofile, 'all_complete': all_complete})
 
