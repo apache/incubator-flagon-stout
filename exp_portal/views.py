@@ -80,6 +80,7 @@ def add_exp(request):
 			experiment.task_length = request.POST['exp_tasklength']
 			experiment.has_achievements = request.POST.get('exp_achievements', False)
 			experiment.has_intake = request.POST.get('exp_intake', False)
+			experiment.intake_url = request.POST.get('exp_intake_url', False)
 			experiment.has_followup = request.POST.get('exp_followup', False)
 			experiment.consent = request.POST.get('exp_consent', False)
 			experiment.sequential_tasks = request.POST.get('exp_sequentialtasks', False)
@@ -101,6 +102,7 @@ def edit_exp(request, exppk):
 		experiment.task_length = request.POST['exp_tasklength']
 		experiment.has_achievements = request.POST.get('exp_achievements', False)
 		experiment.has_intake = request.POST.get('exp_intake', False)
+		experiment.intake_url = request.POST.get('exp_intake_url', False)
 		experiment.has_followup = request.POST.get('exp_followup', False)
 		experiment.consent = request.POST.get('exp_consent', False)
 		experiment.sequential_tasks = request.POST.get('exp_sequentialtasks', False)

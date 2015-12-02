@@ -54,6 +54,7 @@ class Experiment(models.Model):
     task_length = models.IntegerField(default=30)  # minutes
     has_achievements = models.BooleanField(default=False)
     has_intake = models.BooleanField(default=False)
+    intake_url = models.CharField(max_length=255, unique=False)
     has_followup = models.BooleanField(default=False)
     consent = models.BooleanField(default=True)
     sequential_tasks = models.BooleanField(default=True)
@@ -77,6 +78,8 @@ class UserProfile(models.Model):
     exp_inst_complete = models.BooleanField(default=False)
     portal_inst_complete = models.BooleanField(default=False)
     task_inst_complete = models.BooleanField(default=False)
+    intake_complete = models.BooleanField(default=False)
+    
     experiment = models.ForeignKey(Experiment, null=True, blank=True)
     referrals = models.IntegerField(default=0)
     bestGenAccuracy = models.IntegerField(default=0)

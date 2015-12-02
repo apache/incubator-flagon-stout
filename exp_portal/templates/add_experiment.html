@@ -24,6 +24,8 @@
 	<div class="checkbox">
 		<input type="checkbox" name="exp_intake" id="id_exp_intake" {% if experiment.has_intake %}checked{% endif %}/>
 		<label>Intake Survey Online</label>
+		<br/>
+		<input class="form-control" name="exp_intake_url" id='id_exp_intake_url' value="{{ experiment.intake_url }}" size="255"/>
 	</div>
 	<div class="checkbox">
 		<input type="checkbox" name="exp_followup" id="id_exp_followup" {% if experiment.has_followup %}checked{% endif %}/>
@@ -48,5 +50,23 @@
 	<button class="btn btn-primary" type="submit">Save Changes</button>
 	{% csrf_token %}
 </form>
+
+<script>
+
+// intake survey URL code to hide/show the field
+var cb = document.getElementById('id_exp_intake');
+cb.addEventListener('click', toggleExpIntakeField );
+function toggleExpIntakeField() {
+	var cb = document.getElementById('id_exp_intake');
+	var textfield = document.getElementById('id_exp_intake_url');
+	if (cb.checked) {
+		textfield.style.display = 'block';
+	} else {
+		textfield.style.display = 'none';
+	}
+}
+toggleExpIntakeField(); // do it once immediately
+
+</script>
 
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends "userpage.html" %}
+
+{% block content %}
+
+<h1>Intake Questionnaire</h1>
+
+<div>
+	<h4>Please take a moment to complete the intake questionnaire which collects demographical information for this experiment</h4>
+	
+	<h3><a href="{{ user.userprofile.experiment.intake_url }}?sid={{ user.userprofile.user_hash }}::0" target="_blank">Click here</a></h3>
+	
+	<h4>Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete this task, and continue with the remaining tasks</h4>
+</div>
+
+<script>
+window.alert("sid={{ user.userprofile.user_hash }}::0");
+</script>
+
+{% endblock %}

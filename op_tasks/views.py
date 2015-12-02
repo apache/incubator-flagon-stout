@@ -317,6 +317,16 @@ def task_list(request):
     user = request.user
     userprofile = user.userprofile
     all_complete = all([x.both_complete for x in userprofile.tasklistitem_set.all()])
+    # handling for instructions & intake, transition to first OpTask when ready
+    first_task = userprofile.tasklistitem_set.all()[0]
+    if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_complete:
+        if userprofile.experiment.has_intake:
+            if userprofile.intake_complete:
+                first_task.task_active = True
+                first_task.save()
+        else:
+            first_task.task_active = True
+            first_task.save()
     return render(request, 'task_list.html', 
         {'userprofile': userprofile, 'all_complete': all_complete})
 
@@ -354,11 +364,17 @@ def instruct(request, read=None):
 
     userprofile.save()
     product = userprofile.tasklistitem_set.all()[0].product
-    if userprofile.exp_inst_complete and userprofile.portal_inst_complete:
-        first_task = userprofile.tasklistitem_set.all()[0]
-        first_task.task_active = True
-        first_task.save()
     return render(request, 'instruction_home.html', {'user': request.user, 'product': product})
+
+
+def intake(request):
+    # TODO: not great, but a simple solution for now... we will
+    # instantly mark the intake questionnaire as complete on view of the page
+    user = request.user
+    userprofile = user.userprofile
+    userprofile.intake_complete = True
+    userprofile.save()
+    return render(request, 'intake.html', {'user': request.user})
 
 
 def exp_instruct(request):
