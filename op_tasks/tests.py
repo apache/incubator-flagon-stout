@@ -30,8 +30,7 @@ class ModelTest(TestCase):
 		saved_experiments = Experiment.objects.all()
 		self.assertEqual(saved_experiments.count(), 1)
 
-		user = User(username='Bob', password=make_password('Bob') )
-		user.email = user.username
+		user = User(email='Bob@test.com', password=make_password('Bob') )
 		user.save()
 
 		saved_users = User.objects.all()
@@ -75,12 +74,7 @@ class ModelTest(TestCase):
 		self.assertEqual(first_product.instructions, 'http://www.si.com')
 
 	def test_saving_and_retrieving_user(self):
-		# either of the methods below works...
-		user = User(username='Bob', password=make_password('Bob') )
-		# user = User()
-		# user.username = 'Bob'
-		# user.set_password('Bob')
-		user.email = user.username
+		user = User(email='Bob@test.com', password=make_password('Bob') )
 		user.save()
 
 		saved_users = User.objects.all()
@@ -94,12 +88,10 @@ class ModelTest(TestCase):
 		self.assertEqual(saved_profiles.count(), 1)
 
 		first_profile = saved_profiles[0]
-		self.assertEqual(first_profile.user.username, 'Bob')
-		self.assertEqual(first_profile.user.username, first_profile.user.email)
+		self.assertEqual(first_profile.user.email, 'Bob@test.com')
 
 	def test_can_get_profile_from_user(self):
-		user = User(username='George', password=make_password('George'))
-		user.email = user.username
+		user = User(email='George@test.com', password=make_password('George'))
 		user.save()
 
 		userprofile = UserProfile(exp_inst_complete=True, portal_inst_complete=True)
@@ -175,17 +167,17 @@ class ModelTest(TestCase):
 
 	def test_can_find_users_tasks(self):
 		# create a bunch of users
-		user1 = User(username='John', password=make_password('John'))
+		user1 = User(email='John@test.com', password=make_password('John'))
 		user1.save()
 		userprofile1 = UserProfile(user=user1)
 		userprofile1.save()
 
-		user2 = User(username='Paul', password=make_password('Paul'))
+		user2 = User(email='Paul@test.com', password=make_password('Paul'))
 		user2.save()
 		userprofile2 = UserProfile(user=user2)
 		userprofile2.save()
 
-		user3 = User(username='Ringo', password=make_password('Ringo'))
+		user3 = User(email='Ringo@test.com', password=make_password('Ringo'))
 		user3.save()
 		userprofile3 = UserProfile(user=user3)
 		userprofile3.save()
@@ -220,19 +212,19 @@ class ModelTest(TestCase):
 		saved_userprofiles = UserProfile.objects.all()
 		for userprofile in saved_userprofiles:
 			matched_task_items = userprofile.tasklistitem_set.all()
-			if userprofile.user.username == 'John':
+			if userprofile.user.email == 'John@test.com':
 				self.assertEqual(matched_task_items.count(),2)
 			else:
 				self.assertEqual(matched_task_items.count(),0)
 
 	def test_can_assign_user_achievements(self):
 		# create a bunch of users
-		user = User(username='John', password=make_password('John'))
+		user = User(email='John@test.com', password=make_password('John'))
 		user.save()
 		userprofile = UserProfile(user=user)
 		userprofile.save()
 
-		userTwo = User(username='Paul', password=make_password('Paul'))
+		userTwo = User(email='Paul@test.com', password=make_password('Paul'))
 		userTwo.save()
 		userprofileTwo = UserProfile(user=userTwo)
 		userprofileTwo.save()
@@ -260,7 +252,7 @@ class ModelTest(TestCase):
 		self.assertEqual(saved_userachievements.count(), 2)
 
 		for saved_userachievement in saved_userachievements:
-			if saved_userachievement.userprofile.user.username == 'Paul':
+			if saved_userachievement.userprofile.user.email == 'Paul@test.com':
 				self.assertEqual(saved_userachievement.achievement.name, 'One')
 
 		try:
@@ -273,7 +265,7 @@ class ModelTest(TestCase):
 
 
 	def test_can_check_achievement_conditions(self):
-		user = User(username='John', password=make_password('John'))
+		user = User(email='John@test.com', password=make_password('John'))
 		user.save()
 		userprofile = UserProfile(user=user)
 		userprofile.referrals = 3

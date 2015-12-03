@@ -140,7 +140,7 @@
 			<div class="expTrayBody">
 				<div id="users" class="expTraySection active">
 					<ul id="usersHeader" class="trayTableHeader">
-						<li class="username">Username</li>
+						<li class="email">Email</li>
 						<li class="progressBar">Progress</li>
 						<li class="lastLogin">Last Login</li>
 					</ul>
@@ -149,7 +149,7 @@
 							{% if 'users' in expObjKey %}
 								{% for user in expObjVal %}
 								<li>
-									<div class="username">
+									<div class="email">
 										<a href="{% url 'exp_portal:view_user_tasks' profile=user.user_hash %}">
 											{{ user }}
 										</a>
@@ -277,7 +277,7 @@
 								{% for completedTask in expObjVal %}
 								<li>
 									<div class="taskCompletedUser">
-										{{ completedTask.userprofile.user.username }}
+										{{ completedTask.userprofile.user.email }}
 									</div>
 									<div class="taskCompletedName">
 										{{ completedTask.op_task.name }}
@@ -306,7 +306,7 @@
 								{% for incompleteTask in expObjVal %}
 								<li>
 									<div class="taskIncompleteUser">
-										{{ incompleteTask.userprofile.user.username }}
+										{{ incompleteTask.userprofile.user.email }}
 									</div>
 									<div class="taskIncompleteName">
 										{{ incompleteTask.op_task.name }}

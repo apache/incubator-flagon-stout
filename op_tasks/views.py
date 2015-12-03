@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.views import password_reset, password_reset_confirm
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.conf import settings
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.utils import timezone
 from elasticsearch import Elasticsearch
 from xdata.settings import ALE_URL
@@ -182,9 +182,8 @@ def register(request):
 
         # Now we hash the password with the set_password method.
         # Once hashed, we can update the user object.
-        user = User(username=request.POST['username'])
+        user = get_user_model()(email=request.POST['email'])
         user.set_password(request.POST['password'])
-        user.email = user.username
         user.save()
 
         # Now sort out the UserProfile instance.
@@ -216,7 +215,7 @@ def register(request):
         registered = True
 
         # add some logic to log events, log in users directly
-        print "successful registration of " + request.POST['username'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print "successful registration of " + request.POST['email'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request.POST['email_to'] = user.email
         request.POST['email_subject'] = 'Welcome to XDATA Online'
         request.POST['email_message'] = 'successful registration'
@@ -253,15 +252,15 @@ def login_participant(request):
 
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
+        # Gather the username (email) and password provided by the user.
         # This information is obtained from the login form.
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['password']
         # print "Login attempt by " + username + " at " + datetime
 
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
 
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
@@ -279,7 +278,7 @@ def login_participant(request):
                 return HttpResponse("Your XDATA account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
+            print "Invalid login details: {0}, {1}".format(email, password)
             return HttpResponse("Invalid login details supplied.")
 
     # The request is not a HTTP POST, so display the login form.

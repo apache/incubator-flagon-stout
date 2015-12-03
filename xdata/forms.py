@@ -42,13 +42,13 @@ class ExampleForm(forms.Form):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             MultiField(
-		        'Tell us your favorite stuff {{ username }}',
+		        'Tell us your favorite stuff {{ email }}',
 		        Div(
 		            'like_website',
 		            'favorite_number',
 		            css_id = 'special-fields'
 		        ),
-		        PrependedText('favorite_color', '@', placeholder="username"),
+		        PrependedText('favorite_color', '@', placeholder="email"),
 		        'favorite_food',
 		        'notes'
 		    ),

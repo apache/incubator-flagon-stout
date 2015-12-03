@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
 from django.http import JsonResponse
 
 @login_required(login_url='/tasking/login')
@@ -50,9 +51,8 @@ def delete_user(request, userprofilepk):
 
 @login_required(login_url='/tasking/login')
 def new_user(request):
-	user = User(username=request.POST['username'])
+	user = get_user_model()(email=request.POST['email'])
 	user.set_password(request.POST['password_1'])
-	user.email = user.username
 	user.save()
 
 	userprofile = UserProfile()

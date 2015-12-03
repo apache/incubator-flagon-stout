@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from django.conf import settings
 import hashlib
 import time, datetime
 
@@ -70,7 +71,7 @@ class Experiment(models.Model):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     user_hash = models.CharField(max_length=30, default=_createHash, unique=True, editable=False)
     progress = models.IntegerField(default=0)
 
@@ -87,7 +88,7 @@ class UserProfile(models.Model):
 
 
     def __unicode__(self):
-        return self.user.username
+        return self.user.email
 
     def read_instructions(self):
         return self.exp_inst_complete and self.portal_inst_complete and self.task_inst_complete
@@ -118,7 +119,7 @@ class TaskListItem(models.Model):
     both_complete = property(_both_complete)
 
     def __unicode__(self):  # Python 3: def __str__(self):
-        return '%s, %s, %s' % (self.userprofile.user.username, self.op_task, self.index)
+        return '%s, %s, %s' % (self.userprofile.user.email, self.op_task, self.index)
 
     class Meta:
         ordering = ('userprofile', 'index')
@@ -138,4 +139,4 @@ class UserAchievement(models.Model):
     achievement = models.ForeignKey(Achievement)
 
     def __unicode__(self):
-        return '%s - %s' % (self.userprofile.user.username, self.achievement.name)
+        return '%s - %s' % (self.userprofile.user.email, self.achievement.name)

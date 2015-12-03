@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -27,9 +28,9 @@ class Command(BaseCommand):
     help = 'our help string comes here'
 
     def _create_admin_profile(self):
-        staff_users = User.objects.filter(is_staff=True)
+        staff_users = get_user_model().objects.filter(is_staff=True)
         admin = staff_users[0]
-        print admin.username
+        print admin.email
 
         userprofile = UserProfile(user=admin)
         userprofile.save()
@@ -38,8 +39,7 @@ class Command(BaseCommand):
         # fix this later; need a logical method for experiment assignment
         saved_experiments = Experiment.objects.all()
 
-        user = User(username='test@test.com', password=make_password('test'))
-        user.email = user.username
+        user = get_user_model()(email='test@test.com', password=make_password('test'))
         user.save()
 
         userprofile = UserProfile(user=user)

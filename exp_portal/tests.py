@@ -32,7 +32,7 @@ class ExperimentTest(TestCase):
 		task = OpTask(dataset=dataset, name='test_task', survey_url='test_url')
 		task.save()
 
-		user = User(username='john', password=make_password('paul'))
+		user = User(email='john@test.com', password=make_password('paul'))
 		user.save()
 
 		userprofile = UserProfile(user=user)

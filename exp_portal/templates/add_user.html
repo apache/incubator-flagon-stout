@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<h1>Please enter your new User information:</h1>
+<h1>Please enter your new user information:</h1>
 <form method="POST" action="{% url 'exp_portal:new_user' %}">
 	<div class="form-group">
-		<label for="id_username">Userame</label>
-		<input class="form-control" name="username" id="id_username" placeholder='Enter the userame' size="60" required/>
+		<label for="id_email">Email</label>
+		<input class="form-control" name="email" id="id_email" placeholder='Enter the email' size="255" required/>
 	</div>
 	<div class="form-group">
 		<label for="id_password_1">Password</label>

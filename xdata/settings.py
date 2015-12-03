@@ -38,6 +38,7 @@ TEMPLATE_DIRS = (
 # Application definition
 
 INSTALLED_APPS = (
+    'custom_user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,6 +69,8 @@ WSGI_APPLICATION = 'xdata.wsgi.application'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     )
+
+AUTH_USER_MODEL = 'custom_user.EmailUser'
 
 # AUTH_PROFILE_MODULE = 'op_tasks.UserProfile'
 # AUTH_USER_MODEL = 'op_tasks.MyUser'

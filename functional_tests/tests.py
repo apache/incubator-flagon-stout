@@ -83,7 +83,7 @@ class NewVisitorTest(LiveServerTestCase):
 		self.browser.find_element_by_id("intro-complete").submit()
 
 		# register a new user
-		inputemail = self.browser.find_element_by_name("username")
+		inputemail = self.browser.find_element_by_name("email")
 		inputemail.send_keys("new@test.com")
 
 		inputpassword = self.browser.find_element_by_name("password")
@@ -98,7 +98,7 @@ class NewVisitorTest(LiveServerTestCase):
 		# check successful registration
 		saved_users = User.objects.all()
 		self.assertEqual(saved_users.count(), 1)
-		self.assertEqual(saved_users[0].username, 'new@test.com')
+		self.assertEqual(saved_users[0].email, 'new@test.com')
 
 		saved_products = Product.objects.all()
 		self.assertEqual(saved_products.count(), 1)
@@ -109,8 +109,8 @@ class NewVisitorTest(LiveServerTestCase):
 		first_task = saved_task_list_items[0]
 		second_task = saved_task_list_items[1]
 		self.assertEqual(first_task.userprofile, second_task.userprofile)
-		self.assertEqual(first_task.userprofile.user.username, 'new@test.com')
-		self.assertEqual(second_task.userprofile.user.username, 'new@test.com')
+		self.assertEqual(first_task.userprofile.user.email, 'new@test.com')
+		self.assertEqual(second_task.userprofile.user.email, 'new@test.com')
 
 	# def test_can_show_STOUT_and_ALE_integration(self):
 		# experiment admin page load showing experiment setup

@@ -19,7 +19,7 @@
 		{% for task in completed_tasks %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td>{{ task.userprofile.user.username }}</td>
+				<td>{{ task.userprofile.user.email }}</td>
 				<td>{{ task.op_task.name }}</td>
 				<td>{{ task.date_complete }}</td>
 				<td>{{ task.activity_count }}</td>

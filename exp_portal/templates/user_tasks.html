@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Participant Info</h1>
-<h3>Username: {{ userprofile.user.username }}</h3>
+<h3>Email: {{ userprofile.user.email }}</h3>
 
 <h3> Experiment </h3>
 <form method="POST" action="{% url 'exp_portal:edit_user' userprofilepk=userprofile.pk %}">
