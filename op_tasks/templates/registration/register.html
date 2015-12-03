@@ -1,40 +1,39 @@
-{% extends "page.html" %}
+{% extends "main.html" %}
 
 {% block container %}
-<h1>Registration</h1>
+<section class="login-section">
+	<div class="login-title">REGISTRATION</div>
 
 	{% if registered %}
-	<h2>Thank you for registering!</h2>
+	<div class="form-signin-heading">Thank you for registering!</div>
 	{% else %}
-    <h2 class="form-signin-heading">Create an account</h2>
+		<form class="form-signin" role="form" id="user_form" method="post" action="{% url 'op_tasks:register' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="form-signin-heading">Create an account</div>
+    	<div class="form-group">
+      	<p class="required">
+      		<label for="id_email">Username: (please use a valid email address)</label>
+      		<input class="form-control" id="id_email" name="username" type="email" placeholder="Enter email"/>
+      	</p>
+    	</div>
+    	<div class="form-group">
+      	<p class="required">
+        	<label for="id_password1">Password:</label>
+        	<input class="form-control" id="id_password" name="password" type="password" placeholder="Enter password"/>
+      	</p>
+    	</div>
+    	<div class="form-group">
+      	<p class="required">
+        	<label for="id_password2">Password (again):</label>
+        	<input class="form-control" id="id_password2" name="password2" type="password" placeholder="Enter password again" />
+    		</p>
+    	</div>
+    	<button id="id_register_button" type="submit" class="btn-bordered btn-login">Submit</button>
+  	</form>
+  {% endif %}
 
-	<form role="form" id="user_form" method="post" action="{% url 'op_tasks:register' %}" enctype="multipart/form-data">
-		{% csrf_token %}
-
-        <div class="form-group">
-            <p class="required">
-                <label for="id_email">Username: (please use a valid email address)</label>
-                <input class="form-control" id="id_email" name="username" type="email" placeholder="Enter email"/>
-            </p>
-        </div>
-        <div class="form-group">
-            <p class="required">
-                <label for="id_password1">Password:</label>
-                <input class="form-control" id="id_password" name="password" type="password" placeholder="Enter password"/>
-            </p>
-        </div>
-        <div class="form-group">
-            <p class="required">
-                <label for="id_password2">Password (again):</label>
-                <input class="form-control" id="id_password2" name="password2" type="password" placeholder="Enter password again" />
-            </p>
-        </div>
-        <button id="id_register_button" type="submit" class="btn btn-default">Submit</button>
-    </form>
-    {% endif %}
-
-    {% if registered %}
-    <h4 class="form-signin-heading">Click here to sign in: <a href="{% url 'op_tasks:login' %}">Sign in</a>
-    {% endif %}
-
+  {% if registered %}
+    <div class="form-signin-heading">Click here to sign in: <a href="{% url 'op_tasks:login' %}">Sign in</a></div>
+  {% endif %}
+</section>
 {% endblock %}

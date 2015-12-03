@@ -1,13 +1,417 @@
+/* CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Import fonts */
+@font-face {
+    font-family: 'texgyre-italic';
+    src: url('../fonts/texgyreschola-italic-webfont.eot');
+    src: url('../fonts/texgyreschola-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/texgyreschola-italic-webfont.woff') format('woff'),
+         url('../fonts/texgyreschola-italic-webfont.ttf') format('truetype'),
+         url('../fonts/texgyreschola-italic-webfont.svg#texgyrescholaitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'montserrat-bold';
+  src: url('../fonts/Montserrat-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'montserrat-light';
+  src: url('../fonts/Montserrat-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'montserrat-reg';
+    src: url('../fonts/Montserrat-Regular.otf') format('opentype');
+}
+
+/* Stout-specific styles */
 body,
 html {
+  font-family: 'montserrat-light', 'texgyre-italic', 'Arial';
+  color: #191919;
+  height: 100%;
+  min-height: 700px;
+  min-width: 1000px;
   margin: 0;
   padding: 0;
-  height: 100%;
-  /*padding-top: 40px;*/
-  /*padding-bottom: 40px;*/
-  background-color: #eee;
-  /*overflow: closed;*/
 }
+
+body {
+  background-image: url('../images/background.jpg');
+  background-repeat: repeat;
+}
+
+p {
+  font-family: 'montserrat-light';
+  font-size: 19px;
+  line-height: 22px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h1 {
+  font-family: 'montserrat-bold';
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-family: 'montserrat-reg';
+  font-size: 28px;
+}
+
+h3 {
+  font-family: 'montserrat-light';
+  font-size: 18px;
+}
+
+h4 {
+  font-family: 'montserrat-bold';
+  font-size: 20px;
+}
+
+.main-header {
+  height: 50px;
+  background-color: #ff4611;
+  line-height: 50px;
+}
+
+#header-title {
+  font-family: 'montserrat-bold';
+  font-size: 26px;
+  color: #ffffff;
+  margin: 0 14px;
+  display: inline-block;
+}
+
+#header-navbar {
+  font-family: 'montserrat-reg';
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0 14px;
+  float: right;
+  display: inline-block;
+}
+
+.header-navbar-link {
+  text-decoration: none;
+  color: #ffffff;
+  border: none;
+}
+
+.header-navbar-link:hover {
+  color: #4577b8;
+}
+
+.container {
+  min-height: calc(100% - 50px);
+  min-width: 100%;
+  margin-bottom: -25px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.main-footer, .container:after {
+  height: 25px;
+}
+
+.main-footer {
+  background-color: #ff4611;
+}
+
+.pane {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#landing-header {
+  height: 400px;
+  background-color: #ff4611;
+  color: #ffffff;
+  text-align: center;
+  padding: 40px auto;
+  width: 100%;
+  display: table;
+}
+
+#landing-container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 40px;
+}
+
+#landing-title {
+  font-family: 'montserrat-bold';
+  font-size: 76px;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+}
+
+#landing-subtitle {
+  font-family: 'montserrat-light';
+  font-size: 28px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#landing-login {
+  height: calc(100% - 400px);
+  padding: 40px;
+  text-align: center;
+}
+
+.btn-bordered {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 4px solid #ff4611;
+  border-radius: 2px;
+  font-family: 'montserrat-reg';
+  font-size: 22px;
+  text-align: center;
+  line-height: 22px;
+}
+
+a.btn-bordered, a.btn-bordered:hover {
+  text-decoration: none;
+  color: black;
+  height: 100%;
+  width: 100%;
+}
+
+#landing-button {
+  width: 192px;
+  height: 65px;
+  line-height: 45px;
+  margin: 20px;
+}
+
+#recruitment-header {
+  height: 300px;
+  background-color: #ff4611;
+  color: #ffffff;
+  text-align: center;
+  padding: 40px auto;
+  width: 100%;
+  display: table;
+}
+
+#recruitment-header-container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 40px;
+}
+
+#recruitment-title {
+  font-family: 'montserrat-light';
+  font-size: 68px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#recruitment-title b {
+  font-family: 'montserrat-bold';
+}
+
+#recruitment-info-container {
+  text-align: center;
+  width: 100%;
+  padding: 40px;
+}
+
+#recruitment-text {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.login-section {
+  margin: 50px;
+}
+
+.login-title {
+  font-family: 'montserrat-reg';
+  font-size: 48px;
+  color: #ff4611;
+}
+
+.form-signin {
+  max-width: 500px;
+  padding: 30px;
+}
+
+.form-signin-heading {
+  margin-bottom: 20px;
+  font-family: 'texgyre-italic';
+  font-size: 24px;
+}
+
+.form-control {
+  margin-bottom: 20px;
+  background-color: #e5e6e8;
+}
+
+.btn-login {
+  background: transparent;
+  width: 200px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.login-forgot {
+  width: 200px;
+  text-align: center;
+}
+
+.reset-title {
+  margin-bottom: 30px;
+}
+
+.btn-reset {
+  margin-top: 30px;
+}
+
+#consent-title {
+  font-family: 'montserrat-bold';
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.consent-details {
+  font-family: 'montserrat-reg';
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.btn-consent-form-accept, .btn-consent-form-reject {
+  height: 50px;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.btn-consent-form-reject {
+  line-height: 35px;
+}
+
+.panel {
+  background-color: #e5e6e8;
+}
+
+.panel-heading {
+  background-color: #e5e6e8 !important;
+}
+
+.panel-title {
+  font-family: 'montserrat-bold';
+}
+
+.navigation-list {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.navigation-item {
+  color: #4577b8;
+  font-family: 'montserrat-reg';
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.status-bar-title {
+  font-family: 'montserrat-reg';
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.instructions {
+  margin: 0px 0px 20px 8px;
+}
+
+.task-list-text {
+  font-family: 'montserrat-reg';
+  font-size: 20px;
+}
+
+.task-list-subtext {
+  font-family: 'montserrat-light';
+  font-size: 18px;
+}
+
+.task-list-item{
+
+}
+
+.carousel-inner {
+  height: 450px;
+}
+
+.modal-dialog {
+  width: 80%;
+  height: 80%;
+}
+
+.modal-content {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-body {
+  width: 100%;
+  height: calc(100% - 65px);
+}
+
+
+/* old css */
 
 #content {
   position: absolute;
@@ -47,17 +451,11 @@ html {
   margin: 2px;
 }*/
 
-.modal-dialog {
-  width: 1140px;
-}
 
-.form-signin {
-  max-width: 500px;
-  padding: 15px;
-  margin: 0 auto;
-}
 
-.form-signin .form-signin-heading,
+
+
+.form-signin,
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
@@ -87,11 +485,11 @@ html {
 
 .signin {
   text-align: center;
-} 
+}
 
 .head h1{
   font-size: 63px;
-} 
+}
 
 .register {
   margin-top: 40px;
@@ -106,7 +504,7 @@ div.list-group-item.list-group-item-disabled {
 .ot-list-item {
   position: relative;
   display: block;
-  
+
   margin-bottom: -1px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -136,12 +534,12 @@ table.ot-list {
 
 a:hover, a:focus {
   color: #2a6496;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 tr.ot-disabled {
-background-color: #F3F3F3;
-color: #aaa;
+  background-color: #e5e6e8;
+  color: #a5a6a8;
 }
 
 div.status {
@@ -430,7 +828,7 @@ div.product-instructions .glyphicon{
 
             .trayTableBody li:nth-child(even) {
               background: #555;
-            } 
+            }
 
           .trayTableBody>li>div {
             float: left;
@@ -447,7 +845,7 @@ div.product-instructions .glyphicon{
           }
 
             .expTray .progress {
-              margin-bottom: 0; 
+              margin-bottom: 0;
               width: 75%;
             }
 

@@ -1,17 +1,17 @@
 {% extends "main.html" %}
 
 {% block container %}
-  <section>
-  	<h1 align="center"><b>Login to XDATA Online</b></h1>
+  <section class="login-section">
+  	<div class="login-title">LOGIN TO XDATA ONLINE</div>
     <form class="form-signin" id="login_form" method="post" action="{% url 'op_tasks:login' %}">
       {% csrf_token %}
-      <h4 class="form-signin-heading">Please sign in</h4>
+      <div class="form-signin-heading">Please sign in</div>
       <input class="form-control" name="username" value="" placeholder="Username" required autofocus/>
       <input class="form-control" type="password" name="password" value="" placeholder="Password" required/>
-      <button class="btn btn-lg btn-primary btn-block" type="submit" value="submit">Sign in</button>
-    </form>
-    <h4 align="center">
+      <button class="btn-bordered btn-login" type="submit" value="submit">Sign in</button>
+      <div class="login-forgot">
         <a href="{% url 'op_tasks:reset' %}">Forgot password?</a>
-    </h4>
+      </div>
+    </form>
   </section>
 {% endblock %}

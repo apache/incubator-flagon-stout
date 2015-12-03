@@ -5,19 +5,21 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <b class="panel-title">
-      Navigation
+      Experiment Navigation
       <span class="label label-warning">Beta</span>
     </b>
   </div>
   <div class="panel-body">
-  	<a href="{% url 'exp_portal:home' %}">Experiment Portal Home</a><br>
-    <a href="{% url 'exp_portal:view_status' %}">Experiment status</a><br>
-    <a href="{% url 'exp_portal:manage_exps' %}">Manage Experiments</a><br>
-    <a href="{% url 'exp_portal:manage_datasets' %}">Manage Datasets</a><br>
-    <a href="{% url 'exp_portal:manage_tasks' %}">Manage Tasks</a><br>
-    <a href="{% url 'exp_portal:manage_products' %}">Manage Products</a><br>
-    <a href="{% url 'exp_portal:manage_users' %}">Manage Users</a><br>
-    <a href="{% url 'exp_portal:send_email' %}">Send Email</a>
+    <ul class="navigation-list">
+  	  <li><a class="navigation-item" href="{% url 'exp_portal:home' %}">Experiment Portal Home</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:view_status' %}">Experiment Status</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:manage_exps' %}">Manage Experiments</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:manage_datasets' %}">Manage Datasets</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:manage_tasks' %}">Manage Tasks</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:manage_products' %}">Manage Products</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:manage_users' %}">Manage Users</a></li>
+      <li><a class="navigation-item" href="{% url 'exp_portal:send_email' %}">Send Email</a></li>
+    </ul>
   </div>
 </div>
 

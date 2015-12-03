@@ -2,11 +2,11 @@
 
 {% block content %}
 
-<h1>Instructions Home</h1>
+<h1>INSTRUCTIONS</h1>
 
 <div class="instructions" >
   <a href="{% url 'op_tasks:exp_instruct' %}">
-    <h3>
+    <div class="task-list-text">
       {% if not user.userprofile.exp_inst_complete %}
         <div class="task-current">
           <span class="glyphicon glyphicon-unchecked"></span>
@@ -16,13 +16,13 @@
         <span class="glyphicon glyphicon-check"></span>
         Experiment Information and Instructions
       {% endif %}
-    </h3>
+    </div>
   </a>
 </div>
 
 <div class="instructions" >
   <a href="{% url 'op_tasks:portal_instruct' %}">
-    <h3>
+    <div class="task-list-text">
       {% if not user.userprofile.portal_inst_complete %}
         <div class="task-current">
           <span class="glyphicon glyphicon-unchecked"></span>
@@ -32,7 +32,7 @@
         <span class="glyphicon glyphicon-check"></span>
         Portal Guide
       {% endif %}
-    </h3>
+    </div>
   </a>
 </div>
 
@@ -54,8 +54,8 @@
 
 {% if user.userprofile.exp_inst_complete and user.userprofile.portal_inst_complete %}
 <hr>
-<h4>Thank you for completing the instructions.</h4>
-<h4>These links will remain active if you need to review the instructions again in the future.</h4>  
-<h4>Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete all tasks</h4>
+<p>Thank you for completing the instructions.</p>
+<p>These links will remain active if you need to review the instructions again in the future.</p>
+<p>Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete all tasks</p>
 {% endif %}
 {% endblock %}
