@@ -36,24 +36,22 @@
 </div>
 
 <!-- intake -->
-<div class="intake" >
+<div class="instructions" >
   <a href="{% url 'op_tasks:intake' %}">
     {% if user.userprofile.experiment.has_intake %}
     
     	{% if user.userprofile.intake_complete %}
-    
-	    <h3>
+    	<div class="task-list-text">
 	      <span class="glyphicon glyphicon-check"></span>
 	      Intake questionnaire complete
-	    </h3>
-	
+		</div>
 	    {% else %}
 	    
 	    <div class="task-current">
-	      <h3>
+	    <div class="task-list-text">
 	        <span class="glyphicon glyphicon-unchecked"></span>
 	        Click here to complete intake questionnaire
-	      </h3>
+	    </div>
 	    </div>
 	
 	    {% endif %}
