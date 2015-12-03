@@ -1,35 +1,18 @@
 {% extends "main.html" %}
-{% block head %}  
+{% block head %}
+{% endblock %}
+
+{% block header %}
+  <div id="header-navbar">
+    Signed in as {{user.email}} | <a class="header-navbar-link" href="{% url 'op_tasks:logout' %}">Sign Out</a>
+  </div>
 {% endblock %}
 
 {% block container %}
-<!-- Static navbar -->
-    <div class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{% url 'op_tasks:task_list' %}">XDATA Online</a>
-        </div>
-        <div class="navbar-collapse collapse">          
-          <ul class="nav navbar-nav navbar-right">
-            <li><p class="navbar-text">Signed in as {{user.email}}</p></li>
-            <li><p class="navbar-brand">|</a></li>
-            <li><a href="{% url 'op_tasks:logout' %}">Sign out</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div><!--/.container-fluid -->
-    </div>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-3 sidebar">
-
-          {% if user.is_staff %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 sidebar">
+        {% if user.is_staff %}
           <div class="panel panel-default">
             <div class="panel-heading">
               <b class="panel-title">
@@ -38,32 +21,32 @@
               </b>
             </div>
             <div class="panel-body">
-              <a href="{% url 'exp_portal:home' %}">Experiment Portal</a><br>
-              <a href="{% url 'developer:home' %}">Developer Portal</a><br>
+              <ul class="navigation-list">
+                <li><a class="navigation-item" href="{% url 'exp_portal:home' %}">Experiment Portal</a></li>
+                <li><a class="navigation-item" href="{% url 'developer:home' %}">Developer Portal</a></li>
+              </ul>
             </div>
           </div>
-          {% endif %}
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <b class="panel-title">Navigation</b>
-            </div>
-            <div class="panel-body">
-              <a href="{% url 'op_tasks:task_list' %}">Task List</a><br>
-              <a href="{% url 'op_tasks:instruct' %}">Instructions</a><br>
-              <a href="{% url 'op_tasks:view_profile' %}">Manage user profile</a><br>
-            </div>
-          </div> 
-
-          {% block side_block %}
-          {% endblock %}
-
+        {% endif %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <b class="panel-title">Navigation</b>
+          </div>
+          <div class="panel-body">
+            <ul class="navigation-list">
+              <li><a class="navigation-item" href="{% url 'op_tasks:task_list' %}">Task List</a></li>
+              <li><a class="navigation-item" href="{% url 'op_tasks:instruct' %}">Instructions</a></li>
+              <li><a class="navigation-item" href="{% url 'op_tasks:view_profile' %}">Manage user profile</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-9 main">
-          {% block content %} 
-          {% endblock %}
-        </div>
+        {% block side_block %}
+        {% endblock %}
+      </div>
+      <div class="col-md-9 main">
+        {% block content %}
+        {% endblock %}
       </div>
     </div>
-    
+  </div>
 {% endblock %}

@@ -5,14 +5,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <b class="panel-title">
-      Navigation
+      Developer Navigation
       <span class="label label-warning">Beta</span>
     </b>
   </div>
   <div class="panel-body">
-  	<a href="{% url 'developer:home' %}">Developer Portal Home</a><br>
-    <a href="{% url 'developer:view_dev_products' %}">Manage products</a><br>
-    <a href="{% url 'developer:submit_product' %}">Submit a new product</a><br>
+    <ul class="navigation-list">
+  	  <li><a class="navigation-item" href="{% url 'developer:home' %}">Developer Portal Home</a></li>
+      <li><a class="navigation-item" href="{% url 'developer:view_dev_products' %}">Manage products</a></li>
+      <li><a class="navigation-item" href="{% url 'developer:submit_product' %}">Submit a new product</a></li>
+    </ul>
   </div>
 </div>
 

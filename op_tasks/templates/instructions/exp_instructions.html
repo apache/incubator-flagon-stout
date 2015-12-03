@@ -2,33 +2,22 @@
 
 {% block content %}
 
-<h1>Hello and thank you for participating!</h1>
-<p>Before you arrive at the DARPA XDATA Experiment Dashboard, you should know more about what you’ll be asked to do, and how to do it. This document is the first of three that will walk you through some of the things you’ll need to know. In particular, this document will give you a high-level overview of the experiment itself.</p>
+<h1>Hello and Thank You for Participating!</h1>
+<p>Before you arrive at the XDATA Experiment Dashboard, you should know more about what you’ll be asked to do, and how to do it. We will walk you through some of the things you’ll need to know.</p>
 
-<p>The purpose of this experiment is to determine how certain kinds of software user interfaces affect analytic reasoning in the context of very large data sets—BIG data sets like social media, micro transactions (loans, for example), and even sports statistics. This study is sponsored by the Defense Advanced Research Projects Agency (DARPA).</p>
+<p>The purpose of this experiment is to determine how certain kinds of software user interfaces affect analytic reasoning in the context of very large data sets—BIG data sets like social media, transportation data, and financial data, and others. This study is sponsored by the Defense Advanced Research Projects Agency (DARPA).</p>
 
-<p>You’ll be asked to complete a number of tasks, in a specific sequence. After reviewing these instructions, you’ll have access to the DARPA XDATA Experiment Dashboard. This dashboard will give you access to all tasks, in the correct order—you won’t be able to complete tasks out of order. These tasks include, in order:</p>
+<p>You’ll be asked to complete a number of tasks, in a specific sequence. After reviewing these instructions, you’ll have access to the XDATA Experiment Dashboard. This dashboard will give you access to all tasks, in the correct order—you won’t be able to complete tasks out of order. These tasks include, in order:</p>
 
-<strong>Consent Form</strong><p>You will first see a detailed consent form that describes the research and, most importantly, your rights as a participant in human subjects research. You will need to read this document very carefully and make a decision as to whether you still want to volunteer in this research. If you acknowledge this consent form, you will have official access to the research tasks</p>
+<h4>Intake Questionnaire</h4><p>The first of your research tasks is a comprehensive intake questionnaire—this will ask you many questions regarding you expertise, education, background, as well as questions about how you approach complex analytic questions—we will even ask you to complete a few analytic problem solving questions as part of the intake. You must complete the intake questionnaire to be eligible for the remainder of the research tasks.</p>
 
-<strong>Intake Questionnaire</strong><p>The first of your research tasks is a comprehensive intake questionnaire—this will ask you many questions regarding you expertise, education, background, as well as questions about how you approach complex analytic questions—we will even ask you to complete a few analytic problem solving questions as part of the intake. You must complete the intake questionnaire to be eligible for the remainder of the research tasks.</p>
+<p>Once you’ve completed the Intake questionnaire, you’ll have access to the XDATA Experiment Dashboard, which has a number of features.</p>
 
-<br>
+<h4>Analytic Tasks</h4><p>Analytic, or “operational tasks”, will require you to make sense of the data your given, with the analytic tool you’re provided. Specifically, you’ll be asked select questions about various entities (persons, places, things, and patterns!) within the data. Your job is to do your best to answer these questions correctly in the time allotted. There are two analytic tasks. We will give you special instructions for how to interface with these tasks and the software you will use to complete them.</p>
 
-<strong>Once you’ve completed the Intake questionnaire, you’ll have access to the XDATA Experiment Dashboard, which has a number of features.</strong>
+<h4>Post-Task Surveys</h4><p>Following each of the two analytic tasks, you’ll be diverted to very short post-task surveys that will ask about you about your experiences in the previous task. You will be asked to do two of these, following each of your analytic tasks.</p>
 
-<br><br>
-
-<strong>Analytic Task Instructions</strong><p>The Dashboard will require that you view instructions for your analytic tasks before your start doing the tasks themselves. These instructions will tell you how to use the analytic tools we provide you, and the dataset you will be provided. You will also see instructions for how to log and register answers to questions that you will be asked while you perform these tasks. Finally, you’ll have access to this page as well, just in case you want to return and reread this material. You can return to the instructions page any time, except for when you are actually working on the tasks themselves.</p> 
-
-<strong>Analytic Tasks</strong><p>Analytic, or “operational tasks”, will require you to make sense of the data your given, with the analytic tool you’re provided. Specifically, you’ll be asked select questions about various entities (persons, places, things, and patterns!) within the data. Your job is to do your best to answer these questions correctly in the time allotted. There are two analytic tasks.<p>
-
-<strong>Post-Task Surveys</strong><p>Following each of the two analytic tasks, you’ll be diverted to very short post-task surveys that will ask about you about your experiences in the previous task. You will be asked to do two of these, following each of your analytic tasks.</p>
- 
-<strong>Debriefing</strong><p>After completing all tasks, we’ll provide you with some more information about the study, why we’re doing it, and what we’re ultimately hoping to accomplish.</p>
-
-
-<strong>Achievements</strong><p>As you complete tasks, and complete them correctly, you will unlock achievements. Additionally, if you complete all tasks, you will be allowed to come back for Free Play: you can choose different combinations of datasets and tools to explore as you would. Your performance on additional tasks associated with these other tools and datasets will count toward achievements, too!<p>
+<h4>Achievements</h4><p>As you complete tasks, and complete them correctly, you will unlock achievements. Additionally, if you complete all tasks, you will be allowed to come back for Free Play: you can choose different combinations of tasks and software and explore them at your leisure. Your performance on additional tasks associated with these other tools and datasets will count toward achievements, too!</p>
 
 <br>
 <form id="exp_inst_complete" method="get" action="{% url 'op_tasks:instruct' read='experiment' %}">
