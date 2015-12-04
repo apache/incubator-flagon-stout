@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.conf import settings
 #from django.contrib.auth.models import User
 from django.utils import timezone
+from django.db import IntegrityError
 from elasticsearch import Elasticsearch
 from xdata.settings import ALE_URL
 from axes.decorators import watch_login
@@ -167,7 +168,7 @@ def task_launch(request, task_pk):
 
     return render(request, 'task_launch.html', {'tasklistitem': tasklistitem})
 
-# cretaes a new user and assigns tasks 
+# creates a new user and assigns tasks 
 def register(request):
     # TODO : add logging back in.  Good practice!!
     # Like before, get the request's context.
@@ -175,7 +176,9 @@ def register(request):
 
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.
-    registered = False
+    registrationSuccessful = False
+    userExists = False
+    error = False
 
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
@@ -184,7 +187,16 @@ def register(request):
         # Once hashed, we can update the user object.
         user = get_user_model()(email=request.POST['email'])
         user.set_password(request.POST['password'])
-        user.save()
+        
+        if not user.email or not request.POST['password']:
+            error = True
+            return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
+        
+        try:
+            user.save()
+        except IntegrityError:
+            userExists = True
+            return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
 
         # Now sort out the UserProfile instance.
         # Since we need to set the user attribute ourselves, we set commit=False.
@@ -212,7 +224,7 @@ def register(request):
 
 
         # Update our variable to tell the template registration was successful.
-        registered = True
+        registrationSuccessful = True
 
         # add some logic to log events, log in users directly
         print "successful registration of " + request.POST['email'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -234,7 +246,7 @@ def register(request):
 
     # Render the template depending on the context.
     # possibly change this to render task list - see notes above
-    return render_to_response('registration/register.html', {'registered': registered}, context)
+    return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
 
 
 def logout_participant(request):

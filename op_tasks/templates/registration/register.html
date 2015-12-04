@@ -4,10 +4,14 @@
 <section class="login-section">
 	<div class="login-title">REGISTRATION</div>
 
-	{% if registered %}
-	<div class="form-signin-heading">Thank you for registering!</div>
+	{% if registrationSuccessful %}
+		<div class="form-signin-heading">Thank you for registering!</div>
+	{% elif userExists %}
+		<div class="form-signin-heading">User already exists!</div>
+	{% elif error %}
+		<div class="form-signin-heading">There was an error processing your request. Please try again.<br/><br/>If the problem persists, please contact: software-evaluation@draper.com</div>
 	{% else %}
-		<form class="form-signin" role="form" id="user_form" method="post" action="{% url 'op_tasks:register' %}" enctype="multipart/form-data">
+		<form class="form-signin" role="form" name="user_form" id="user_form" onsubmit="return validateForm()" method="post" action="{% url 'op_tasks:register' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="form-signin-heading">Create an account</div>
     	<div class="form-group">
@@ -32,8 +36,30 @@
   	</form>
   {% endif %}
 
-  {% if registered %}
+  {% if registrationSuccessful or userExists %}
     <div class="form-signin-heading">Click here to sign in: <a href="{% url 'op_tasks:login' %}">Sign in</a></div>
+    {% if userExists %}
+    	<div class="form-signin-heading">Or click here if you've forgotten your password: <a href="{% url 'op_tasks:reset' %}">Password reset</a></div>
+    {% endif %}
   {% endif %}
 </section>
+
+<script>
+// do simple client-side validation of the form before submitting to server
+function validateForm() {
+	var form = document.forms["user_form"];
+	if (form["email"].value == null || form["email"].value == ""
+			|| form["password"].value == null || form["password"].value == ""
+			||	form["password2"].value == null || form["password2"].value == "") {
+		window.alert("Please supply all fields.");
+		return false;
+	}
+	if (form["password"].value != form["password2"].value) {
+		window.alert("Passwords do not match!");
+		return false;
+	}
+	return true;
+}
+</script>
+
 {% endblock %}
