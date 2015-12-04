@@ -2,14 +2,16 @@
 
 {% block content %}
 
-<h1>Intake Questionnaire</h1>
+<h1>INTAKE QUESTIONNAIRE</h1>
 
 <div>
-	<h4>Please take a moment to complete the intake questionnaire which collects demographical information for this experiment</h4>
-	
-	<h3><a href="{{ user.userprofile.experiment.intake_url }}?sid={{ user.userprofile.user_hash }}::0" target="_blank">Click here</a></h3>
-	
-	<h4>Please return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to complete this task, and continue with the remaining tasks</h4>
+	<p>The first of your research tasks is a comprehensive intake questionnaire—this questionnaire will ask you many questions regarding you expertise, education, background, as well as questions about how you approach complex analytic questions—we will even ask you to complete a few analytic problem solving questions as part of the intake. Your completion of the intake questionnaire is critical to making sure the applications being tested are useful and usable for the widest possible range of interested people!</p>
+
+	<p>We expect the intake questionnaire to take between 30-60 minutes to complete depending on your pace. Preferably, we hope you can complete the intake questionnaire in a single sitting. However, if you need to leave the intake questionnaire and return to it at a later date, you can return to your place by clicking the link below. If you wait too long the link may expire, so please complete the questionnaire promptly, if possible.</p>
+
+	<p id="intake-button"><a href="{{ user.userprofile.experiment.intake_url }}?sid={{ user.userprofile.user_hash }}::0" target="_blank">Click Here to Start or Continue Your Intake Questionnaire</a></p>
+
+	<p>When you have completed your intake questionnaire, or if you decide not to complete the intake questionnaire, you may return to your <a href="{% url 'op_tasks:task_list' %}">task list</a> to start the next task.</p>
 </div>
 
 {% endblock %}

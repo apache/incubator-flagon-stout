@@ -410,6 +410,10 @@ a.btn-bordered, a.btn-bordered:hover {
   height: calc(100% - 65px);
 }
 
+#intake-button {
+	text-align: center;
+}
+
 
 /* old css */
 
