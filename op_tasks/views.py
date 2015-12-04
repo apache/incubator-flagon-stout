@@ -218,7 +218,7 @@ def register(request):
         print "successful registration of " + request.POST['email'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request.POST['email_to'] = user.email
         request.POST['email_subject'] = 'Welcome to XDATA Online'
-        request.POST['email_message'] = 'successful registration'
+        request.POST['email_message'] = 'Welcome, ' + request.POST['email'] + '! Thank you for registering to use XDATA Online. Please direct any questions or help requests to: software-evaluation@draper.com'
         exp_portal.email.send_email(request)
 
         # login_participant(request)
