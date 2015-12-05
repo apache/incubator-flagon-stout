@@ -193,11 +193,11 @@ def register(request):
             error = True
             return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
         
-        #try:
-        user.save()
-        #except IntegrityError:
-        #    userExists = True
-        #    return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
+        try:
+            user.save()
+        except IntegrityError:
+            userExists = True
+            return render_to_response('registration/register.html', {'registrationSuccessful': registrationSuccessful, 'userExists': userExists, 'error': error}, context)
 
         # Now sort out the UserProfile instance.
         # Since we need to set the user attribute ourselves, we set commit=False.
