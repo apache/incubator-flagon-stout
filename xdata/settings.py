@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
+SITE_ID = 1
+
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
@@ -44,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'op_tasks',
     'exp_portal',
