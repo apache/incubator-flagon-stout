@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.views import password_reset, password_reset_confirm
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django.conf import settings
@@ -231,7 +232,7 @@ def register(request):
         print "successful registration of " + request.POST['email'] +" "+ datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         request.POST['email_to'] = user.email
         request.POST['email_subject'] = 'Welcome to XDATA Online'
-        request.POST['email_message'] = 'Welcome, ' + request.POST['email'] + '! Thank you for registering to use XDATA Online. Please direct any questions or help requests to: software-evaluation@draper.com'
+        request.POST['email_message'] = 'Your registration was successful!\n\nIn case you forget your password, please go to the following page and reset your password:\n\nhttps://' + get_current_site(request).domain + '/tasking/reset/\n\nYour username, in case you\'ve forgotten, is the email address this message was sent to.\n\nThanks for using our site!\n\nThe ' + get_current_site(request).name + ' team' 
         exp_portal.email.send_email(request)
 
         # login_participant(request)
