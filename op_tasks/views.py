@@ -188,7 +188,7 @@ def register(request):
         # Once hashed, we can update the user object.
         user = get_user_model()(email=request.POST['email'])
         user.set_password(request.POST['password'])
-	user.last_login = '1970-01-01 00:00'
+        user.last_login = '1970-01-01 00:00'
         
         if not user.email or not request.POST['password']:
             error = True

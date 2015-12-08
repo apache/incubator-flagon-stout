@@ -51,19 +51,20 @@ def delete_user(request, userprofilepk):
 
 @login_required(login_url='/tasking/login')
 def new_user(request):
-	user = get_user_model()(email=request.POST['email'])
-	user.set_password(request.POST['password_1'])
-	user.save()
+    user = get_user_model()(email=request.POST['email'])
+    user.set_password(request.POST['password_1'])
+    user.last_login = '1970-01-01 00:00'
+    user.save()
 
-	userprofile = UserProfile()
-	userprofile.user = user
-	experiment = Experiment.objects.get(name=request.POST['experiment_name'])
-	userprofile.experiment = experiment
-	userprofile.save()
+    userprofile = UserProfile()
+    userprofile.user = user
+    experiment = Experiment.objects.get(name=request.POST['experiment_name'])
+    userprofile.experiment = experiment
+    userprofile.save()
 
-	# logic for assigning tasks
-	if request.POST['product_name'] == 'all':
-		# all products all tasks buffet style
+    # logic for assigning tasks
+    if request.POST['product_name'] == 'all':
+        # all products all tasks buffet style
 		index = 0
 		datasets = Dataset.objects.all()
 		for dataset in datasets:
@@ -80,7 +81,7 @@ def new_user(request):
 					index = index + 1
 					newtasklistitem.task_active = True
 					newtasklistitem.save()
-	else:
+    else:
 		# single product - task ordering assumed
 		product = Product.objects.get(name=request.POST['product_name'])
 		if str(request.POST['taskorder']) == 'b':
@@ -105,8 +106,7 @@ def new_user(request):
 			index = index + 1
 			newtasklistitem.save()
 
-
-	return redirect('exp_portal:view_users')
+    return redirect('exp_portal:view_users')
 
 
 @login_required(login_url='/tasking/login')
