@@ -82,19 +82,19 @@ AUTH_USER_MODEL = 'custom_user.EmailUser'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-       'NAME': os.path.join(BASE_DIR, '../db', 'db.sqlite3'),
-   }
+   #'default': {
+   #    'ENGINE': 'django.db.backends.sqlite3',
+   #    'NAME': os.path.join(BASE_DIR, '../db', 'db.sqlite3'),
+   #}
 
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'xdatadb',
-    #     'USER': 'xdatauser',
-    #     'PASSWORD': 'Dr@perUs3r!',
-    #     'HOST': 'localhost', #'127.0.0.1',   # Or an IP Address that your DB is hosted on
-    #     'PORT': '3306',
-    # }
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'xdatadb',
+         'USER': 'xdatauser',
+         'PASSWORD': 'Dr@perUs3r!',
+         'HOST': 'localhost', #'127.0.0.1',   # Or an IP Address that your DB is hosted on
+         'PORT': '3306',
+    }
 }
 
 
@@ -133,12 +133,11 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Email integration setup
-
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'xdataonline@gmail.com'
 EMAIL_HOST_PASSWORD = MY_EMAIL_PASSWORD
-EMAIL_PORT = 587
 
 # After three failed logins, require users to wait 5 minutes before they can attempt to log in again
 AXES_LOGIN_FAILURE_LIMIT = 3
