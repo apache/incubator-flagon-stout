@@ -134,10 +134,17 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Email integration setup
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'email-smtp.us-east-1.amazonaws.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'xdataonline@gmail.com'
+EMAIL_HOST_USER = 'AKIAJJDM2ZC67STGF4IA'
 EMAIL_HOST_PASSWORD = MY_EMAIL_PASSWORD
+
+# Configurable email addresses
+# These are addresses where mail is sent from...
+EMAIL_FROM_NOMINAL_ADDRESS = "onlinetesting@xdataonline.com"
+EMAIL_FROM_ERROR_ADDRESS = "no-reply@xdataonline.com"
+# These are addresses used to send mail to...
+EMAIL_TO_ERROR_ADDRESS = "errors@xdataonline.com"
 
 # After three failed logins, require users to wait 5 minutes before they can attempt to log in again
 AXES_LOGIN_FAILURE_LIMIT = 3

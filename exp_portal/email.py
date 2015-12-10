@@ -11,11 +11,11 @@ from django.contrib.auth.decorators import login_required
 def send_email(request):
     print request
     if request.method == 'POST':
-        email_to = request.POST.get('email_to', 'xdataonlineerrors@gmail.com')
+        email_to = request.POST.get('email_to', settings.EMAIL_TO_ERROR_ADDRESS)
         subject = request.POST.get('email_subject', 'error')
         message = request.POST.get('email_message', 'error')
         print email_to, subject, message
-        status = mail.send_mail(subject, message, settings.EMAIL_HOST_USER, [email_to], fail_silently=False)
+        status = mail.send_mail(subject, message, settings.EMAIL_FROM_NOMINAL_ADDRESS, [email_to], fail_silently=False)
     else:
         status = 2
 
