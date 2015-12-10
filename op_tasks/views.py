@@ -317,7 +317,8 @@ def reset_confirm(request, uidb64=None, token=None):
 def reset(request):
     return password_reset(request, template_name='registration/reset_password_form.html',
                           email_template_name='registration/reset_password_email.html',
-                          post_reset_redirect=reverse('op_tasks:reset_sent'))
+                          post_reset_redirect=reverse('op_tasks:reset_sent'),
+                          from_email=settings.EMAIL_FROM_NOMINAL_ADDRESS)
 
 
 def reset_sent(request):
