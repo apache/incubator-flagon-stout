@@ -14,23 +14,23 @@
 		Please read all of these instructions before clicking any buttons!
 	</h4>
 	<p>
-		Click the button below to view instructions for {{tasklistitem.product.name}}.  After you have read the instructions, the button below to begin your task will be enabled.
+		First, you’ll need view instructions for the {{tasklistitem.product.name}} analytic tool, by clicking on the “Instructions” button below. This will open a separate browser page where instructions are hosted. You may spend as much time as you like viewing instructional materials (either documents or videos), and this page will remain active throughout your tasks.
 	</p>
 	<button id="instructions_button" onclick="open_instructions();" class="btn btn-lg btn-warning">
 		Instructions
 	</button>
 	<p>
-		Click the blue button in the Task Menu below to launch {{ tasklistitem.product.name }} when ready
+		Second, when you are ready to open {{ tasklistitem.product.name }}, click the blue "open {{ tasklistitem.product.name }}" button in the Task Menu below (bottom left). This will launch the {{ tasklistitem.product.name }} tool in a separate browser page. If you accidently close the page, you can always click the blue button again to return to the application.
 	</p>
 	<p>
-		Click the red button in the Task Menu below when you have completed your task
-	</p>
-	<p>
-		Please click the green button below to begin your task. This will load the task in this page and you will have {{tasklistitem.userprofile.experiment.task_length}} minutes to answer all questions. Note that if you leave the task or quit the task before you feel you have completed it, you will not return to the task. Please complete the task in one sitting.
+		Third, when you are ready to begin the task itself, please click the green “begin task” button below. This will load the task in this page and your  {{tasklistitem.userprofile.experiment.task_length}} minute timer will begin counting down. If you run out of time before you finish the task, you’ll automatically be sent back to your task list. If you leave the task or quit the task before you feel you have completed it, you will not return to the task. Please complete the task in one sitting.
 	</p>
 	<button id="open_task_button" onclick="task_launch();" class="btn btn-lg btn-success">
 		Begin Task
 	</button>
+  <p>
+    If you complete your task before the timer runs out, please click the red button in the Task Menu below. This will return you to your task list.
+  </p>
 </div>
 
 <script>
