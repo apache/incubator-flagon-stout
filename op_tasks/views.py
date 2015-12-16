@@ -14,11 +14,9 @@ from elasticsearch import Elasticsearch
 from xdata.settings import ALE_URL
 from axes.decorators import watch_login
 import achievements
+import tasksUtil
 import exp_portal
 import datetime
-
-
-from op_tasks.models import Product, UserProfile, TaskListItem, Experiment
 
 import exceptions
 import hashlib
@@ -27,6 +25,7 @@ import logging
 #import sqlite
 
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
+
 logger = logging.getLogger('op_tasks')
 
 def set_cookie(response, key, value, days_expire = 7):
@@ -334,16 +333,51 @@ def task_list(request):
     # handling for instructions & intake, transition to first OpTask when ready
     if userprofile.tasklistitem_set.all().count() > 0:
         first_task = userprofile.tasklistitem_set.all()[0]
-        if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_complete:
+        if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_active:
             if userprofile.experiment.has_intake:
                 if userprofile.intake_complete:
                     first_task.task_active = True
                     first_task.save()
             else:
-                first_task.task_active = True
-                first_task.save()
+                if userprofile.experiment.sequential_tasks:
+                    first_task.task_active = True
+                    first_task.save()
+                else:
+                    for task in userprofile.tasklistitem_set.all():
+                        task.task_active = True
+                        task.save()
+    
+    # On visiting the task_list page, run check achievements logic
+    # TODO this isn't scalable... need a better strategy here
+    achievements.checkAchievements(request)
+    
     return render(request, 'task_list.html', 
-        {'userprofile': userprofile, 'all_complete': all_complete})
+        {'userprofile': userprofile, 'all_complete': all_complete,
+         'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+         'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+         'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
+    
+
+def activate_free_play(request):
+    """
+    In "Free Play" mode, the user has access to all of the tasks in the system
+    for the products they are applicable to. The "buffet" style of tasking.
+    """
+    user = request.user
+    userprofile = user.userprofile
+    
+    """
+    First, award the Free Play achievement, if the user doesn't already have it.
+    """
+    achievements.awardFreePlayAchievement(user)
+    
+    """
+    Then append the buffet of taskings to the user's task list.
+    """
+    tasksUtil.appendAllTasks(user)
+    
+    # Then follow the same logic as displaying the task_list page
+    return task_list(request)
 
 
 def intro(request, process=None):
@@ -379,7 +413,12 @@ def instruct(request, read=None):
 
     userprofile.save()
     product = userprofile.tasklistitem_set.all()[0].product
-    return render(request, 'instruction_home.html', {'user': request.user, 'product': product})
+    
+    return render(request, 'instruction_home.html',
+                  {'user': request.user, 'product': product,
+                   'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+                   'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+                   'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
 
 
 def intake(request):
@@ -393,16 +432,36 @@ def intake(request):
 
 
 def exp_instruct(request):
-    return render(request, 'instructions/exp_instructions.html', {'user': request.user})
+    user = request.user
+    return render(request, 'instructions/exp_instructions.html', 
+                  {'user': request.user,
+                   'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+                   'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+                   'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
 
 
 def portal_instruct(request):
-    return render(request, 'instructions/portal_instructions.html', {'user': request.user})
+    user = request.user
+    return render(request, 'instructions/portal_instructions.html', 
+                  {'user': request.user,
+                   'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+                   'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+                   'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
 
 
 def product_instruct(request):
-    return render(request, 'instructions/product_instructions.html', {'user': request.user})
+    user = request.user
+    return render(request, 'instructions/product_instructions.html', 
+                  {'user': request.user,
+                   'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+                   'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+                   'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
 
 
 def view_profile(request):
-    return render(request, 'user_profile.html', {'user': request.user})
+    user = request.user
+    return render(request, 'user_profile.html',
+                  {'user': request.user,
+                   'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
+                   'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
+                   'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})

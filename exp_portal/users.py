@@ -5,6 +5,8 @@ from django.contrib.auth import get_user_model
 
 from django.http import JsonResponse
 
+from op_tasks import tasksUtil
+
 @login_required(login_url='/tasking/login')
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
@@ -65,22 +67,7 @@ def new_user(request):
     # logic for assigning tasks
     if request.POST['product_name'] == 'all':
         # all products all tasks buffet style
-		index = 0
-		datasets = Dataset.objects.all()
-		for dataset in datasets:
-			products = dataset.product_set.all()
-			for product in products:
-				tasks = dataset.optask_set.all()
-				tasks = tasks.filter(is_active=True)
-				for task in tasks:
-					newtasklistitem = TaskListItem()
-					newtasklistitem.userprofile = userprofile
-					newtasklistitem.op_task = task
-					newtasklistitem.product = product
-					newtasklistitem.index = index
-					index = index + 1
-					newtasklistitem.task_active = True
-					newtasklistitem.save()
+		tasksUtil.appendAllTasks(user)
     else:
 		# single product - task ordering assumed
 		product = Product.objects.get(name=request.POST['product_name'])

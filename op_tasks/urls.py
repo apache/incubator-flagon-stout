@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     # ex: /op_tasks/
     # url(r'^$', index, name='index'),
     url(r'^task_list/$', views.task_list, name='task_list'),
+    url(r'^activate_free_play/$', views.activate_free_play, name='activate_free_play'),
     url(r'^product/(?P<task_pk>[0-9]+)$', views.product, name='product'),
     url(r'^product_test/(?P<task_pk>[0-9]+)$', views.product_test, name='product_test'),
     url(r'^task_test/(?P<task_pk>[0-9]+)$', views.task_test, name='task_test'),

@@ -1,23 +1,47 @@
 {% extends "page.html" %}
 
 {% block side_block %}
-  <!-- {% if user.userprofile.experiment.has_achievements %}
+  {% if user.userprofile.experiment.has_achievements %}
   <div class="panel panel-default">
     <div class="panel-heading">
       <b class="panel-title">Achievements</b>
     </div>
     <div class="panel-body">
+      <!-- This is not great. It's very hardcoded. A better solution would be to have
+      a much more dynamic achievement system, where achievements can be defined by
+      the experiment administrator, along with the display for those achievements. -->
+      <center>
+      {% if hasTasksCompleteOneAchievement %}
       <div class="media">
+      	<!-- 
         <div class="media-body">
-          <h4 class="media-heading">Achievement 1</h4>
-        </div>
+          <h4 class="media-heading">Tasks Completed</h4>
+        </div> -->
         <div class="media-right">
-          <a href="#">
-            <img class="media-object" src="/static/images/Colonel_Grade_3.png" alt="...">
-          </a>
+            <img class="media-object" src="/static/images/achievement-task1-complete-small.png" alt="...">
         </div>
       </div>
+      {% endif %}
+      {% if hasTasksCompleteTwoAchievement %}
+      <div class="media">
+      	<!-- 
+        <div class="media-body">
+          <h4 class="media-heading">Tasks Completed</h4>
+        </div> -->
+        <div class="media-right">
+            <img class="media-object" src="/static/images/achievement-task2-complete-small.png" alt="...">
+        </div>
+      </div>
+      {% endif %}
+      {% if hasFreePlayAchievement %}
+      <div class="media">
+        <div class="media-right">
+            <img class="media-object" src="/static/images/achievement-free-play-small.png" alt="...">
+        </div>
+      </div>
+      {% endif %}
+      </center>
     </div>
   </div>
-  {% endif %} -->
+  {% endif %}
 {% endblock %}

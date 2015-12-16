@@ -1,5 +1,5 @@
 from django.contrib import admin
-from op_tasks.models import Product, Dataset, TaskListItem, UserProfile, OpTask, Experiment
+from op_tasks.models import Product, Dataset, TaskListItem, UserProfile, OpTask, Experiment, Achievement, UserAchievement
 adminsite = admin.site
 
 class DatasetAdmin(admin.ModelAdmin):
@@ -33,6 +33,14 @@ class ExperimentAdmin(admin.ModelAdmin):
 	search_fields = ['name']
 	list_display = ['name', 'task_count', 'task_length', 
 	'has_achievements', 'has_intake', 'has_followup', 'auto_tasking']
+	
+class AchievementAdmin(admin.ModelAdmin):
+	search_fields = ['name']
+	list_display = ['name', 'desc']
+	
+class UserAchievementAdmin(admin.ModelAdmin):
+	search_fields = ['userprofile']
+	list_display = ['userprofile', 'achievement']
 
 adminsite.register(OpTask, OpTaskAdmin)
 adminsite.register(Product, ProductAdmin)
@@ -40,3 +48,5 @@ adminsite.register(TaskListItem, TaskListItemAdmin)
 adminsite.register(Dataset, DatasetAdmin)
 adminsite.register(UserProfile, UserProfileAdmin)
 adminsite.register(Experiment, ExperimentAdmin)
+adminsite.register(Achievement, AchievementAdmin)
+adminsite.register(UserAchievement, UserAchievementAdmin)
