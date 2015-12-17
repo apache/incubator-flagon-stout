@@ -333,7 +333,7 @@ def task_list(request):
     # handling for instructions & intake, transition to first OpTask when ready
     if userprofile.tasklistitem_set.all().count() > 0:
         first_task = userprofile.tasklistitem_set.all()[0]
-        if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_active:
+        if userprofile.exp_inst_complete and userprofile.portal_inst_complete and not first_task.task_complete:
             if userprofile.experiment.has_intake:
                 if userprofile.intake_complete:
                     first_task.task_active = True
