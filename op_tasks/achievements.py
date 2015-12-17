@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from op_tasks.models import UserAchievement, Achievement
+from op_tasks.models import TaskListItem, UserAchievement, Achievement
 
 
 def checkAchievements(request):
@@ -40,10 +40,13 @@ def tasksComplete(user):
         userAchievement = UserAchievement.objects.get(userprofile=userprofile, achievement=tasksCompleteOneAchievement)
     except ObjectDoesNotExist:
         # User does not have achievement yet... test to see if they should:
-        if userprofile.tasklistitem_set.get(index=0).exit_complete:
-            userAchievement = UserAchievement(userprofile=userprofile, achievement=tasksCompleteOneAchievement)
-            userAchievement.save()
-            award=True
+        try:
+            if userprofile.tasklistitem_set.get(index=0).exit_complete:
+                userAchievement = UserAchievement(userprofile=userprofile, achievement=tasksCompleteOneAchievement)
+                userAchievement.save()
+                award=True
+        except TaskListItem.DoesNotExist:
+            pass
             
     # TODO implement for tasksCompleteTwo
     tasksCompleteTwoAchievement = Achievement.objects.get(name='tasksCompleteTwo')
@@ -51,10 +54,13 @@ def tasksComplete(user):
         userAchievement = UserAchievement.objects.get(userprofile=userprofile, achievement=tasksCompleteTwoAchievement)
     except ObjectDoesNotExist:
         # User does not have achievement yet... test to see if they should:
-        if userprofile.tasklistitem_set.get(index=1).exit_complete:
-            userAchievement = UserAchievement(userprofile=userprofile, achievement=tasksCompleteTwoAchievement)
-            userAchievement.save()
-            award=True
+        try:
+            if userprofile.tasklistitem_set.get(index=1).exit_complete:
+                userAchievement = UserAchievement(userprofile=userprofile, achievement=tasksCompleteTwoAchievement)
+                userAchievement.save()
+                award=True
+        except TaskListItem.DoesNotExist:
+            pass
         
     return award
 
