@@ -41,7 +41,11 @@ def view_status(request):
 						completedTasks.append(tasklistitem)
 					else:
 						incompleteTasks.append(tasklistitem)
-			percentageComplete = int((len(completedTasks) / float(len(completedTasks) + len(incompleteTasks))) * 100)
+			totalTasks = float(len(completedTasks) + len(incompleteTasks))
+			if totalTasks != 0:
+				percentageComplete = int((len(completedTasks) / totalTasks) * 100)
+			else:
+				percentageComplete = 0
 			sortedProd = sorted(set(products))
 			sortedTasks = sorted(set(tasks))
 			sortedCompletedTasks = sorted(completedTasks)
