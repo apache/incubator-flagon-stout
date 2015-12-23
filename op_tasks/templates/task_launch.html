@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% load staticfiles %}
 {% block head %}
 {% endblock %}
 {% block header %}
@@ -45,6 +46,34 @@ function open_instructions() {
 
 function task_launch() {
 	window.location.assign("{{ tasklistitem.op_task.survey_url }}?sid={{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}");
+	
+	// Instantiate User ALE connection
+	// TODO: we may want to do this in a more global place in the future? Right now
+	// we're just adding a single instrumentation message so this is fine.
+	var ale = new userale({
+	    loggingUrl: '{{ settings.ALE_URL }}', //The url of the User-ALE logging server.
+	    toolName: 'STOUT', //The name of your tool
+	    toolVersion: '3.0', //The semantic version of your tool
+	    elementGroups: [ //A list of element groups used in your tool (see below)
+	      'page'
+	    ],
+	    workerUrl: "{% static 'javascript/userale.js' %}", //The location of the User-ALE webworker file
+	    debug: true, //Whether to log messages to console
+	    sendLogs: false //Whether or not to send logs to the server (useful during testing)
+	});
+	
+	// Create the User ALE message and send to instrument the time the user started the task
+	var msg = { activity: 'begin_task',
+		      action: 'click',
+		      elementId: 'open_task_button',
+		      elementType: 'button',
+		      elementGroup: 'page',
+		      //elementSub: 'handle',
+		      source: 'user',
+		      tags: ['timing', 'tasking']
+		    };
+	ale.log(msg);
+	
 	return parent.start_timer();
 }
 
