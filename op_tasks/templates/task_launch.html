@@ -44,13 +44,11 @@ function open_instructions() {
 	parent.product_button.disabled = false;
 }
 
-function task_launch() {
-	window.location.assign("{{ tasklistitem.op_task.survey_url }}?sid={{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}");
-	
+$(document).ready(function() {
 	// Instantiate User ALE connection
 	// TODO: we may want to do this in a more global place in the future? Right now
 	// we're just adding a single instrumentation message so this is fine.
-	var ale = new userale({
+	ale = new userale({
 	    loggingUrl: '{{ userAleUrl }}', //The url of the User-ALE logging server.
 	    toolName: 'STOUT', //The name of your tool
 	    toolVersion: '3.0', //The semantic version of your tool
@@ -62,6 +60,10 @@ function task_launch() {
 	    sendLogs: true //Whether or not to send logs to the server (useful during testing)
 	});
 	ale.register();
+})
+
+function task_launch() {
+	window.location.assign("{{ tasklistitem.op_task.survey_url }}?sid={{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}");
 	
 	// Create the User ALE message and send to instrument the time the user started the task
 	var msg = { activity: 'perform',
