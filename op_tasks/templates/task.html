@@ -75,18 +75,27 @@
   setInterval(function(){enable_product()}, 1000);
 </script>
 
-<script src="{% static 'javascript/draper.activity_logger-2.1.1.js' %}"></script>
-
 <script>
-  // web worker url
-  var worker = "{% static 'javascript/draper.activity_worker-2.1.1.js' %}"
-  var ac = new activityLogger(worker)
-  .testing(false) // simulate POST, won't send log
-  .echo(true) // log to console
-  .mute(['SYS']); // don't log SYSTEM actions
+$(document).ready(function() {
+	// Instantiate User ALE connection
+	// TODO: we may want to do this in a more global place in the future? Right now
+	// we're just adding a single instrumentation message so this is fine.
+	ale = new userale({
+	    loggingUrl: '{{ userAleUrl }}', //The url of the User-ALE logging server.
+	    toolName: 'STOUT', //The name of your tool
+	    toolVersion: '3.0', //The semantic version of your tool
+	    elementGroups: [ //A list of element groups used in your tool (see below)
+	      'page'
+	    ],
+	    workerUrl: "{% static 'javascript/userale-worker.js' %}", //The location of the User-ALE webworker file
+	    debug: true, //Whether to log messages to console
+	    sendLogs: true //Whether or not to send logs to the server (useful during testing)
+	});
+	ale.register();
+	window.ale = ale;
+})
 </script>
 
-<!-- <script src="{% static 'javascript/task_logging.js' %}"></script> -->
 <script src="{% static 'javascript/product.js' %}"></script>
 
 {% if user.userprofile.experiment.timed %}

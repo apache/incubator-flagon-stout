@@ -10,15 +10,8 @@
 	<h1>TESTING</h1>
 	<button id="test-button" class="btn btn-success btn-lg btn-block">Test Button</button>
 
-	<script src="../javascript/draper.activity_logger-2.1.1.js"></script>
-	<script>
-	// web worker url
-	var worker = "../javascript/draper.activity_worker-2.1.1.js"
-	var ac = new activityLogger(worker)
-	.testing(false) // simulate POST, won't send log
-	.echo(true) // log to console
-	.mute(['SYS']); // don't log SYSTEM actions
-	</script>
+	<!-- TODO: when old logging was removed, new User ALE logging was not integrated
+	as part of this test. -->
 	<script src="test_logging.js"></script>
 </body>
 </html>

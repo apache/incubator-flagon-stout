@@ -159,8 +159,9 @@ def task_test(request, task_pk):
     tasklistitem = TaskListItem.objects.get(pk=task_pk)
     current_task = tasklistitem.op_task
     request.session['current_optask'] = current_task.pk
+    userAleUrl = settings.ALE_URL 
 
-    return render(request, 'task.html', {'tasklistitem':tasklistitem})
+    return render(request, 'task.html', {'tasklistitem':tasklistitem, 'userAleUrl': userAleUrl})
 
 
 def task_launch(request, task_pk):
