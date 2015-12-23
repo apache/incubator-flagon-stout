@@ -51,7 +51,7 @@ function task_launch() {
 	// TODO: we may want to do this in a more global place in the future? Right now
 	// we're just adding a single instrumentation message so this is fine.
 	var ale = new userale({
-	    loggingUrl: '{{ settings.ALE_URL }}', //The url of the User-ALE logging server.
+	    loggingUrl: '{{ userAleUrl }}', //The url of the User-ALE logging server.
 	    toolName: 'STOUT', //The name of your tool
 	    toolVersion: '3.0', //The semantic version of your tool
 	    elementGroups: [ //A list of element groups used in your tool (see below)

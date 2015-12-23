@@ -165,8 +165,9 @@ def task_test(request, task_pk):
 
 def task_launch(request, task_pk):
     tasklistitem = TaskListItem.objects.get(pk=task_pk)
+    userAleUrl = settings.ALE_URL 
 
-    return render(request, 'task_launch.html', {'tasklistitem': tasklistitem})
+    return render(request, 'task_launch.html', {'tasklistitem': tasklistitem, 'userAleUrl': userAleUrl})
 
 # creates a new user and assigns tasks 
 def register(request):
