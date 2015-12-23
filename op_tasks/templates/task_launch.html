@@ -57,14 +57,15 @@ function task_launch() {
 	    elementGroups: [ //A list of element groups used in your tool (see below)
 	      'page'
 	    ],
-	    workerUrl: "{% static 'javascript/userale.js' %}", //The location of the User-ALE webworker file
+	    workerUrl: "{% static 'javascript/userale-worker.js' %}", //The location of the User-ALE webworker file
 	    debug: true, //Whether to log messages to console
-	    sendLogs: false //Whether or not to send logs to the server (useful during testing)
+	    sendLogs: true //Whether or not to send logs to the server (useful during testing)
 	});
+	ale.register();
 	
 	// Create the User ALE message and send to instrument the time the user started the task
-	var msg = { activity: 'begin_task',
-		      action: 'click',
+	var msg = { activity: 'perform',
+		      action: 'CLICK',
 		      elementId: 'open_task_button',
 		      elementType: 'button',
 		      elementGroup: 'page',
