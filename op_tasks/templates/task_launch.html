@@ -57,6 +57,15 @@ function task_launch() {
 		      source: 'user',
 		      tags: ['timing', 'tasking']
 		    };
+	// TODO: hack, this is not a good idea because it does not make sense for what a session ID should be
+	// A session ID should be static for the duration of a "session". A "session" in STOUT should be defined
+	// as the moment when the user logs in, to the moment they log out. This means adding the tasklistitem #
+	// at the end voids the static-ness of the session ID, since it changes throughout the session.
+	// Also, setting this here is not great, because it will now be used for other automatic instrumentation
+	// like onfocus, onblur, etc. even though those events may not have used this "session ID" before.
+	// Changing tasks will update this "session ID", thus changing the scope of a what a session is when you
+	// try to look at the event data.
+	parent.window.ale.options.sessionID = '{{ user.userprofile.user_hash }}::{{ tasklistitem.pk }}';
 	parent.window.ale.log(msg);
 	
 	return parent.start_timer();
