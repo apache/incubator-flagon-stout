@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.conf.urls.static import static
 
-from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
+from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment, Achievement
 
 # this pre-populates the database prior to any user interaction.  
 # any changes here won't be seen unless the database is rebuilt
@@ -92,6 +92,7 @@ class Command(BaseCommand):
 
         experiment.save()
         
+        # add a test dataset
         dataset = Dataset(name='Test-DS', version='v0.1')
         dataset.save()
 
@@ -107,6 +108,18 @@ class Command(BaseCommand):
 				name=task['name'],
 				survey_url=task['ot_survey_url'],
 				exit_url=task['ot_exit_url']).save() 
+
+        # add default achievements
+        A1 = Achievement(name='tasksCompleteOne',
+                         desc='Operational Tasks Complete')
+        A2 = Achievement(name='tasksCompleteTwo',
+                         desc='Operational Tasks Complete II')
+        A3 = Achievement(name='freePlay',
+                         desc='Free Play')
+
+        A1.save()
+        A2.save()
+        A3.save()
 
     def handle(self, *args, **options):
         self._create_admin_profile()
