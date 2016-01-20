@@ -32,14 +32,27 @@ class Command(BaseCommand):
         admin = staff_users[0]
         print admin.email
 
+        # check for existing admin profile before adding
+        saved_userprofiles = UserProfile.objects.all()
+        if [x for x in saved_userprofiles if x.user == admin] != []:
+            print "admin user already exists."
+            return;
+
         userprofile = UserProfile(user=admin)
         userprofile.save()
-
+            
     def _create_user(self):
         # fix this later; need a logical method for experiment assignment
         saved_experiments = Experiment.objects.all()
 
-        user = get_user_model()(email='test@test.com', password=make_password('test'))
+        test_email = 'test@test.com'
+        user = get_user_model()(email=test_email, password=make_password('test'))
+        # check for existing test user before adding
+        saved_userprofiles = UserProfile.objects.all()
+        if [x for x in saved_userprofiles if x.user.email == test_email] != []:
+            print "test user already exists."
+            return
+
         user.save()
 
         userprofile = UserProfile(user=user)
@@ -60,7 +73,8 @@ class Command(BaseCommand):
                 exit_active=False).save()
 
     def _create_data(self):
-        experiment = Experiment(name='Test-exp', 
+        test_exp_name = 'Test-exp'
+        experiment = Experiment(name=test_exp_name, 
             task_count=2, 
             task_length=30, 
             has_achievements=True, 
@@ -69,6 +83,13 @@ class Command(BaseCommand):
             auto_tasking=True, 
             sequential_tasks=True, 
             consent=True)
+
+        # check for existing test data before adding
+        all_experiments = Experiment.objects.all();
+        if [x for x in all_experiments if x.name == test_exp_name] != []:
+            print "test experiment already exists."
+            return
+
         experiment.save()
         
         dataset = Dataset(name='Test-DS', version='v0.1')
