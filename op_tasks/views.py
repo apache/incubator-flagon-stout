@@ -13,6 +13,7 @@ from django.db import IntegrityError
 from elasticsearch import Elasticsearch
 from xdata.settings import ALE_URL
 from axes.decorators import watch_login
+from surveyMongoUpdate import sm_request_update, SM_QUESTION_NAME, SM_EXPERIMENT_NAME
 import achievements
 import tasksUtil
 import exp_portal
@@ -58,6 +59,7 @@ def count_activities(session_id):
 @login_required(login_url='/tasking/login')
 def product(request, task_pk):
     if request.method == 'POST':
+        sm_update = False
         user = request.user
         userprofile = user.userprofile
 
@@ -93,7 +95,8 @@ def product(request, task_pk):
                     current_tasklistitem.activity_count = 0
                 userprofile.progress += 20
                 print 'task complete', timezone.now()
-            
+                sm_update = True
+
             # you likely got here because you just completed an exit task
             # so mark it complete and move 
             else:
@@ -106,6 +109,7 @@ def product(request, task_pk):
                     next_tasklistitem.save()
                 else:
                     current_tasklistitem.save()
+                sm_update = True
 
         elif userprofile.experiment.sequential_tasks == False:
             print "no sequencing"
@@ -115,6 +119,7 @@ def product(request, task_pk):
                 current_tasklistitem.exit_active = True
                 current_tasklistitem.date_complete = timezone.localtime(timezone.now())
                 print timezone.localtime(timezone.now())
+                sm_update = True
 
             else:
                 current_tasklistitem.exit_active = False
@@ -122,6 +127,8 @@ def product(request, task_pk):
 
         userprofile.save()
         current_tasklistitem.save()
+        if sm_update == True:
+            sm_request_update(SM_QUESTION_NAME, SM_EXPERIMENT_NAME)
         return HttpResponseRedirect("/tasking/task_list")
 
     # if method is GET just show the product page

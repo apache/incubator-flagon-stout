@@ -3,7 +3,7 @@ from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem,
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 
 from op_tasks import tasksUtil
 
@@ -144,12 +144,19 @@ def update_user_tasks(request, userpk, datasetpk, productpk, taskpk):
 
 	return redirect('exp_portal:add_user_task', userpk)
 
-@login_required(login_url='/tasking/login')
 def view_users_experiment(request, experiment_name):
+        print "Experiment User Request From: ", request.META['REMOTE_ADDR']
+        if request.META['REMOTE_ADDR'] != '127.0.0.1':
+            return HttpResponseForbidden()
+
 	experiment = Experiment.objects.get(name=experiment_name)
 	userprofiles = experiment.userprofile_set.all()
 	user_hashes = []
 	for userprofile in userprofiles:
-		user_hashes.append(userprofile.user_hash)
+               tasklistitems = userprofile.tasklistitem_set.all()
+               completedTasks = [task for task in tasklistitems if task.task_complete is True]
+               for task in completedTasks:
+                       user_hashes.append(str(userprofile.user_hash) + '::' + str(task.pk))
+
 	response = JsonResponse(user_hashes, safe=False)
 	return response
