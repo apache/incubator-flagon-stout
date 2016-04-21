@@ -7,6 +7,10 @@ from django.http import JsonResponse, HttpResponseForbidden
 
 from op_tasks import tasksUtil
 
+from op_tasks import mechanicalTurk
+
+from op_tasks.surveyMongoUpdate import SM_EXPERIMENT_NAME
+
 @login_required(login_url='/tasking/login')
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
@@ -151,12 +155,19 @@ def view_users_experiment(request, experiment_name):
 
 	experiment = Experiment.objects.get(name=experiment_name)
 	userprofiles = experiment.userprofile_set.all()
-	user_hashes = []
+	user_hashes = {}
 	for userprofile in userprofiles:
                tasklistitems = userprofile.tasklistitem_set.all()
                completedTasks = [task for task in tasklistitems if task.task_complete is True]
                for task in completedTasks:
-                       user_hashes.append(str(userprofile.user_hash) + '::' + str(task.pk))
+			#user_hashes.append(str(userprofile.user_hash) + '::' + str(task.pk))
+			mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
+			stoutVars = {'SYS.FIL.DAT':task.op_task.dataset.name,
+                                     'SYS.FIL.EXP':SM_EXPERIMENT_NAME,
+                                     'SYS.FIL.APP':task.product.name,
+                                     'SYS.FIL.TSK':task.op_task.name,
+                                     'SYS.FIL.ORD':str(task.index)}
+			user_hashes[str(userprofile.user_hash)+'::'+str(task.pk)]={'mtcode':mtcode,'vars':stoutVars}	
 
 	response = JsonResponse(user_hashes, safe=False)
 	return response

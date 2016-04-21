@@ -20,10 +20,11 @@ import exp_portal
 import datetime
 
 import exceptions
-import hashlib
 import logging
 #import zlib
 #import sqlite
+
+import mechanicalTurk
 
 from op_tasks.models import Dataset, Product, OpTask, UserProfile, TaskListItem, Experiment
 
@@ -360,8 +361,10 @@ def task_list(request):
     # TODO this isn't scalable... need a better strategy here
     achievements.checkAchievements(request)
     
+    mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
+    
     return render(request, 'task_list.html', 
-        {'userprofile': userprofile, 'all_complete': all_complete,
+        {'userprofile': userprofile, 'all_complete': all_complete, 'mtcode':mtcode,
          'hasTasksCompleteOneAchievement': achievements.hasTasksCompleteOneAchievement(user),
          'hasTasksCompleteTwoAchievement': achievements.hasTasksCompleteTwoAchievement(user),
          'hasFreePlayAchievement': achievements.hasFreePlayAchievement(user)})
