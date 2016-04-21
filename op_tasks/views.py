@@ -70,6 +70,7 @@ def product(request, task_pk):
             # can only get sequences assigned to him/her
             current_tasklistitem = userprofile.tasklistitem_set.get(pk=task_pk)
         except:
+            sm_request_update(SM_QUESTION_NAME, SM_EXPERIMENT_NAME)
             return HttpResponseRedirect("/tasking/task_list")
 
         tasklist_length = len(userprofile.tasklistitem_set.all())
@@ -362,6 +363,7 @@ def task_list(request):
     achievements.checkAchievements(request)
     
     mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
+    sm_request_update(SM_QUESTION_NAME, SM_EXPERIMENT_NAME)
     
     return render(request, 'task_list.html', 
         {'userprofile': userprofile, 'all_complete': all_complete, 'mtcode':mtcode,
