@@ -4,10 +4,12 @@ echo $0 $1 $2
 startDir=`pwd`
 lockfile=${startDir}/op_tasks/SM_LOCK
 rootDIR='/home/ubuntu'
+venvPath=$rootDIR/sites/testing/venv
 smPath=${rootDIR}/smbitBucket/SurveyMongo
 scotchPath="${rootDIR}/SCOtCH"
 matDIR="${rootDIR}/smbitBucket/SurveyMongo/reports"
 
+source $venvPath/bin/activate
 
 while [ -f $lockfile ]
 do 
