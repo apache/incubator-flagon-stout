@@ -11,7 +11,7 @@ import os, sys
 sys.path.append('/var/www/op_task/xdata')
 sys.path.append('/var/www/op_task')
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xdata.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "xdata.production")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
