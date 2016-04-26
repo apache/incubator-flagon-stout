@@ -11,7 +11,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db import IntegrityError
 from elasticsearch import Elasticsearch
-from xdata.settings import ALE_URL
+from base import ALE_URL
 from axes.decorators import watch_login
 from surveyMongoUpdate import sm_request_update, SM_QUESTION_NAME, SM_EXPERIMENT_NAME
 import achievements

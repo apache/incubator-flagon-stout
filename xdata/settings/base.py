@@ -12,7 +12,7 @@ from secret import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os, sys
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, "op_tasks"))
 
 # Quick-start development settings - unsuitable for production
@@ -30,7 +30,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+SITE_ROOT = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
 
 SITE_ID = 1
 

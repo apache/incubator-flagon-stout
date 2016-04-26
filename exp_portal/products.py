@@ -3,7 +3,7 @@ from op_tasks.models import Product, Dataset
 from django.contrib.auth.decorators import login_required
 from tasks import user_authorized
 from django.contrib.auth.decorators import login_required
-from xdata.settings import LOGIN_URL
+from base import LOGIN_URL
 
 
 @login_required(login_url=LOGIN_URL)

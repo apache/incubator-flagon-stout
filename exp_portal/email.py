@@ -3,7 +3,7 @@ from op_tasks.models import UserProfile
 from django.core import mail
 from django.conf import settings
 from tasks import user_authorized
-from xdata.settings import LOGIN_URL
+from base import LOGIN_URL
 
 from django.contrib.auth.decorators import login_required
 

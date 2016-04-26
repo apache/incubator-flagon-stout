@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from xdata.settings import LOGIN_URL
+from base import LOGIN_URL
 
 def user_authorized(request):
 	user = request.user

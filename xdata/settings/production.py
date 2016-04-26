@@ -10,14 +10,14 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 import os
 
-from .base import *
+from base import *
 
 INSTALLED_APPS += (
     'django_extensions',
 )
 
-DEBUG = True
-TEMPLATE_DEBUG = True
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 # Activity Logging Endpoint
 ALE_URL = 'http://127.0.0.1'
