@@ -12,6 +12,8 @@ import os
 
 from base import *
 
+from secret import MY_ALE_URL
+
 INSTALLED_APPS += (
     'django_extensions',
 )
@@ -20,4 +22,4 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 # Activity Logging Endpoint
-ALE_URL = 'http://127.0.0.1'
+ALE_URL = MY_ALE_URL
