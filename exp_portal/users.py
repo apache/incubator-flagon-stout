@@ -11,6 +11,9 @@ from op_tasks import mechanicalTurk
 
 from op_tasks.surveyMongoUpdate import SM_EXPERIMENT_NAME
 
+from base import ALE_URL
+from elasticsearch import Elasticsearch
+
 @login_required(login_url='/tasking/login')
 def view_users(request):
 	userprofiles = UserProfile.objects.all().order_by('-user__last_login')
@@ -160,14 +163,43 @@ def view_users_experiment(request, experiment_name):
                tasklistitems = userprofile.tasklistitem_set.all()
                completedTasks = [task for task in tasklistitems if task.task_complete is True]
                for task in completedTasks:
-			#user_hashes.append(str(userprofile.user_hash) + '::' + str(task.pk))
+                        #unique identifier for user::task
+                        session_id = str(userprofile.user_hash)+'::'+str(task.pk)
+                        #TEST VALUE
+                        #session_id = "49bacc695d39a2f23cf44f949409e7::1104"
+
+                        #Mechanical Turk task completion payment code
 			mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
+
+                        #ALE logged survey start time
+                        XDATA_INDEX="xdata_v3"
+                        es = Elasticsearch(ALE_URL)
+                        queryData = {}
+                        fieldFilter = ["timestamp", "sessionID", "elementId"]
+                        sMatch = {"match" : {"sessionID" : session_id}}
+                        eMatch = {"match" : {"elementId" : "open_task_button"}}
+                        mustField = [sMatch, eMatch]
+                        queryData["query"] = { "bool": { "must" : mustField } }
+                        results = es.search(index=XDATA_INDEX, body=queryData, fields=fieldFilter, size=1000)['hits']
+                        timestamps = [d['fields']['timestamp'] for d in results['hits']]
+
+                        #ES WILL BE BLOCKED SOON.  INSTEAD:
+                        #results = requests.get(ALE_URL + "/" + XDATA_INDEX + "/select?q=sessionID:" + sessionID + "&q=elementID:open_task_button&fl=timestamp,sessionID,elementID&size=1000")
+
+                        if len(timestamps) > 1:
+                            print "Warning, more than 1 timestamp from Elastic"
+                        if len(timestamps) < 1:
+                            print "Warning, no timestamp from Elastic"
+                            timestamps = ["missing"]
+                        print "Elastic result: ", timestamps
+
 			stoutVars = {'SYS.FIL.DAT':task.op_task.dataset.name,
                                      'SYS.FIL.EXP':SM_EXPERIMENT_NAME,
                                      'SYS.FIL.APP':task.product.name,
                                      'SYS.FIL.TSK':task.op_task.name,
-                                     'SYS.FIL.ORD':str(task.index)}
-			user_hashes[str(userprofile.user_hash)+'::'+str(task.pk)]={'mtcode':mtcode,'vars':stoutVars}	
+                                     'SYS.FIL.ORD':str(task.index),
+                                     'SYS.FIL.STD':timestamps[0]}
+			user_hashes[session_id]={'mtcode':mtcode,'vars':stoutVars}	
 
 	response = JsonResponse(user_hashes, safe=False)
 	return response
