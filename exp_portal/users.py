@@ -190,15 +190,16 @@ def view_users_experiment(request, experiment_name):
                             print "Warning, more than 1 timestamp from Elastic"
                         if len(timestamps) < 1:
                             print "Warning, no timestamp from Elastic"
-                            timestamps = ["missing"]
+                            timestamps = [["NA"]]
                         print "Elastic result: ", timestamps
+			#print "Timestamp: ", timestamps[0][0], "; Type: ", type(timestamps[0][0])
 
-			stoutVars = {'SYS.FIL.DAT':task.op_task.dataset.name,
-                                     'SYS.FIL.EXP':SM_EXPERIMENT_NAME,
-                                     'SYS.FIL.APP':task.product.name,
-                                     'SYS.FIL.TSK':task.op_task.name,
-                                     'SYS.FIL.ORD':str(task.index),
-                                     'SYS.FIL.STD':timestamps[0]}
+			stoutVars = {'SYS.FIL.DAT.':task.op_task.dataset.name,
+                                     'SYS.FIL.EXP.':SM_EXPERIMENT_NAME,
+                                     'SYS.FIL.APP.':task.product.name,
+                                     'SYS.FIL.TSK.':task.op_task.name,
+                                     'SYS.FIL.ORD.':str(task.index),
+                                     'SYS.FIL.STD.':timestamps[0][0]}
 			user_hashes[session_id]={'mtcode':mtcode,'vars':stoutVars}	
 
 	response = JsonResponse(user_hashes, safe=False)
