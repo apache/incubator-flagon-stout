@@ -5,7 +5,7 @@ from exp_portal import views
 
 urlpatterns= patterns('',
 	url(r'^$', views.home_page, name='home'),
-	url(r'^status$', views.view_status, name='view_status'),
+	url(r'^all_status$', views.view_status, name='view_status'),
 	url(r'^experiments/manage$', views.manage_exps, name='manage_exps'),
 	url(r'^experiments/details/(?P<exppk>.*)$', views.view_exp_details, name='view_exp_details'),
 	url(r'^experiment/edit/(?P<exppk>.*)$', views.edit_exp, name='edit_exp'),
