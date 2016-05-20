@@ -162,14 +162,25 @@ def view_users_experiment(request, experiment_name):
 	for userprofile in userprofiles:
                tasklistitems = userprofile.tasklistitem_set.all()
                completedTasks = [task for task in tasklistitems if task.task_complete is True]
+
+               #Mechanical Turk task completion payment code
+	       mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
+
+               if userprofile.intake_complete == 1:
+                        session_id = str(userprofile.user_hash)+'::0'
+
+			stoutVars = {'SYS.FIL.DAT.':'',
+                                     'SYS.FIL.EXP.':SM_EXPERIMENT_NAME,
+                                     'SYS.FIL.APP.':'',
+                                     'SYS.FIL.TSK.':'INTAKE',
+                                     'SYS.FIL.ORD.':'',
+                                     'SYS.FIL.STD.':''}
+			user_hashes[session_id]={'mtcode':mtcode,'vars':stoutVars}	
                for task in completedTasks:
                         #unique identifier for user::task
                         session_id = str(userprofile.user_hash)+'::'+str(task.pk)
                         #TEST VALUE
                         #session_id = "49bacc695d39a2f23cf44f949409e7::1104"
-
-                        #Mechanical Turk task completion payment code
-			mtcode = mechanicalTurk.generateCode(userprofile.user.id,userprofile.user_hash)
 
                         #ALE logged survey start time
                         XDATA_INDEX="xdata_v3"
