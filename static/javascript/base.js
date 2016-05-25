@@ -1,3 +1,18 @@
+var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 $("#contacts li").click(function(){
 	var emailAddress = $(this).html();
 	$("#email-to").val(emailAddress);
@@ -44,16 +59,30 @@ $(".expTrayNavBtn").on("click", function(){
 	var divId = id.slice(0, -3);
 	$this.find(".expTraySection").removeClass("active");
 	$this.find("#" + divId).addClass("active");
+
+	if(divId=="metrics") {
+		var experiment = $(this).parents(".experimentStatusRow").attr("id");
+		var category = $this.find(".metricsNavBtn.active").attr("data-category");
+		var mparams = {"experiment":experiment,"tool":$this.find("#toolsSelect").val(),"task":$this.find("#tasksSelect").val(),"category":category};
+		getHistData(experiment, category, JSON.stringify(mparams));
+	}
 })
 
 $(".metricsNavBtn").click(function(){
 	$(this).parent().find(".metricsNavBtn").removeClass("active");
 	$(this).addClass("active");
-	var rowId = $(this).parents(".experimentStatusRow").attr("id");
-	$("#" + rowId + " .metricsSection").removeClass("active");
-	var id = $(this).attr("id");
-	id = id.slice(0, -3);
-	$("#" + id).addClass("active");
+	//var rowId = $(this).parents(".experimentStatusRow").attr("id");
+	//$("#" + rowId + " .metricsSection").removeClass("active");
+	//var id = $(this).attr("id");
+	//id = id.slice(0, -3);
+	//$("#" + id).addClass("active");
+
+	var $this = $(this).parents(".expTray");
+	var experiment = $(this).parents(".experimentStatusRow").attr("id");
+	var category = $(this).attr("data-category");
+	var mparams = {"experiment":experiment,"tool":$this.find("#toolsSelect").val(),"task":$this.find("#tasksSelect").val(),"category":category};
+	//console.log(".metricsNavBtn experiment = ", mparams);
+	getHistData(experiment, category, JSON.stringify(mparams)); 
 })
 
 $(".expShelf").click(function(){
@@ -75,15 +104,24 @@ var start = true;
 loopCharts(start);
 
 $("#toolsSelect, #tasksSelect").change(function(){
-	start = false;
-	var id = $(this).parents(".experimentStatusRow").attr("id");
-	$(".chart").empty();
-	loopCharts(start, id);
+//	start = false;
+//	var id = $(this).parents(".experimentStatusRow").attr("id");
+//	$(".chart").empty();
+//	loopCharts(start, id);
+
+        var $this = $(this).parents(".expTray");
+        var experiment = $(this).parents(".experimentStatusRow").attr("id");
+        var category = $this.find(".metricsNavBtn.active").attr("data-category");
+        var mparams = {"experiment":experiment,"tool":$this.find("#toolsSelect").val(),"task":$this.find("#tasksSelect").val(),"category":category};
+        //console.log(".metricsNavBtn experiment = ", mparams);
+        getHistData(experiment, category, JSON.stringify(mparams));
+
 });
 
 function loopCharts(start, id) {
 	if (start==true) {
-		startChartBuildwithToolLists();
+		//startChartBuildwithToolLists();
+		buildCharts();
 	} else if (start==false) {
 		buildCharts();
 	}
@@ -239,3 +277,96 @@ function buildD3Chart(dataPath, chartId, tool) {
 	}
 }
 
+function getHistData(experimentName, categoryName, params) {
+	var xtick = 1;
+	if(categoryName=="Load") {
+		xtick = 2;
+	} else if(categoryName=="Time") {
+		xtick = 0.01;
+	}
+	$.ajax({
+		'type': 'POST',
+                'url': 'metrics_data',
+                'contentType': 'application/json',
+                'data': params,
+                'dataType': 'json',
+                'complete': function(xhrObj, msg){
+                	//console.log(xhrObj);
+                        var values = JSON.parse(xhrObj.responseJSON.data);
+                        //console.log(values);
+			if(values.length>0) {
+                        	buildD3Histogram('#canvasD3[data-experiment="'+experimentName+'"]', xtick, values);
+			} else {
+				$('#canvasD3[data-experiment="'+experimentName+'"]').text("Data unavailable.")
+			}
+		 }
+	});
+
+}
+
+function buildD3Histogram(canvasSelector, tickScale, histValues) {
+	$(canvasSelector).empty();
+
+	// Generate a Bates distribution of 10 random variables.
+	//var values = d3.range(1000).map(d3.random.bates(10));
+	var values = histValues;
+
+	var minVal = Math.floor(Math.min.apply(Math, values));
+	var maxVal = Math.ceil(Math.max.apply(Math, values));
+
+	// A formatter for counts.
+	var formatCount = d3.format(",.0f");
+
+	var margin = {top: 10, right: 30, bottom: 30, left: 30},
+    	//width = 960 - margin.left - margin.right,
+	width = $(canvasSelector).width(),
+    	//height = 500 - margin.top - margin.bottom;
+	height = 320;
+
+	var x = d3.scale.linear()
+    		.domain([0, maxVal+minVal])
+    		.range([0, width]);
+
+	// Generate a histogram using twenty uniformly-spaced bins.
+	var data = d3.layout.histogram()
+    			.bins(x.ticks((maxVal+minVal)*tickScale))
+    			(values);
+
+	var y = d3.scale.linear()
+    		.domain([0, d3.max(data, function(d) { return d.y; })])
+    		.range([height, 0]);
+
+	var xAxis = d3.svg.axis()
+    		.scale(x)
+    		.orient("bottom");
+
+	var svg = d3.select(canvasSelector).append("svg")
+    		.attr("width", width + margin.left + margin.right)
+    		.attr("height", height + margin.top + margin.bottom)
+  		.append("g")
+    		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	var bar = svg.selectAll(".bar")
+    		.data(data)
+  		.enter().append("g")
+    		.attr("class", "bar")
+    		.attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+	bar.append("rect")
+    		.attr("x", 1)
+    		.attr("width", x(data[0].dx) - 1)
+    		.attr("height", function(d) { return height - y(d.y); });
+
+	bar.filter(function(d) { return d.y>0; })
+		.append("text")
+    		.attr("dy", ".75em")
+    		.attr("y", 6)
+    		.attr("x", x(data[0].dx) / 2)
+    		.attr("text-anchor", "middle")
+    		.text(function(d) { return formatCount(d.y); });
+
+	svg.append("g")
+    		.attr("class", "x axis")
+    		.attr("transform", "translate(0," + height + ")")
+    		.call(xAxis);
+}

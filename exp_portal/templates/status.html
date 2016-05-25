@@ -322,22 +322,22 @@
 				</div>
 				<div id="metrics" class="expTraySection">
 					<div id="metricsNav">
-						<div id="{{ experimentName }}LoadBtn" class="metricsNavBtn active">Load</div>
-						<div id="{{ experimentName }}DifficultyBtn" class="metricsNavBtn">Difficulty</div>
-						<div id="{{ experimentName }}PerformanceBtn" class="metricsNavBtn">Performance</div>
-						<div id="{{ experimentName }}ConfidenceBtn" class="metricsNavBtn">Confidence</div>
+						<div id="{{ experimentName }}LoadBtn" class="metricsNavBtn active" data-category="Load">Load</div>
+						<div id="{{ experimentName }}DifficultyBtn" class="metricsNavBtn" data-category="Difficulty">Difficulty</div>
+						<div id="{{ experimentName }}PerformanceBtn" class="metricsNavBtn" data-category="Performance">Performance</div>
+						<div id="{{ experimentName }}ConfidenceBtn" class="metricsNavBtn" data-category="Confidence">Confidence</div>
 						<!-- <div id="{{ experimentName }}ActivityBtn" class="metricsNavBtn">Activity</div> -->
-						<div id="{{ experimentName }}TimeBtn" class="metricsNavBtn">Time</div>
+						<div id="{{ experimentName }}TimeBtn" class="metricsNavBtn" data-category="Time">Time</div>
 					</div>
 					<div class="metricsBody">
 						<div class="metricsDropdowns">
 							<div class="selectTitle">Tool</div>
 							<select name="tools" id="toolsSelect">
-								<!-- <option value="all">All</option> -->
+								<option value="all">All</option>
 								{% for expObjKey, expObjVal in experimentVal.items %}
 									{% if 'products' in expObjKey %}
 										{% for product in expObjVal %}
-										<!-- <option value="{{ product.name }}">{{ product.name }}</option> -->
+										<option value="{{ product.name }}">{{ product.name }}</option>
 										{% endfor %}
 									{% endif %}
 								{% endfor %}
@@ -354,24 +354,7 @@
 								{% endfor %}
 							</select>
 						</div>
-						<div id="{{ experimentName }}Load" class="metricsSection active">
-							<svg id="{{ experimentName }}LoadChart" class="chart"></svg>
-						</div>
-						<div id="{{ experimentName }}Difficulty" class="metricsSection">
-							<svg id="{{ experimentName }}DifficultyChart" class="chart"></svg>
-						</div>
-						<div id="{{ experimentName }}Performance" class="metricsSection">
-							<svg id="{{ experimentName }}PerformanceChart" class="chart"></svg>
-						</div>
-						<div id="{{ experimentName }}Confidence" class="metricsSection">
-							<svg id="{{ experimentName }}ConfidenceChart" class="chart"></svg>
-						</div>
-						<!-- <div id="activity" class="metricsSection">
-							<svg id="{{ experimentName }}ActivityChart" class="chart"></svg>
-						</div> -->
-						<div id="{{ experimentName }}Time" class="metricsSection">
-							<svg id="{{ experimentName }}TimeChart" class="chart"></svg>
-						</div>
+						<div id="canvasD3" class="metricsSection active" data-experiment="{{ experimentName }}"></div>
 					</div>
 				</div>
 			</div>

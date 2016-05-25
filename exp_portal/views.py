@@ -1,6 +1,10 @@
+import json
+import os.path
+
 from django.shortcuts import render, redirect
 from op_tasks.models import UserProfile, Product, Dataset, OpTask, TaskListItem, Experiment
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
 from users import *
 from products import *
@@ -17,6 +21,46 @@ def user_authorized(request):
 def home_page(request):
 	if user_authorized(request):
 		return render(request, 'experimenthome.html')
+
+@csrf_protect
+@login_required(login_url='/tasking/login')
+def metrics_data(request):
+	rparams = json.loads(request.body)
+	if request.method == 'POST':
+		experiment = rparams['experiment']
+		category = rparams['category']
+		tool = rparams['tool']
+		task = rparams['task']
+		# load experiment data from file
+		histDataFile = "/home/ubuntu/SCOtCH/"+experiment+".json"
+		histDataAll = []
+		if os.path.isfile(histDataFile):
+			with open(histDataFile) as data_file:
+				histDataAll = json.load(data_file)
+		# filter experiment data
+		histData = []
+		for row in histDataAll:
+			if (tool!="all" and tool!=row['SYS.FIL.APP.']) or (task!="all" and task!=row['SYS.FIL.TSK.']):
+				continue
+			if category=="Load":
+				if row['PST.EXP.CLD.'] != "NA" and row['PST.EXP.CLD.'] != "NaN":
+					histData.append(row['PST.EXP.CLD.'])
+			elif category=="Difficulty":
+				if row['PST.EXP.BED.'] != "NA" and row['PST.EXP.BED.'] != "NaN":
+					histData.append(row['PST.EXP.BED.'])
+			elif category=="Performance":
+				if row['TSK.PRB.ANS.'] != "NA" and row['TSK.PRB.ANS.'] != "NaN":
+					histData.append(row['TSK.PRB.ANS.'])
+			elif category=="Confidence":
+				if row['TSK.CON.'] != "NA" and row['TSK.CON.'] != "NaN":
+					histData.append(row['TSK.CON.'])
+			elif category=="Time":
+				if row['TSK.TIME.DIFF.'] != "NA" and row['TSK.TIME.DIFF.'] != "NaN" and row['TSK.TIME.DIFF.'] > 0 and row['TSK.TIME.DIFF.'] < 3000:
+					histData.append(row['TSK.TIME.DIFF.'])
+
+		return JsonResponse({"data":json.dumps(histData)})
+	else:
+		return JsonResponse({"request": "Not Supported"})
 
 @login_required(login_url='/tasking/login')
 def view_status(request):
