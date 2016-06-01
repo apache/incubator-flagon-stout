@@ -73,6 +73,7 @@ def view_status(request):
 			usp = sorted(userprofiles)
 			products = []
 			tasks = []
+			tasklists = {}
 			completedTasks = []
 			incompleteTasks = []
 			experimentList = {}
@@ -80,7 +81,13 @@ def view_status(request):
 				tasklistitems = userprofile.tasklistitem_set.all()
 				for tasklistitem in tasklistitems:
 					products.append(tasklistitem.product)
+					# tasklist[product][task]
+					# {"A":[t1, t2, t3], "B":[t4, t5], "C":[t6]}
 					tasks.append(tasklistitem.op_task)
+					if not (tasklistitem.product.name in tasklists):
+						tasklists[tasklistitem.product.name] = []
+					if not (tasklistitem.op_task.name in tasklists[tasklistitem.product.name]):
+						tasklists[tasklistitem.product.name].append(tasklistitem.op_task.name)
 					if tasklistitem.task_complete is True:
 						completedTasks.append(tasklistitem)
 					else:
@@ -97,6 +104,8 @@ def view_status(request):
 			experimentList["users"] = usp
 			experimentList["products"] = sortedProd
 			experimentList["tasks"] = sortedTasks
+			experimentList["tasklists"] = json.dumps(tasklists)
+			#experimentList["tasklists"] = tasklists
 			experimentList["completedTasks"] = sortedCompletedTasks
 			experimentList["incompleteTasks"] = sortedIncompleteTasks
 			experimentList["percentageComplete"] = percentageComplete

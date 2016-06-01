@@ -345,14 +345,20 @@
 							<div class="selectTitle">Task</div>
 							<select name="tasks" id="tasksSelect">
 								<option value="all">All</option>
-								{% for expObjKey, expObjVal in experimentVal.items %}
+								<!-- {% for expObjKey, expObjVal in experimentVal.items %}
 									{% if 'tasks' in expObjKey %}
 										{% for task in expObjVal %}
 										<option value="{{ task.name }}">{{ task.name }}</option>
 										{% endfor %}
 									{% endif %}
-								{% endfor %}
+								{% endfor %} -->
 							</select>
+							{% for expObjKey, expObjVal in experimentVal.items %}
+								{% if 'tasklists' in expObjKey %}
+									<div id="tasklists" style="display:none;" data-tasklists="{{ expObjVal }}"></div>
+								{% endif %}
+							{% endfor %}
+
 						</div>
 						<div id="canvasD3" class="metricsSection active" data-experiment="{{ experimentName }}"></div>
 					</div>

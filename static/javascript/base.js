@@ -112,7 +112,22 @@ $("#toolsSelect, #tasksSelect").change(function(){
         var $this = $(this).parents(".expTray");
         var experiment = $(this).parents(".experimentStatusRow").attr("id");
         var category = $this.find(".metricsNavBtn.active").attr("data-category");
-        var mparams = {"experiment":experiment,"tool":$this.find("#toolsSelect").val(),"task":$this.find("#tasksSelect").val(),"category":category};
+       
+	var tasklists = JSON.parse($this.find("#tasklists").attr("data-tasklists"));
+ 
+        if($(this).attr("id")=="toolsSelect") {
+		// populate the task select
+		var toolName = $(this).val();
+		var opStr = '<option value="all" selected>All</option>';
+		if(toolName!="all" && tasklists[toolName]) {
+			for(var i=0; i<tasklists[toolName].length; i++) {
+				opStr += '<option value="'+tasklists[toolName][i]+'">'+tasklists[toolName][i]+'</option>';
+			} 
+		}
+		$this.find("#tasksSelect").html(opStr);
+        }
+
+	var mparams = {"experiment":experiment,"tool":$this.find("#toolsSelect").val(),"task":$this.find("#tasksSelect").val(),"category":category};
         //console.log(".metricsNavBtn experiment = ", mparams);
         getHistData(experiment, category, JSON.stringify(mparams));
 
