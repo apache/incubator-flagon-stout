@@ -25,5 +25,5 @@ requests==2.9.1
 simplejson==3.8.2
 six==1.10.0
 Twisted==16.1.1
-urllib3==1.10.4
+urllib3==1.24.2
 zope.interface==4.1.3
