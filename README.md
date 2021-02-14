@@ -1,4 +1,11 @@
-# Documentation for STOUT
+# Apache Flagon STOUT (Incubating)
+
+![Maintenance](https://img.shields.io/maintenance/no/2019)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
+## Disclaimer
+
+Apache Flagon STOUT is a deprecated product and is no longer maintained. It will be retired soon.
 
 ## Background
 The Subject Tracker for Online User Testing (STOUT) is a content management system for formal human performance experimentation.  STOUT presents tools and operational tasks to each participant. In doing so, it collects:
